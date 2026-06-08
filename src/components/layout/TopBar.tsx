@@ -1,44 +1,30 @@
 "use client";
 
 import { portfolio } from "@/data/portfolio";
-import { getNavItem } from "@/lib/navigation";
-import type { SectionId } from "@/lib/types";
 
 interface TopBarProps {
-  activeSection: SectionId;
-  terminalOpen: boolean;
-  onToggleTerminal: () => void;
+  onHome?: () => void;
 }
 
-export function TopBar({
-  activeSection,
-  terminalOpen,
-  onToggleTerminal,
-}: TopBarProps) {
-  const nav = getNavItem(activeSection);
-
+export function TopBar({ onHome }: TopBarProps) {
   return (
-    <header className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg shrink-0">
-      <span className="text-sm text-foreground truncate">
-        {portfolio.name}
-      </span>
+    <header className="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-border shrink-0">
+      <button
+        onClick={onHome}
+        className="font-mono text-sm text-foreground hover:text-muted transition-colors"
+      >
+        <span className="text-subtle">[</span>
+        <span className="text-muted">&gt;.</span> {portfolio.username}@portfolio:
+        <span className="text-subtle">~$</span>
+        <span className="text-subtle">]</span>
+      </button>
 
-      <div className="flex items-center gap-3">
-        <span className="text-xs font-mono text-muted hidden md:inline truncate max-w-[200px]">
-          {nav.path}/{nav.label}
+      {portfolio.available && (
+        <span className="flex items-center gap-2 text-xs font-mono text-muted">
+          <span className="w-1.5 h-1.5 rounded-full bg-available" />
+          Available
         </span>
-        <button
-          onClick={onToggleTerminal}
-          className={`text-xs px-3 py-1.5 rounded border transition-colors ${
-            terminalOpen
-              ? "border-foreground/30 text-foreground bg-surface-2"
-              : "border-border text-muted hover:text-foreground hover:border-subtle"
-          }`}
-          aria-pressed={terminalOpen}
-        >
-          Terminal
-        </button>
-      </div>
+      )}
     </header>
   );
 }

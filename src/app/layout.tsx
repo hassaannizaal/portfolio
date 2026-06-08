@@ -1,27 +1,22 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Hassaan Nizaal — Portfolio",
   description:
-    "Software engineer portfolio with a minimal interface and integrated CLI.",
+    "CLI-style developer portfolio. Explore projects, skills, and experience.",
   keywords: ["portfolio", "software engineer", "developer", "Hassaan Nizaal"],
   authors: [{ name: "Hassaan Nizaal" }],
   openGraph: {
     title: "Hassaan Nizaal — Portfolio",
-    description: "Software engineer portfolio",
+    description: "CLI-style developer portfolio",
     type: "website",
   },
 };
@@ -32,10 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} h-full`}
-    >
+    <html lang="en" className={`${jetbrainsMono.variable} h-full`}>
       <body className="min-h-full">{children}</body>
     </html>
   );

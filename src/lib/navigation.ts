@@ -1,22 +1,21 @@
 import type { NavItem, SectionId } from "@/lib/types";
 
 export const NAV_ITEMS: NavItem[] = [
-  { id: "home", label: "index.tsx", path: "~/portfolio", icon: "◆", command: "whoami" },
-  { id: "about", label: "about.md", path: "~/portfolio/about", icon: "◇", command: "about" },
-  { id: "skills", label: "skills.json", path: "~/portfolio/skills", icon: "◇", command: "skills" },
-  { id: "projects", label: "projects/", path: "~/portfolio/projects", icon: "▸", command: "projects" },
-  { id: "experience", label: "experience.log", path: "~/portfolio/experience", icon: "◇", command: "experience" },
-  { id: "contact", label: "contact.sh", path: "~/portfolio/contact", icon: "◇", command: "contact" },
+  { id: "about", label: "About", command: "about" },
+  { id: "projects", label: "Projects", command: "projects" },
+  { id: "experience", label: "Experience", command: "experience" },
+  { id: "skills", label: "Skills", command: "skills" },
+  { id: "contact", label: "Contact", command: "contact" },
 ];
 
 const COMMAND_TO_SECTION: Record<string, SectionId> = {
-  whoami: "home",
+  whoami: "about",
   about: "about",
   skills: "skills",
   projects: "projects",
   experience: "experience",
   contact: "contact",
-  ls: "home",
+  ls: "about",
 };
 
 export function getSectionFromCommand(cmd: string): SectionId | null {
@@ -25,4 +24,8 @@ export function getSectionFromCommand(cmd: string): SectionId | null {
 
 export function getNavItem(id: SectionId): NavItem {
   return NAV_ITEMS.find((item) => item.id === id) ?? NAV_ITEMS[0];
+}
+
+export function getSectionLabel(id: SectionId): string {
+  return getNavItem(id).label;
 }

@@ -1,6 +1,7 @@
 import type { PortfolioData } from "@/lib/types";
 
 export const portfolio: PortfolioData = {
+  username: "hassaan",
   name: "Hassaan Nizaal",
   title: "Software Engineer",
   tagline: "Building elegant solutions to complex problems.",
@@ -8,22 +9,48 @@ export const portfolio: PortfolioData = {
   github: "https://github.com/hassaannizaal",
   linkedin: "https://linkedin.com/in/hassaannizaal",
   location: "Your City, Country",
-  about: [
-    "I'm a software engineer passionate about crafting clean, performant applications.",
-    "I specialize in full-stack development with a focus on modern web technologies.",
-    "When I'm not coding, you'll find me exploring new tech, contributing to open source, or leveling up in retro games.",
+  available: true,
+  bio: "Software engineer with experience in full-stack development and modern web technologies. Passionate about crafting clean, performant applications and exploring new tools that push what's possible on the web.",
+  highlights: [
+    "Full-Stack Web Development",
+    "API Design & Architecture",
+    "Performance Optimization",
+    "Open Source Contributions",
+    "DevOps & Cloud Infrastructure",
   ],
-  skills: {
-    Languages: ["TypeScript", "Python", "JavaScript", "SQL"],
-    Frontend: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
-    Backend: ["Node.js", "PostgreSQL", "REST APIs", "GraphQL"],
-    Tools: ["Git", "Docker", "Linux", "VS Code", "Figma"],
-  },
+  skillGroups: [
+    {
+      icon: "🧠",
+      label: "Languages",
+      items: ["TypeScript", "Python", "JavaScript", "SQL"],
+    },
+    {
+      icon: "🌐",
+      label: "Frontend",
+      items: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
+    },
+    {
+      icon: "⚙️",
+      label: "Backend",
+      items: ["Node.js", "PostgreSQL", "REST APIs", "GraphQL"],
+    },
+    {
+      icon: "🛠️",
+      label: "Tools",
+      items: ["Git", "Docker", "Linux", "VS Code", "Figma"],
+    },
+  ],
+  education: [
+    "B.S. Computer Science — Your University",
+    "Relevant Certification — Issuer (Year)",
+  ],
+  resumeUrl: "#",
+  resumeUpdated: "2 months ago",
   projects: [
     {
       name: "Project Alpha",
       description:
-        "A full-stack web application with real-time features and a modern CLI-inspired UI.",
+        "A full-stack web application with real-time features and a CLI-inspired interface.",
       tech: ["Next.js", "TypeScript", "PostgreSQL"],
       github: "https://github.com/hassaannizaal",
     },

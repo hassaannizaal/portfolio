@@ -8,19 +8,22 @@ export interface TerminalLine {
 }
 
 export type SectionId =
-  | "home"
   | "about"
-  | "skills"
   | "projects"
   | "experience"
+  | "skills"
   | "contact";
 
 export interface NavItem {
   id: SectionId;
   label: string;
-  path: string;
-  icon: string;
   command: string;
+}
+
+export interface SkillGroup {
+  icon: string;
+  label: string;
+  items: string[];
 }
 
 export interface Project {
@@ -39,6 +42,7 @@ export interface Experience {
 }
 
 export interface PortfolioData {
+  username: string;
   name: string;
   title: string;
   tagline: string;
@@ -46,8 +50,13 @@ export interface PortfolioData {
   github: string;
   linkedin: string;
   location: string;
-  about: string[];
-  skills: Record<string, string[]>;
+  available: boolean;
+  bio: string;
+  highlights: string[];
+  skillGroups: SkillGroup[];
+  education: string[];
+  resumeUrl?: string;
+  resumeUpdated?: string;
   projects: Project[];
   experience: Experience[];
 }

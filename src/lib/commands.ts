@@ -14,41 +14,18 @@ function line(
   };
 }
 
-export const BOOT_LINES: string[] = [
-  "Loading portfolio",
-  "Preparing interface",
-  "Ready",
-];
-
-export const COMMANDS = [
-  "help",
-  "about",
-  "skills",
-  "projects",
-  "experience",
-  "contact",
-  "whoami",
-  "ls",
-  "clear",
-  "sudo hire-me",
-] as const;
-
-export type Command = (typeof COMMANDS)[number];
-
 export function getHelpLines(): TerminalLine[] {
   return [
     line("Available commands:", "output"),
     line("", "output"),
     line("  help         — Show this help message", "output"),
-    line("  about        — Learn about me", "output"),
-    line("  skills       — View technical skills", "output"),
-    line("  projects     — Browse my projects", "output"),
+    line("  about        — About me", "output"),
+    line("  skills       — Technical skills", "output"),
+    line("  projects     — Browse projects", "output"),
     line("  experience   — Work history", "output"),
     line("  contact      — Get in touch", "output"),
-    line("  whoami       — Quick introduction", "output"),
-    line("  ls           — List directories", "output"),
+    line("  whoami       — Quick intro", "output"),
     line("  clear        — Clear terminal", "output"),
-    line("  sudo hire-me — Try it ;)", "output"),
     line("", "output"),
     line("Tip: Use ↑/↓ for command history", "system"),
   ];
@@ -68,89 +45,48 @@ export function executeCommand(input: string): TerminalLine[] {
       return [
         line(portfolio.name, "output", true),
         line(portfolio.title, "output"),
-        line(portfolio.tagline, "output"),
+        line(portfolio.bio, "output"),
       ];
 
     case "about":
       return [
-        line(`> cat about.txt`, "input"),
+        line(portfolio.bio, "output"),
         line("", "output"),
-        ...portfolio.about.map((p) => line(p, "output")),
+        ...portfolio.highlights.map((h) => line(`• ${h}`, "output")),
         line("", "output"),
         line(`Location: ${portfolio.location}`, "system"),
       ];
 
     case "skills":
-      return [
-        line(`> ls -la ~/skills/`, "input"),
+      return portfolio.skillGroups.flatMap((group) => [
+        line(`[${group.label}]`, "output"),
+        line(`  ${group.items.join("  ·  ")}`, "output"),
         line("", "output"),
-        ...Object.entries(portfolio.skills).flatMap(([category, items]) => [
-          line(`[${category}]`, "output"),
-          line(`  ${items.join("  ·  ")}`, "output"),
-          line("", "output"),
-        ]),
-      ];
+      ]);
 
     case "projects":
-      return [
-        line(`> ls ~/projects/`, "input"),
+      return portfolio.projects.flatMap((project) => [
+        line(`▸ ${project.name}`, "output"),
+        line(`  ${project.description}`, "output"),
+        line(`  ${project.tech.join(", ")}`, "system"),
         line("", "output"),
-        ...portfolio.projects.flatMap((project) => [
-          line(`▸ ${project.name}`, "output"),
-          line(`  ${project.description}`, "output"),
-          line(`  Tech: ${project.tech.join(", ")}`, "system"),
-          ...(project.github
-            ? [line(`  GitHub: ${project.github}`, "system")]
-            : []),
-          line("", "output"),
-        ]),
-      ];
+      ]);
 
     case "experience":
-      return [
-        line(`> cat experience.log`, "input"),
+      return portfolio.experience.flatMap((exp) => [
+        line(`${exp.role} @ ${exp.company}`, "output"),
+        line(`  ${exp.period}`, "system"),
+        ...exp.highlights.map((h) => line(`  • ${h}`, "output")),
         line("", "output"),
-        ...portfolio.experience.flatMap((exp) => [
-          line(`${exp.role} @ ${exp.company}`, "output"),
-          line(`  ${exp.period}`, "system"),
-          ...exp.highlights.map((h) => line(`  • ${h}`, "output")),
-          line("", "output"),
-        ]),
-      ];
+      ]);
 
     case "contact":
       return [
-        line(`> ./contact.sh`, "input"),
-        line("", "output"),
         line(`Email:    ${portfolio.email}`, "output"),
         line(`GitHub:   ${portfolio.github}`, "output"),
         line(`LinkedIn: ${portfolio.linkedin}`, "output"),
         line("", "output"),
-        line("Feel free to reach out — I respond to all messages.", "system", true),
-      ];
-
-    case "ls":
-      return [
-        line(`> ls ~/${portfolio.name.toLowerCase().replace(/\s/g, "-")}/`, "input"),
-        line("", "output"),
-        line("drwxr-xr-x  about/", "output"),
-        line("drwxr-xr-x  skills/", "output"),
-        line("drwxr-xr-x  projects/", "output"),
-        line("drwxr-xr-x  experience/", "output"),
-        line("-rw-r--r--  contact.sh", "output"),
-        line("-rw-r--r--  resume.pdf", "output"),
-        line("", "output"),
-        line('Type a directory name or use commands like "about", "projects"', "system"),
-      ];
-
-    case "sudo hire-me":
-      return [
-        line(`> sudo hire-me`, "input"),
-        line("", "output"),
-        line("Access granted.", "system", true),
-        line("", "output"),
-        line("Status: open to collaborate", "output"),
-        line(`→ ${portfolio.email}`, "system"),
+        line("Feel free to reach out.", "system", true),
       ];
 
     case "":
@@ -168,7 +104,7 @@ export function getWelcomeLine(): TerminalLine {
   return {
     id: "welcome",
     type: "system",
-    content: `${portfolio.name} — type "help" to get started`,
+    content: `Type "help" to explore — or use the navigation above`,
     animate: false,
   };
 }

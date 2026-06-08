@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0a0a0a;
-  --surface: #141414;
-  --surface-2: #1a1a1a;
-  --border: #262626;
-  --foreground: #ededed;
-  --muted: #737373;
-  --subtle: #404040;
-  --accent: #ffffff;
-  --destructive: #ef4444;
+  --bg: #1e1e1e;
+  --surface: #2a2a2a;
+  --surface-2: #333333;
+  --border: #3d3d3d;
+  --foreground: #e8e8e8;
+  --muted: #9a9a9a;
+  --subtle: #6b6b6b;
+  --prompt: #b0b0b0;
+  --accent: #e8e8e8;
+  --available: #6ee7a0;
+  --destructive: #f87171;
+  --cli-block: #252525;
 }
 
 @theme inline {
@@ -20,9 +23,11 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
+  --color-prompt: var(--prompt);
   --color-accent: var(--accent);
+  --color-available: var(--available);
   --color-destructive: var(--destructive);
-  --font-sans: var(--font-inter);
+  --color-cli-block: var(--cli-block);
   --font-mono: var(--font-jetbrains-mono);
 }
 
@@ -38,18 +43,13 @@ body {
   min-height: 100%;
   background: var(--bg);
   color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-jetbrains-mono), "Courier New", monospace;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-code {
-  font-family: var(--font-jetbrains-mono), monospace;
-  font-size: 0.9em;
-}
-
 ::selection {
-  background: var(--subtle);
+  background: var(--surface-2);
   color: var(--foreground);
 }
 
@@ -69,8 +69,8 @@ code {
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 .scrollbar::-webkit-scrollbar-track {

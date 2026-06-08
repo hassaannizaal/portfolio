@@ -8,6 +8,7 @@ interface CommandInputProps {
   onSubmit: () => void;
   onHistoryUp: () => void;
   onHistoryDown: () => void;
+  prompt?: string;
   disabled?: boolean;
 }
 
@@ -17,6 +18,7 @@ export function CommandInput({
   onSubmit,
   onHistoryUp,
   onHistoryDown,
+  prompt = "~$",
   disabled = false,
 }: CommandInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,8 +42,7 @@ export function CommandInput({
 
   return (
     <div className="flex items-center gap-2 font-mono text-sm">
-      <span className="text-muted shrink-0">~</span>
-      <span className="text-subtle shrink-0">$</span>
+      <span className="text-muted shrink-0">{prompt}</span>
       <input
         ref={inputRef}
         type="text"
@@ -56,8 +57,11 @@ export function CommandInput({
         autoCapitalize="off"
         aria-label="Terminal command input"
         className="flex-1 bg-transparent outline-none text-foreground caret-foreground placeholder:text-subtle disabled:opacity-50"
-        placeholder="type a command..."
+        placeholder=""
       />
+      {!disabled && (
+        <span className="cursor-blink text-muted shrink-0">▌</span>
+      )}
     </div>
   );
 }

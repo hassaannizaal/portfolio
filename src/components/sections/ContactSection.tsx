@@ -2,50 +2,45 @@
 
 import { motion } from "framer-motion";
 import { portfolio } from "@/data/portfolio";
+import { CliPrompt } from "@/components/cli/CliPrompt";
 
 const links = [
   { label: "Email", value: portfolio.email, href: `mailto:${portfolio.email}` },
-  { label: "GitHub", value: "github.com/hassaannizaal", href: portfolio.github },
-  { label: "LinkedIn", value: "linkedin.com/in/hassaannizaal", href: portfolio.linkedin },
+  { label: "GitHub", value: portfolio.github.replace("https://", ""), href: portfolio.github },
+  { label: "LinkedIn", value: portfolio.linkedin.replace("https://", ""), href: portfolio.linkedin },
 ];
 
 export function ContactSection() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       className="space-y-6"
     >
-      <header>
-        <h2 className="text-2xl font-medium text-foreground tracking-tight">Contact</h2>
-        <p className="text-muted text-sm mt-2">
-          Feel free to reach out — I respond to all messages.
-        </p>
-      </header>
+      <CliPrompt command="Contact" />
+
+      <p className="text-sm font-mono text-muted">
+        Feel free to reach out — I respond to all messages.
+      </p>
 
       <div className="space-y-3">
-        {links.map((link, i) => (
-          <motion.a
+        {links.map((link) => (
+          <a
             key={link.label}
             href={link.href}
             target={link.label === "Email" ? undefined : "_blank"}
             rel="noopener noreferrer"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.05 }}
-            className="flex items-center justify-between border border-border rounded-md p-4 bg-bg hover:border-subtle hover:bg-surface transition-all group"
+            className="flex items-center justify-between border border-border rounded p-4 bg-surface hover:bg-surface-2 transition-colors group"
           >
-            <div>
-              <p className="text-xs text-muted">{link.label}</p>
-              <p className="text-sm text-foreground mt-0.5 group-hover:text-accent transition-colors">
+            <div className="font-mono text-sm">
+              <span className="text-subtle">{link.label}:</span>{" "}
+              <span className="text-muted group-hover:text-foreground transition-colors">
                 {link.value}
-              </p>
+              </span>
             </div>
-            <span className="text-subtle group-hover:text-foreground transition-colors">
-              →
-            </span>
-          </motion.a>
+            <span className="text-subtle group-hover:text-foreground">→</span>
+          </a>
         ))}
       </div>
     </motion.div>

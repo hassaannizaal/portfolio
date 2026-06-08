@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { portfolio } from "@/data/portfolio";
 import { executeCommand, getWelcomeLine } from "@/lib/commands";
 import { getSectionFromCommand } from "@/lib/navigation";
 import type { SectionId, TerminalLine as TerminalLineType } from "@/lib/types";
@@ -9,13 +9,11 @@ import { CommandInput } from "./CommandInput";
 import { TerminalLine } from "./TerminalLine";
 
 interface TerminalPanelProps {
-  open: boolean;
   activeSection: SectionId;
   onNavigate: (section: SectionId) => void;
 }
 
 export function TerminalPanel({
-  open,
   activeSection,
   onNavigate,
 }: TerminalPanelProps) {
@@ -96,49 +94,31 @@ export function TerminalPanel({
   }, [history, historyIndex]);
 
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="border-t border-border bg-bg shrink-0 overflow-hidden"
-        >
-          <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-surface">
-            <span className="text-xs font-mono text-muted">
-              Terminal — {activeSection}
-            </span>
-            <span className="text-xs font-mono text-subtle hidden sm:inline">
-              ↑↓ history
-            </span>
-          </div>
+    <footer className="border-t border-border bg-surface shrink-0">
+      <div
+        ref={scrollRef}
+        className="h-28 sm:h-32 overflow-y-auto px-5 sm:px-8 py-3 space-y-0.5 scrollbar"
+        onClick={() =>
+          document
+            .querySelector<HTMLInputElement>("[data-terminal-input]")
+            ?.focus()
+        }
+      >
+        {lines.map((line) => (
+          <TerminalLine key={line.id} line={line} />
+        ))}
+      </div>
 
-          <div
-            ref={scrollRef}
-            className="h-36 sm:h-44 overflow-y-auto p-3 sm:px-4 space-y-0.5 scrollbar"
-            onClick={() =>
-              document
-                .querySelector<HTMLInputElement>("[data-terminal-input]")
-                ?.focus()
-            }
-          >
-            {lines.map((line) => (
-              <TerminalLine key={line.id} line={line} />
-            ))}
-          </div>
-
-          <div className="px-3 sm:px-4 py-2.5 border-t border-border">
-            <CommandInput
-              value={input}
-              onChange={setInput}
-              onSubmit={handleSubmit}
-              onHistoryUp={handleHistoryUp}
-              onHistoryDown={handleHistoryDown}
-            />
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      <div className="px-5 sm:px-8 py-3 border-t border-border bg-bg">
+        <CommandInput
+          value={input}
+          onChange={setInput}
+          onSubmit={handleSubmit}
+          onHistoryUp={handleHistoryUp}
+          onHistoryDown={handleHistoryDown}
+          prompt={`${portfolio.username}@portfolio:~/${activeSection}$`}
+        />
+      </div>
+    </footer>
   );
 }

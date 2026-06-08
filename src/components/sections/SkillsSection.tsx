@@ -2,43 +2,41 @@
 
 import { motion } from "framer-motion";
 import { portfolio } from "@/data/portfolio";
+import { CliPrompt } from "@/components/cli/CliPrompt";
 
 export function SkillsSection() {
-  const entries = Object.entries(portfolio.skills);
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       className="space-y-6"
     >
-      <header>
-        <h2 className="text-2xl font-medium text-foreground tracking-tight">Skills</h2>
-      </header>
+      <CliPrompt command="Skills" />
 
-      <div className="space-y-6">
-        {entries.map(([category, items], i) => (
-          <motion.div
-            key={category}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.05 }}
+      <div className="grid sm:grid-cols-2 gap-4">
+        {portfolio.skillGroups.map((group) => (
+          <div
+            key={group.label}
+            className="border border-border rounded p-4 bg-surface"
           >
-            <h3 className="text-xs text-muted uppercase tracking-wider mb-3">
-              {category}
-            </h3>
+            <p className="text-sm font-mono text-foreground mb-3">
+              {group.icon}{" "}
+              <span className="text-subtle">`</span>
+              {group.label}
+              <span className="text-subtle">`</span>
+            </p>
             <div className="flex flex-wrap gap-2">
-              {items.map((skill) => (
+              {group.items.map((item) => (
                 <span
-                  key={skill}
-                  className="px-3 py-1.5 text-sm border border-border rounded-md text-foreground bg-bg"
+                  key={item}
+                  className="text-xs font-mono text-muted px-2 py-1 border border-border rounded bg-bg"
                 >
-                  {skill}
+                  {item}
                 </span>
               ))}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </motion.div>
