@@ -485,12 +485,11 @@ export function BinaryMap() {
         }}
       />
 
-      <div className="pointer-events-none absolute inset-x-6 bottom-6 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 lg:inset-x-8 lg:bottom-8">
+      <div className="pointer-events-none absolute inset-x-6 bottom-6 flex items-center font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 lg:inset-x-8 lg:bottom-8">
         <span className="flex items-center gap-2">
           <span className="size-1 rounded-full bg-[#ffb45c]" />
           Drag to orbit
         </span>
-        <span className="hidden sm:inline">0 / 1</span>
       </div>
     </div>
   );

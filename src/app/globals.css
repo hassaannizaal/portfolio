@@ -9,6 +9,8 @@
   --black: #000000;
   --nav: #232323;
   --white: #ffffff;
+  --accent: #c76a1a;
+  --accent-glow: #ffb45c;
 }
 
 @theme inline {
@@ -20,6 +22,8 @@
   --color-black: var(--black);
   --color-nav: var(--nav);
   --color-white: var(--white);
+  --color-accent: var(--accent);
+  --color-accent-glow: var(--accent-glow);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
