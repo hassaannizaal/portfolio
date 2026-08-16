@@ -1,27 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Stars } from "./Stars";
 
-function Tab({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
+function SectionTitle({ label }: { label: string }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`font-mono text-[13px] uppercase tracking-[0.16em] transition-colors duration-200 ${
-        active ? "text-[#ffb45c]" : "text-white/35 hover:text-white/60"
-      }`}
-    >
-      {label}
-    </button>
+    <div className="mb-10 flex items-center gap-4 lg:mb-14">
+      <span className="h-px flex-1 bg-line" />
+      <h2 className="font-mono text-[12px] uppercase tracking-[0.24em] text-fg/70 lg:text-[13px]">
+        {label}
+      </h2>
+      <span className="h-px flex-1 bg-line" />
+    </div>
   );
 }
 
@@ -37,7 +26,14 @@ const experience = [
       "Set up Azure CI/CD pipelines to automate builds and deployments, reducing manual overhead.",
       "Integrated AI-driven features into existing MERN stacks, owning each feature from architecture to launch.",
     ],
-    skills: ["MERN Stack", "Azure CI/CD", "Microservices", "Performance Optimization", "UI/UX", "Agile"],
+    skills: [
+      "MERN Stack",
+      "Azure CI/CD",
+      "Microservices",
+      "Performance Optimization",
+      "UI/UX",
+      "Agile",
+    ],
   },
   {
     role: "Full Stack Intern",
@@ -50,7 +46,14 @@ const experience = [
       "Optimized API consumption and state management, reducing latency for data-heavy features.",
       "Collaborated in an Agile environment to deliver production-ready code.",
     ],
-    skills: ["MERN Stack", "React Native", "Flutter", "Cross-Platform", "Mobile UI/UX", "Technical Docs"],
+    skills: [
+      "MERN Stack",
+      "React Native",
+      "Flutter",
+      "Cross-Platform",
+      "Mobile UI/UX",
+      "Technical Docs",
+    ],
   },
 ];
 
@@ -67,122 +70,179 @@ const coursework = [
   "Data Science",
 ];
 
+function PreviewCard({
+  label,
+  title,
+  meta,
+  desc,
+  active,
+  onClick,
+}: {
+  label: string;
+  title: string;
+  meta: string;
+  desc: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <div
+      className={`flex h-full flex-col rounded-lg border p-5 transition-colors ${
+        active
+          ? "border-fg/25 bg-fg/[0.025]"
+          : "border-line bg-fg/[0.015] hover:border-fg/20"
+      }`}
+    >
+      <span className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-accent/80">
+        {label}
+      </span>
+      <h3 className="text-[15px] font-medium leading-snug tracking-tight text-fg">
+        {title}
+      </h3>
+      <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-fg/40">
+        {meta}
+      </p>
+      <p className="mt-3 flex-1 text-[13px] leading-[1.6] text-fg/60">{desc}</p>
+      <button
+        type="button"
+        onClick={onClick}
+        className={`mt-4 self-start font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
+          active ? "text-accent" : "text-fg/55 hover:text-accent"
+        }`}
+      >
+        {active ? "Hide details ↑" : "See full →"}
+      </button>
+    </div>
+  );
+}
+
 export function BackgroundSection() {
-  const [tab, setTab] = useState<"experience" | "education">("experience");
+  const [tab, setTab] = useState<"experience" | "education" | null>(null);
+
+  const openTab = (t: "experience" | "education") =>
+    setTab((v) => (v === t ? null : t));
+
+  const latest = experience[0];
 
   return (
     <section
       id="bg"
-      className="relative overflow-hidden bg-[#07080c] px-6 py-24 text-white lg:px-16 lg:py-32 xl:px-20"
+      className="relative bg-bg px-6 py-16 text-fg lg:px-16 lg:py-20 xl:px-20"
     >
-      <Stars field={0} />
+      <div className="relative mx-auto max-w-5xl">
+        <SectionTitle label="04 · Background" />
 
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-[420px] -right-[280px] size-[720px] rounded-full border border-white/[0.05]"
-      />
-
-      <div className="relative mx-auto max-w-3xl">
-        <p className="mb-14 flex items-baseline gap-3 font-mono text-[12px] uppercase tracking-[0.18em] text-white/40">
-          <span className="text-[#ffb45c]">03</span>
-          Background
-        </p>
-
-        {/* tabs */}
-        <div className="mb-10 flex gap-6 border-b border-white/[0.07] pb-4">
-          <Tab
+        <div className="grid gap-4 sm:grid-cols-2">
+          <PreviewCard
             label="Experience"
+            title={`${latest.role} @ ${latest.company}`}
+            meta={latest.period}
+            desc="Full-stack MERN work, Node.js microservices, Azure CI/CD and AI-driven features integrated end-to-end."
             active={tab === "experience"}
-            onClick={() => setTab("experience")}
+            onClick={() => openTab("experience")}
           />
-          <Tab
+          <PreviewCard
             label="Education"
+            title="BS Computer Science"
+            meta="Air University · 2021 — 2025"
+            desc="CGPA 3.41 / 4.0. Coursework across systems, security, AI, and distributed computing."
             active={tab === "education"}
-            onClick={() => setTab("education")}
+            onClick={() => openTab("education")}
           />
         </div>
 
-        {/* experience panel */}
-        {tab === "experience" && (
-          <div className="space-y-0">
-            {experience.map((job, i) => (
-              <div
-                key={i}
-                className="border-b border-white/[0.06] py-8 first:pt-0 last:border-b-0"
-              >
-                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                  <h3 className="text-[20px] font-medium text-white/90 lg:text-[22px]">
-                    {job.role}
-                  </h3>
-                  <p className="font-mono text-[12px] tracking-[0.1em] text-white/30">
-                    {job.period}
-                  </p>
-                </div>
-                <p className="mt-1.5 text-[15px] text-white/55">
-                  {job.company}
-                  {job.detail && (
-                    <span className="text-white/30"> — {job.detail}</span>
-                  )}
-                </p>
-                <ul className="mt-4 space-y-2">
-                  {job.points.map((point, j) => (
-                    <li
-                      key={j}
-                      className="flex items-start gap-3 text-[14px] leading-relaxed text-white/45"
-                    >
-                      <span className="mt-2 size-1 shrink-0 rounded-full bg-white/20" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-5 flex flex-wrap gap-1.5">
-                  {job.skills.map((s) => (
-                    <span
-                      key={s}
-                      className="rounded border border-white/[0.07] bg-white/[0.02] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-white/40"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* education panel */}
-        {tab === "education" && (
-          <div>
-            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-              <h3 className="text-[20px] font-medium text-white/90 lg:text-[22px]">
-                BS Computer Science
-              </h3>
-              <p className="font-mono text-[12px] tracking-[0.1em] text-white/30">
-                Oct 2021 — Jul 2025
-              </p>
-            </div>
-            <p className="mt-1.5 text-[15px] text-white/55">
-              Air University
-              <span className="text-white/30"> — CGPA 3.41 / 4.0</span>
-            </p>
-
-            <div className="mt-10">
-              <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.16em] text-white/30">
-                Relevant coursework
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {coursework.map((c) => (
-                  <span
-                    key={c}
-                    className="rounded border border-white/[0.07] bg-white/[0.02] px-3 py-1.5 text-[12px] text-white/50"
+        <div
+          className="grid overflow-hidden transition-all duration-500 ease-out"
+          style={{
+            gridTemplateRows: tab ? "1fr" : "0fr",
+            opacity: tab ? 1 : 0,
+            marginTop: tab ? "1.5rem" : "0",
+          }}
+        >
+          <div className="min-h-0">
+            {tab === "experience" && (
+              <ul className="border-t border-line">
+                {experience.map((job, i) => (
+                  <li
+                    key={i}
+                    className="grid gap-4 border-b border-line py-6 lg:grid-cols-12 lg:gap-8 lg:py-8"
                   >
-                    {c}
-                  </span>
+                    <div className="lg:col-span-4">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg/40">
+                        {job.period}
+                      </p>
+                      <h3 className="mt-2 text-[16px] font-medium leading-tight tracking-tight text-fg">
+                        {job.role}
+                      </h3>
+                      <p className="mt-1 text-[13px] text-fg/60">
+                        {job.company}
+                        {job.detail && (
+                          <span className="text-fg/40"> — {job.detail}</span>
+                        )}
+                      </p>
+                    </div>
+                    <div className="lg:col-span-8">
+                      <ul className="space-y-2">
+                        {job.points.map((point, j) => (
+                          <li
+                            key={j}
+                            className="flex items-baseline gap-3 text-[13px] leading-[1.6] text-fg/70"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="mt-1.5 size-1 shrink-0 rounded-full bg-fg/30"
+                            />
+                            {point}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-fg/45">
+                        {job.skills.join(" · ")}
+                      </p>
+                    </div>
+                  </li>
                 ))}
+              </ul>
+            )}
+
+            {tab === "education" && (
+              <div className="border-t border-line">
+                <div className="grid gap-4 border-b border-line py-6 lg:grid-cols-12 lg:gap-8 lg:py-8">
+                  <div className="lg:col-span-4">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg/40">
+                      Oct 2021 — Jul 2025
+                    </p>
+                    <h3 className="mt-2 text-[16px] font-medium leading-tight tracking-tight text-fg">
+                      BS Computer Science
+                    </h3>
+                    <p className="mt-1 text-[13px] text-fg/60">
+                      Air University
+                      <span className="text-fg/40"> — CGPA 3.41 / 4.0</span>
+                    </p>
+                  </div>
+                  <div className="lg:col-span-8">
+                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
+                      Relevant coursework
+                    </p>
+                    <ul className="grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2">
+                      {coursework.map((c, i) => (
+                        <li
+                          key={c}
+                          className="flex items-baseline gap-3 text-[13px] text-fg/70"
+                        >
+                          <span className="font-mono text-[10px] tracking-[0.12em] text-fg/35">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </section>
   );
