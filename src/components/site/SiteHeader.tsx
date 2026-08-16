@@ -5,7 +5,9 @@ import { portfolio } from "@/data/portfolio";
 import { OdometerText } from "./OdometerText";
 
 const NAV = [
-  { href: "#top", label: "Index" },
+  { href: "#bg", label: "BG" },
+  { href: "#proj", label: "Proj" },
+  { href: "#certs", label: "Certs" },
   { href: "#contact", label: "Contact" },
 ];
 
