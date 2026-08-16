@@ -62,21 +62,23 @@ a {
   }
 }
 
-.marquee-track {
-  animation: marquee 22s linear infinite;
+.rise {
+  animation: rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes marquee {
+@keyframes rise {
   from {
-    transform: translateX(0);
+    opacity: 0;
+    transform: translateY(14px);
   }
   to {
-    transform: translateX(-50%);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .rise {
     animation: none;
   }
 

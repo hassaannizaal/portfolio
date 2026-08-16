@@ -3,176 +3,346 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-const BG = 0xf1eee7;
-const FG = "#232323";
+const DIGIT_COUNT = 3200;
+const STAR_COUNT = 1100;
 
-function makeBinaryTexture() {
-  const size = 2048;
+function makeDigitTexture() {
   const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
+  canvas.width = 512;
+  canvas.height = 256;
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("No 2d context");
 
-  ctx.fillStyle = "#f1eee7";
-  ctx.fillRect(0, 0, size, size);
-
-  const line =
-    "01001000 01100001 01110011 01110011 01100001 01100001 01101110  01001110 01101001 01111010 01100001 01100001 01101100  ";
-  ctx.fillStyle = FG;
-  ctx.font = "600 84px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-  ctx.textBaseline = "top";
-
-  const lineHeight = 102;
-  for (let y = 8, row = 0; y < size; y += lineHeight, row += 1) {
-    const offset = (row * 17) % line.length;
-    const shifted = line.slice(offset) + line.slice(0, offset);
-    ctx.fillText(shifted, 0, y);
-    ctx.fillText(shifted, ctx.measureText(shifted).width, y);
-  }
+  ctx.clearRect(0, 0, 512, 256);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "700 190px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("0", 128, 136);
+  ctx.fillText("1", 384, 136);
 
   const texture = new THREE.CanvasTexture(canvas);
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.anisotropy = 8;
   texture.colorSpace = THREE.SRGBColorSpace;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.generateMipmaps = true;
   texture.needsUpdate = true;
   return texture;
 }
 
-const vertexShader = /* glsl */ `
+const digitVertex = /* glsl */ `
+  #define TAU 6.283185307
+
+  attribute float aSeed;
+  attribute float aDigit;
+
   uniform float uTime;
-  uniform float uDisplace;
+
   varying vec2 vUv;
-  varying vec3 vWorld;
+  varying float vDigit;
+  varying float vHeat;
+  varying float vAlpha;
 
-  float hash(vec2 p) {
-    p = fract(p * vec2(123.34, 456.21));
-    p += dot(p, p + 45.32);
-    return fract(p.x * p.y);
-  }
-
-  float noise(vec2 p) {
-    vec2 i = floor(p);
-    vec2 f = fract(p);
-    float a = hash(i);
-    float b = hash(i + vec2(1.0, 0.0));
-    float c = hash(i + vec2(0.0, 1.0));
-    float d = hash(i + vec2(1.0, 1.0));
-    vec2 u = f * f * (3.0 - 2.0 * f);
-    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-  }
-
-  float fbm(vec2 p) {
-    float v = 0.0;
-    float a = 0.5;
-    mat2 m = mat2(0.80, -0.60, 0.60, 0.80);
-    for (int i = 0; i < 5; i++) {
-      v += a * noise(p);
-      p = m * p * 2.07;
-      a *= 0.5;
-    }
-    return v;
-  }
-
-  float terrain(vec2 p) {
-    vec2 q = p * 0.055 + vec2(uTime * 0.012, uTime * 0.008);
-    vec2 w = vec2(fbm(q), fbm(q + vec2(5.2, 1.3)));
-    float n = fbm(q + 4.0 * w);
-    n = pow(n, 1.15);
-    return (n * 2.2 - 0.7) * uDisplace;
+  float hash(float n) {
+    return fract(sin(n * 127.1) * 43758.5453);
   }
 
   void main() {
     vUv = uv;
-    vec3 pos = position;
-    pos.y = terrain(pos.xz);
-    vec4 world = modelMatrix * vec4(pos, 1.0);
-    vWorld = world.xyz;
-    gl_Position = projectionMatrix * viewMatrix * world;
+    vDigit = aDigit;
+
+    float s = aSeed;
+    float r1 = hash(s * 1.7);
+    float r2 = hash(s * 3.3 + 1.0);
+    float r3 = hash(s * 5.9 + 2.0);
+    float r4 = hash(s * 9.1 + 3.0);
+
+    float rOut = mix(3.4, 12.0, pow(r1, 0.7));
+    float rIn = 1.02;
+
+    float life = fract(uTime * mix(0.030, 0.062, r2) + s);
+    float r = mix(rOut, rIn, pow(life, 1.5));
+
+    float omega = 0.26 + 1.55 / pow(max(r, 1.0), 1.2);
+    float theta = s * TAU + uTime * omega;
+
+    float thick = 0.30 * pow(clamp(r / rOut, 0.0, 1.0), 1.2);
+    vec3 orbit = vec3(r * cos(theta), (r3 - 0.5) * thick, r * sin(theta));
+
+    vHeat = 1.0 - smoothstep(1.15, 7.0, r);
+    float spawn = smoothstep(0.0, 0.12, life);
+    float sink = smoothstep(1.02, 1.5, r);
+    vAlpha = spawn * sink * mix(0.5, 1.0, r4);
+
+    vec3 camRight = vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
+    vec3 camUp = vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
+
+    float tilt = (r4 - 0.5) * 0.34;
+    float ca = cos(tilt);
+    float sa = sin(tilt);
+
+    float size = mix(0.26, 0.085, smoothstep(rIn, rOut, r)) * mix(0.85, 1.15, r4);
+
+    vec2 spun = vec2(
+      position.x * ca - position.y * sa,
+      position.x * sa + position.y * ca
+    );
+
+    vec3 world = orbit + (camRight * spun.x + camUp * spun.y) * size;
+    gl_Position = projectionMatrix * viewMatrix * vec4(world, 1.0);
   }
 `;
 
-const fragmentShader = /* glsl */ `
+const digitFragment = /* glsl */ `
   uniform sampler2D uMap;
-  uniform vec3 uFog;
-  uniform vec2 uRepeat;
+
   varying vec2 vUv;
-  varying vec3 vWorld;
+  varying float vDigit;
+  varying float vHeat;
+  varying float vAlpha;
 
   void main() {
-    vec3 color = texture2D(uMap, vUv * uRepeat).rgb;
+    vec2 uv = vec2(vUv.x * 0.5 + vDigit * 0.5, vUv.y);
+    float glyph = texture2D(uMap, uv).a;
+    if (glyph < 0.08) discard;
 
-    vec3 dx = dFdx(vWorld);
-    vec3 dy = dFdy(vWorld);
-    vec3 n = normalize(cross(dx, dy));
-    vec3 light = normalize(vec3(0.35, 0.82, 0.28));
-    float diff = clamp(dot(n, light), 0.0, 1.0);
-    color *= 0.55 + 0.55 * diff;
+    vec3 cool = vec3(0.60, 0.70, 0.92);
+    vec3 warm = vec3(1.00, 0.70, 0.30);
+    vec3 hot = vec3(1.00, 0.97, 0.90);
 
-    float dist = length(vWorld - cameraPosition);
-    float fog = smoothstep(10.0, 32.0, dist);
-    color = mix(color, uFog, fog);
+    vec3 color = mix(cool, warm, smoothstep(0.12, 0.72, vHeat));
+    color = mix(color, hot, pow(vHeat, 2.1));
 
-    gl_FragColor = vec4(color, 1.0);
+    float boost = 0.5 + 1.25 * vHeat;
+    gl_FragColor = vec4(color * boost, glyph * vAlpha);
   }
 `;
+
+const diskVertex = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const diskFragment = /* glsl */ `
+  uniform float uTime;
+  varying vec2 vUv;
+
+  void main() {
+    vec2 p = vUv * 2.0 - 1.0;
+    float r = length(p);
+    float a = atan(p.y, p.x);
+
+    float band = smoothstep(0.07, 0.17, r) * (1.0 - smoothstep(0.26, 0.86, r));
+    float streak = 0.70 + 0.30 * sin(a * 8.0 + uTime * 0.9 - r * 20.0);
+    float doppler = 0.58 + 0.42 * cos(a + 0.7);
+
+    vec3 warm = vec3(1.00, 0.58, 0.20);
+    vec3 hot = vec3(1.00, 0.93, 0.80);
+    vec3 color = mix(warm, hot, smoothstep(0.08, 0.24, r));
+
+    float i = band * streak * doppler * 0.7;
+    gl_FragColor = vec4(color * i, i);
+  }
+`;
+
+const ringFragment = /* glsl */ `
+  uniform float uTime;
+  varying vec2 vUv;
+
+  void main() {
+    vec2 p = vUv * 2.0 - 1.0;
+    float r = length(p);
+
+    float ring = smoothstep(0.435, 0.478, r) * (1.0 - smoothstep(0.478, 0.545, r));
+    float halo = pow(1.0 - clamp(r, 0.0, 1.0), 4.0) * 0.16;
+    float flicker = 0.92 + 0.08 * sin(uTime * 2.4);
+
+    vec3 color = vec3(1.0, 0.86, 0.62);
+    float i = (ring * 1.25 + halo) * flicker;
+    gl_FragColor = vec4(color * i, i);
+  }
+`;
+
+const haloFragment = /* glsl */ `
+  varying vec2 vUv;
+
+  void main() {
+    vec2 p = vUv * 2.0 - 1.0;
+    float r = length(p);
+    float glow = pow(1.0 - clamp(r, 0.0, 1.0), 3.4) * 0.30;
+    vec3 color = vec3(1.0, 0.72, 0.42);
+    gl_FragColor = vec4(color * glow, glow);
+  }
+`;
+
+const starVertex = /* glsl */ `
+  attribute float aSize;
+  attribute float aPhase;
+
+  uniform float uTime;
+  varying float vTwinkle;
+
+  void main() {
+    vTwinkle = 0.35 + 0.65 * (0.5 + 0.5 * sin(uTime * 1.1 + aPhase * 12.0));
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    gl_PointSize = aSize * (200.0 / max(-mv.z, 0.001));
+    gl_Position = projectionMatrix * mv;
+  }
+`;
+
+const starFragment = /* glsl */ `
+  varying float vTwinkle;
+
+  void main() {
+    float d = length(gl_PointCoord - 0.5);
+    float a = smoothstep(0.5, 0.05, d) * vTwinkle * 0.75;
+    if (a < 0.03) discard;
+    gl_FragColor = vec4(vec3(0.82, 0.87, 1.0) * a, a);
+  }
+`;
+
+function cameraFacingQuad(size: number, fragmentShader: string, uTime: boolean) {
+  const uniforms: Record<string, THREE.IUniform> = {};
+  if (uTime) uniforms.uTime = { value: 0 };
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: diskVertex,
+    fragmentShader,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+  return new THREE.Mesh(new THREE.PlaneGeometry(size, size), material);
+}
 
 export function BinaryMap() {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [hint, setHint] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(BG, 1);
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    renderer.setClearAlpha(0);
     renderer.domElement.style.display = "block";
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";
     wrap.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(BG, 10, 32);
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 90);
 
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 80);
-    camera.position.set(0, 3.4, 14);
+    const digitTexture = makeDigitTexture();
+    const quad = new THREE.PlaneGeometry(1, 1);
+    const digitGeometry = new THREE.InstancedBufferGeometry();
+    digitGeometry.index = quad.index;
+    digitGeometry.attributes.position = quad.attributes.position;
+    digitGeometry.attributes.uv = quad.attributes.uv;
+    digitGeometry.instanceCount = DIGIT_COUNT;
 
-    const texture = makeBinaryTexture();
-    texture.repeat.set(1.55, 1.55);
+    const seeds = new Float32Array(DIGIT_COUNT);
+    const digits = new Float32Array(DIGIT_COUNT);
+    for (let i = 0; i < DIGIT_COUNT; i += 1) {
+      seeds[i] = Math.random();
+      digits[i] = Math.random() > 0.5 ? 1 : 0;
+    }
+    digitGeometry.setAttribute(
+      "aSeed",
+      new THREE.InstancedBufferAttribute(seeds, 1),
+    );
+    digitGeometry.setAttribute(
+      "aDigit",
+      new THREE.InstancedBufferAttribute(digits, 1),
+    );
 
-    const uniforms = {
-      uTime: { value: 0 },
-      uDisplace: { value: 11.5 },
-      uMap: { value: texture },
-      uFog: { value: new THREE.Color(BG) },
-      uRepeat: { value: new THREE.Vector2(1.55, 1.55) },
-    };
-
-    const geometry = new THREE.PlaneGeometry(46, 46, 220, 220);
-    geometry.rotateX(-Math.PI / 2);
-
-    const material = new THREE.ShaderMaterial({
-      uniforms,
-      vertexShader,
-      fragmentShader,
+    const digitMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uMap: { value: digitTexture },
+      },
+      vertexShader: digitVertex,
+      fragmentShader: digitFragment,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.z = -6;
-    scene.add(mesh);
+    const swirl = new THREE.Mesh(digitGeometry, digitMaterial);
+    swirl.frustumCulled = false;
+    scene.add(swirl);
 
-    const target = new THREE.Vector3(0, 1.8, -3);
-    let yaw = 0.42;
-    let pitch = 0.1;
-    let yawT = yaw;
-    let pitchT = pitch;
+    const starPositions = new Float32Array(STAR_COUNT * 3);
+    const starSizes = new Float32Array(STAR_COUNT);
+    const starPhases = new Float32Array(STAR_COUNT);
+    for (let i = 0; i < STAR_COUNT; i += 1) {
+      const radius = 20 + Math.random() * 24;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      starPositions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+      starPositions[i * 3 + 1] = radius * Math.cos(phi) * 0.7;
+      starPositions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+      starSizes[i] = 0.5 + Math.random() * 1.7;
+      starPhases[i] = Math.random();
+    }
+    const starGeometry = new THREE.BufferGeometry();
+    starGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(starPositions, 3),
+    );
+    starGeometry.setAttribute("aSize", new THREE.BufferAttribute(starSizes, 1));
+    starGeometry.setAttribute(
+      "aPhase",
+      new THREE.BufferAttribute(starPhases, 1),
+    );
+    const starMaterial = new THREE.ShaderMaterial({
+      uniforms: { uTime: { value: 0 } },
+      vertexShader: starVertex,
+      fragmentShader: starFragment,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    const stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
+
+    const horizon = new THREE.Mesh(
+      new THREE.SphereGeometry(0.88, 48, 48),
+      new THREE.MeshBasicMaterial({ color: 0x000000 }),
+    );
+    scene.add(horizon);
+
+    const disk = cameraFacingQuad(20, diskFragment, true);
+    disk.rotation.x = -Math.PI / 2;
+    scene.add(disk);
+
+    const photonRing = cameraFacingQuad(4.2, ringFragment, true);
+    scene.add(photonRing);
+
+    const halo = cameraFacingQuad(12, haloFragment, false);
+    scene.add(halo);
+
+    const origin = new THREE.Vector3(0, 0, 0);
+    let yaw = 0.55;
+    let pitch = 0.34;
+    let yawTarget = yaw;
+    let pitchTarget = pitch;
+    let yawVelocity = 0;
     let dragging = false;
     let lastX = 0;
     let lastY = 0;
-    let auto = 0;
+    let intro = 0;
 
     const setSize = () => {
       const w = wrap.clientWidth;
@@ -183,83 +353,145 @@ export function BinaryMap() {
     };
     setSize();
 
-    const onPointerDown = (e: PointerEvent) => {
+    const onPointerDown = (event: PointerEvent) => {
       dragging = true;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      wrap.setPointerCapture(e.pointerId);
-      setHint(false);
+      yawVelocity = 0;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      wrap.setPointerCapture(event.pointerId);
     };
-    const onPointerMove = (e: PointerEvent) => {
+
+    const onPointerMove = (event: PointerEvent) => {
       if (!dragging) return;
-      const dx = e.clientX - lastX;
-      const dy = e.clientY - lastY;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      yawT += dx * 0.005;
-      pitchT = Math.max(0.02, Math.min(0.38, pitchT + dy * 0.0035));
+      const dx = event.clientX - lastX;
+      const dy = event.clientY - lastY;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      yawVelocity = dx * 0.004;
+      yawTarget += yawVelocity;
+      pitchTarget = Math.max(
+        0.06,
+        Math.min(0.85, pitchTarget + dy * 0.0032),
+      );
     };
-    const onPointerUp = () => {
+
+    const onPointerUp = (event: PointerEvent) => {
+      if (!dragging) return;
       dragging = false;
+      if (wrap.hasPointerCapture(event.pointerId)) {
+        wrap.releasePointerCapture(event.pointerId);
+      }
     };
 
     wrap.addEventListener("pointerdown", onPointerDown);
     wrap.addEventListener("pointermove", onPointerMove);
     wrap.addEventListener("pointerup", onPointerUp);
-    wrap.addEventListener("pointerleave", onPointerUp);
+    wrap.addEventListener("pointercancel", onPointerUp);
 
-    const ro = new ResizeObserver(setSize);
-    ro.observe(wrap);
+    const resizeObserver = new ResizeObserver(setSize);
+    resizeObserver.observe(wrap);
 
     let frame = 0;
-    const tick = (t: number) => {
-      frame = requestAnimationFrame(tick);
-      const time = t * 0.001;
-      uniforms.uTime.value = time;
-      if (!dragging) auto += 0.0022;
-      yawT += 0.00035 + Math.sin(auto) * 0.00025;
-      yaw += (yawT - yaw) * 0.08;
-      pitch += (pitchT - pitch) * 0.08;
+    let firstFrame = true;
 
-      const radius = 13.5;
-      camera.position.x = target.x + Math.sin(yaw) * radius;
-      camera.position.z = target.z + Math.cos(yaw) * radius;
-      camera.position.y = 2.6 + pitch * 8;
-      camera.lookAt(target);
+    const tick = (elapsed: number) => {
+      frame = requestAnimationFrame(tick);
+
+      const time = reduceMotion ? 14 : elapsed * 0.001;
+      digitMaterial.uniforms.uTime.value = time;
+      starMaterial.uniforms.uTime.value = time;
+      (disk.material as THREE.ShaderMaterial).uniforms.uTime.value = time;
+      (photonRing.material as THREE.ShaderMaterial).uniforms.uTime.value = time;
+
+      if (!reduceMotion) {
+        stars.rotation.y = time * 0.008;
+        if (!dragging) {
+          yawVelocity *= 0.94;
+          yawTarget += yawVelocity + 0.0007;
+        }
+      }
+
+      yaw += (yawTarget - yaw) * 0.075;
+      pitch += (pitchTarget - pitch) * 0.075;
+
+      intro += (1 - intro) * 0.02;
+      const radius = 22.5 - 7.4 * (reduceMotion ? 1 : intro);
+
+      camera.position.x = Math.sin(yaw) * radius * Math.cos(pitch);
+      camera.position.z = Math.cos(yaw) * radius * Math.cos(pitch);
+      camera.position.y = Math.sin(pitch) * radius * 0.95 + 0.7;
+      camera.lookAt(origin);
+
+      photonRing.quaternion.copy(camera.quaternion);
+      halo.quaternion.copy(camera.quaternion);
 
       renderer.render(scene, camera);
+
+      if (firstFrame) {
+        firstFrame = false;
+        setReady(true);
+      }
     };
     frame = requestAnimationFrame(tick);
 
     return () => {
       cancelAnimationFrame(frame);
-      ro.disconnect();
+      resizeObserver.disconnect();
       wrap.removeEventListener("pointerdown", onPointerDown);
       wrap.removeEventListener("pointermove", onPointerMove);
       wrap.removeEventListener("pointerup", onPointerUp);
-      wrap.removeEventListener("pointerleave", onPointerUp);
-      geometry.dispose();
-      material.dispose();
-      texture.dispose();
+      wrap.removeEventListener("pointercancel", onPointerUp);
+
+      quad.dispose();
+      digitGeometry.dispose();
+      digitMaterial.dispose();
+      digitTexture.dispose();
+      starGeometry.dispose();
+      starMaterial.dispose();
+      horizon.geometry.dispose();
+      (horizon.material as THREE.Material).dispose();
+      for (const mesh of [disk, photonRing, halo]) {
+        mesh.geometry.dispose();
+        (mesh.material as THREE.Material).dispose();
+      }
       renderer.dispose();
       renderer.domElement.remove();
     };
   }, []);
 
   return (
-    <div
-      ref={wrapRef}
-      className="relative size-full cursor-grab overflow-hidden active:cursor-grabbing"
-      onPointerEnter={() => setHint(true)}
-      onPointerLeave={() => setHint(false)}
-    >
-      <span
-        className={`pointer-events-none absolute top-8 left-8 z-10 bg-white px-2 py-1 font-mono text-[11px] uppercase text-black transition-opacity duration-150 ${
-          hint ? "opacity-100" : "opacity-0"
+    <div className="relative size-full overflow-hidden bg-[#05060a]">
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(115% 85% at 60% 42%, #121724 0%, #090c14 46%, #04050a 100%)",
+        }}
+      />
+
+      <div
+        ref={wrapRef}
+        className={`absolute inset-0 cursor-grab transition-opacity duration-1000 ease-out active:cursor-grabbing ${
+          ready ? "opacity-100" : "opacity-0"
         }`}
-      >
-        Click & hold
-      </span>
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(78% 62% at 50% 48%, transparent 40%, rgba(4,5,10,0.55) 82%, rgba(4,5,10,0.9) 100%)",
+        }}
+      />
+
+      <div className="pointer-events-none absolute inset-x-6 bottom-6 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 lg:inset-x-8 lg:bottom-8">
+        <span className="flex items-center gap-2">
+          <span className="size-1 rounded-full bg-[#ffb45c]" />
+          Drag to orbit
+        </span>
+        <span className="hidden sm:inline">0 / 1</span>
+      </div>
     </div>
   );
 }
