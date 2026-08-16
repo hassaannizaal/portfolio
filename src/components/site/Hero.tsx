@@ -59,7 +59,7 @@ export function Hero() {
               {portfolio.eyebrow}
             </p>
             <h1
-              className="rise mb-5 text-balance text-[32px] font-medium leading-[1.05] tracking-tight sm:mb-7 sm:text-[40px] lg:text-[54px]"
+              className="rise mb-5 font-pixel text-[34px] font-medium leading-[1.15] tracking-wide [font-smooth:never] [-webkit-font-smoothing:none] sm:mb-7 sm:text-[44px] lg:text-[56px]"
               style={{ animationDelay: "140ms" }}
             >
               {headline.map((line) => (
