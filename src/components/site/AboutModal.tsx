@@ -80,46 +80,28 @@ export function AboutModal({ open, onClose }: AboutModalProps) {
         <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-6">
           {/* whoami */}
           <div className="mb-8">
-            <p className="mb-5 text-[#ffb45c]">
+            <p className="mb-4 text-[#ffb45c]">
               <span className="text-white/30">→ </span>whoami
             </p>
-            <div className="mb-5 flex justify-center">
-              <div className="relative">
-                <div
-                  aria-hidden="true"
-                  className="absolute -inset-8 rounded-full"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(255,180,92,0.12) 0%, rgba(255,180,92,0.06) 40%, transparent 70%)",
-                  }}
+            <div className="flex items-center gap-5">
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-lg border border-white/[0.08]">
+                <Image
+                  src={PORTRAIT_SRC}
+                  alt={portfolio.name}
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                  priority
                 />
-                <div
-                  aria-hidden="true"
-                  className="absolute -inset-1 rounded-full border border-white/[0.04]"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(255,255,255,0.04), rgba(255,255,255,0.01) 60%, transparent 100%)",
-                  }}
-                />
-                <div className="relative size-36 overflow-hidden rounded-full border border-white/[0.12] sm:size-40">
-                  <Image
-                    src={PORTRAIT_SRC}
-                    alt={portfolio.name}
-                    fill
-                    sizes="160px"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
               </div>
-            </div>
-            <div className="text-center">
-              <p className="text-[17px] font-medium text-white">
-                {portfolio.name}
-              </p>
-              <p className="mt-1 text-[12px] uppercase tracking-[0.16em] text-white/40">
-                {portfolio.title}
-              </p>
+              <div>
+                <p className="text-[16px] font-medium text-white/90">
+                  {portfolio.name}
+                </p>
+                <p className="mt-0.5 text-[12px] text-white/40">
+                  {portfolio.title}
+                </p>
+              </div>
             </div>
           </div>
 

@@ -11,9 +11,9 @@ export function HomePage() {
       <SiteHeader />
       <main>
         <Hero />
-        <BackgroundSection />
         <ProjectsSection />
         <CertsSection />
+        <BackgroundSection />
       </main>
       <SiteFooter />
     </div>
