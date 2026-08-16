@@ -1,5 +1,5 @@
-import { PortfolioShell } from "@/components/layout/PortfolioShell";
+import { HomePage } from "@/components/site/HomePage";
 
 export default function Home() {
-  return <PortfolioShell />;
+  return <HomePage />;
 }

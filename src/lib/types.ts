@@ -46,6 +46,8 @@ export interface PortfolioData {
   name: string;
   title: string;
   tagline: string;
+  eyebrow: string;
+  headline: string;
   email: string;
   github: string;
   linkedin: string;
@@ -53,6 +55,7 @@ export interface PortfolioData {
   available: boolean;
   bio: string;
   highlights: string[];
+  stack: string[];
   skillGroups: SkillGroup[];
   education: string[];
   resumeUrl?: string;

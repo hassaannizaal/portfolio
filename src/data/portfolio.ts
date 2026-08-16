@@ -4,19 +4,26 @@ export const portfolio: PortfolioData = {
   username: "hassaan",
   name: "Hassaan Nizaal",
   title: "Software Engineer",
-  tagline: "Building elegant solutions to complex problems.",
+  tagline: "Building on the web.",
+  eyebrow: "Software engineer.",
+  headline: "Hassaan Nizaal\nbuilds on the web.",
   email: "hello@hassaannizaal.dev",
   github: "https://github.com/hassaannizaal",
   linkedin: "https://linkedin.com/in/hassaannizaal",
   location: "Your City, Country",
   available: true,
-  bio: "Software engineer with experience in full-stack development and modern web technologies. Passionate about crafting clean, performant applications and exploring new tools that push what's possible on the web.",
+  bio: "Full-stack work in TypeScript. I keep this page short on purpose — the work is the point.",
   highlights: [
-    "Full-Stack Web Development",
-    "API Design & Architecture",
-    "Performance Optimization",
-    "Open Source Contributions",
-    "DevOps & Cloud Infrastructure",
+    "Full-stack web",
+    "API design",
+    "Performance",
+  ],
+  stack: [
+    "NEXT.JS",
+    "TYPESCRIPT",
+    "REACT",
+    "NODE.JS",
+    "POSTGRES",
   ],
   skillGroups: [
     {
@@ -27,44 +34,38 @@ export const portfolio: PortfolioData = {
     {
       icon: "🌐",
       label: "Frontend",
-      items: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
+      items: ["React", "Next.js", "Tailwind CSS"],
     },
     {
       icon: "⚙️",
       label: "Backend",
-      items: ["Node.js", "PostgreSQL", "REST APIs", "GraphQL"],
+      items: ["Node.js", "PostgreSQL", "REST APIs"],
     },
     {
       icon: "🛠️",
       label: "Tools",
-      items: ["Git", "Docker", "Linux", "VS Code", "Figma"],
+      items: ["Git", "Docker", "Linux"],
     },
   ],
-  education: [
-    "B.S. Computer Science — Your University",
-    "Relevant Certification — Issuer (Year)",
-  ],
+  education: [],
   resumeUrl: "#",
   resumeUpdated: "2 months ago",
   projects: [
     {
       name: "Project Alpha",
-      description:
-        "A full-stack web application with real-time features and a CLI-inspired interface.",
+      description: "Full-stack app with real-time features.",
       tech: ["Next.js", "TypeScript", "PostgreSQL"],
       github: "https://github.com/hassaannizaal",
     },
     {
       name: "Dev Toolkit",
-      description:
-        "Collection of developer utilities and automation scripts for streamlining workflows.",
-      tech: ["Python", "Node.js", "Shell"],
+      description: "Small utilities for day-to-day engineering work.",
+      tech: ["Python", "Node.js"],
       github: "https://github.com/hassaannizaal",
     },
     {
       name: "API Gateway",
-      description:
-        "Scalable microservices gateway with authentication, rate limiting, and monitoring.",
+      description: "Auth, rate limits, and monitoring in one place.",
       tech: ["Node.js", "Redis", "Docker"],
       github: "https://github.com/hassaannizaal",
     },
@@ -74,21 +75,7 @@ export const portfolio: PortfolioData = {
       role: "Software Engineer",
       company: "Your Company",
       period: "2023 — Present",
-      highlights: [
-        "Built and shipped production features used by thousands of users",
-        "Improved application performance by 40% through optimization",
-        "Led migration to modern tech stack (React → Next.js)",
-      ],
-    },
-    {
-      role: "Junior Developer",
-      company: "Previous Company",
-      period: "2021 — 2023",
-      highlights: [
-        "Developed REST APIs and frontend components",
-        "Collaborated with cross-functional teams in agile environment",
-        "Maintained 95%+ test coverage on critical modules",
-      ],
+      highlights: ["Shipped production features"],
     },
   ],
 };
