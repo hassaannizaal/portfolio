@@ -1,24 +1,39 @@
 import { OdometerText } from "./OdometerText";
 
 interface SplitCtaProps {
-  href: string;
+  href?: string;
+  onClick?: () => void;
   left: string;
   right: string;
   dark?: boolean;
+  variant?: "primary" | "outline";
+  ariaLabel?: string;
 }
 
-export function SplitCta({ href, left, right, dark = false }: SplitCtaProps) {
-  const pill = dark
+export function SplitCta({
+  href,
+  onClick,
+  left,
+  right,
+  dark = false,
+  variant = "primary",
+  ariaLabel,
+}: SplitCtaProps) {
+  const primary = dark
     ? "bg-white text-fg hover:bg-white/90"
     : "bg-fg text-bg hover:bg-fg/90";
+  const outline = dark
+    ? "border border-white/25 text-white hover:bg-white/5"
+    : "border border-fg/25 text-fg hover:bg-fg/5";
+  const pill = variant === "outline" ? outline : primary;
 
-  return (
-    <a
-      href={href}
-      className="odometer group inline-flex w-fit shrink-0 cursor-pointer items-center font-mono text-[15px] uppercase tracking-wide"
-    >
+  const className =
+    "odometer group inline-flex w-fit shrink-0 cursor-pointer items-center font-mono text-[15px] uppercase tracking-wide";
+
+  const inner = (
+    <>
       <span className="sr-only">
-        {left} {right}
+        {ariaLabel ?? `${left} ${right}`}
       </span>
       <span
         className={`inline-flex h-12 items-center gap-[0.4em] rounded-lg px-6 transition-colors duration-300 ${pill}`}
@@ -32,6 +47,20 @@ export function SplitCta({ href, left, right, dark = false }: SplitCtaProps) {
           →
         </span>
       </span>
-    </a>
+    </>
+  );
+
+  if (href) {
+    return (
+      <a href={href} className={className}>
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <button type="button" onClick={onClick} className={className}>
+      {inner}
+    </button>
   );
 }

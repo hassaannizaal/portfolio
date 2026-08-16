@@ -1,4 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import { portfolio } from "@/data/portfolio";
+import { AboutModal } from "./AboutModal";
+import { ContactModal } from "./ContactModal";
 import { BinaryMap } from "./BinaryMap";
 import { SplitCta } from "./SplitCta";
 
@@ -7,6 +12,8 @@ const BINARY_STREAM =
 
 export function Hero() {
   const headline = portfolio.headline.split("\n");
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
     <section id="top" className="relative min-h-svh lg:h-svh">
@@ -68,21 +75,22 @@ export function Hero() {
               {portfolio.bio}
             </p>
             <div
-              className="rise flex flex-wrap items-center gap-5"
+              className="rise flex flex-wrap items-center gap-3 sm:gap-4"
               style={{ animationDelay: "300ms" }}
             >
               <SplitCta
-                href={`mailto:${portfolio.email}`}
-                left="Email"
+                onClick={() => setContactOpen(true)}
+                left="Contact"
                 right="me"
+                ariaLabel="Open contact"
               />
-              <span
-                aria-hidden="true"
-                className="hidden items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/40 sm:flex"
-              >
-                <span className="h-px w-6 bg-fg/25" />
-                or drag the singularity →
-              </span>
+              <SplitCta
+                onClick={() => setAboutOpen(true)}
+                left="About"
+                right="me"
+                variant="outline"
+                ariaLabel="Open about me"
+              />
             </div>
           </div>
 
@@ -106,6 +114,9 @@ export function Hero() {
           <BinaryMap />
         </div>
       </div>
+
+      <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </section>
   );
 }

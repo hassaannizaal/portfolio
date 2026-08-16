@@ -7,4 +7,6 @@ export interface PortfolioData {
   email: string;
   github: string;
   linkedin: string;
+  instagram: string;
+  phone: string;
 }

@@ -9,8 +9,18 @@ const links = [
   },
   {
     label: "LinkedIn",
-    value: portfolio.linkedin.replace(/^https?:\/\//, ""),
+    value: "linkedin.com/in/muhammad-hassaan-nizaal",
     href: portfolio.linkedin,
+  },
+  {
+    label: "Instagram",
+    value: "@hassaannizaal",
+    href: portfolio.instagram,
+  },
+  {
+    label: "Phone",
+    value: portfolio.phone,
+    href: `tel:${portfolio.phone.replace(/\s/g, "")}`,
   },
 ];
 
