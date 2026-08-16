@@ -23,7 +23,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-start p-4 lg:justify-center lg:p-8">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-start p-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:p-4 lg:justify-center lg:p-8">
         <div className="pointer-events-auto rounded-lg bg-black p-1.5 shadow-lg ring-1 ring-black">
           <nav className="flex h-[48px] items-center overflow-hidden rounded bg-nav lg:h-[52px]">
             <a
@@ -53,7 +53,7 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="ml-1 mr-1.5 flex h-[30px] w-[30px] items-center justify-center text-white lg:ml-2"
+              className="mr-0.5 flex size-11 items-center justify-center text-white lg:hidden"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
             >
@@ -75,20 +75,20 @@ export function SiteHeader() {
 
       {open && (
         <div className="fixed inset-0 z-40 bg-fg text-white">
-          <div className="flex h-full flex-col justify-end px-8 pb-16 pt-28 lg:px-20">
-            <p className="mb-10 flex items-center gap-2 font-mono text-[13px] uppercase tracking-[0.14em] text-white/45">
+          <div className="flex h-full flex-col justify-end px-5 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-28 sm:px-8 sm:pb-16 lg:px-20">
+            <p className="mb-8 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-white/45 sm:mb-10 sm:text-[13px]">
               <span className="size-1.5 rounded-full bg-accent-glow" />
               {portfolio.title}
             </p>
-            <nav className="flex flex-col gap-4">
+            <nav className="flex flex-col">
               {NAV.map((item, index) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="group flex items-baseline gap-5 font-medium text-[44px] leading-none tracking-tight text-white transition-colors hover:text-accent-glow lg:text-[56px]"
+                  className="group flex min-h-14 items-center gap-4 font-medium text-[36px] leading-none tracking-tight text-white transition-colors hover:text-accent-glow sm:min-h-16 sm:gap-5 sm:text-[44px] lg:text-[56px]"
                 >
-                  <span className="font-mono text-[13px] tracking-[0.14em] text-white/40">
+                  <span className="font-mono text-[12px] tracking-[0.14em] text-white/40 sm:text-[13px]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   {item.label}
@@ -97,9 +97,9 @@ export function SiteHeader() {
             </nav>
             <a
               href={`mailto:${portfolio.email}`}
-              className="mt-14 inline-flex w-fit items-center gap-2 font-mono text-[13px] uppercase tracking-[0.14em] text-white/55 hover:text-accent-glow"
+              className="mt-10 inline-flex min-h-11 w-fit items-center gap-2 break-all font-mono text-[12px] uppercase tracking-[0.14em] text-white/55 hover:text-accent-glow sm:mt-14 sm:text-[13px]"
             >
-              <span className="size-1 rounded-full bg-accent-glow" />
+              <span className="size-1 shrink-0 rounded-full bg-accent-glow" />
               {portfolio.email}
             </a>
           </div>

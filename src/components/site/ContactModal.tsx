@@ -63,7 +63,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
       role="dialog"
       aria-modal="true"
       aria-label="Contact"
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6"
     >
       <button
         aria-label="Close"
@@ -73,14 +73,14 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
       />
 
       <div
-        className="terminal-scroll relative z-10 flex max-h-[88vh] w-full max-w-[640px] flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-[#0a0b0f] font-mono text-[13.5px] leading-[1.7] text-white/75 transition-all duration-400 ease-out"
+        className="terminal-scroll relative z-10 flex h-[92dvh] w-full max-w-[640px] flex-col overflow-hidden rounded-t-2xl border border-white/[0.08] bg-[#0a0b0f] font-mono text-[13px] leading-[1.7] text-white/75 transition-all duration-400 ease-out sm:h-auto sm:max-h-[88vh] sm:rounded-xl sm:text-[13.5px]"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(8px)",
         }}
       >
         {/* title bar */}
-        <div className="flex shrink-0 items-center justify-between border-b border-white/[0.06] px-5 py-3">
+        <div className="flex shrink-0 items-center justify-between border-b border-white/[0.06] px-4 py-3 sm:px-5">
           <span className="text-[11px] uppercase tracking-[0.2em] text-white/30">
             hassaan@dev ~/contact
           </span>
@@ -88,7 +88,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="flex size-6 items-center justify-center rounded text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+            className="flex size-11 items-center justify-center rounded text-white/40 transition-colors hover:bg-white/10 hover:text-white sm:size-6"
           >
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M1 1l8 8M9 1L1 9" />
@@ -97,14 +97,14 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
         </div>
 
         {/* body */}
-        <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-6">
+        <div className="flex-1 overflow-y-auto px-4 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-6">
           <div className="mb-7">
             <p className="mb-4 text-[#ffb45c]">
               <span className="text-white/30">→ </span>cat contact.txt
             </p>
             <div className="space-y-3">
               {links.map((link) => (
-                <div key={link.label} className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-0">
+                <div key={link.label} className="flex min-h-12 flex-col justify-center gap-0.5 sm:min-h-0 sm:flex-row sm:items-baseline sm:gap-0">
                   <span className="w-28 shrink-0 text-[12px] uppercase tracking-[0.14em] text-white/35">
                     {link.label}
                   </span>
@@ -112,7 +112,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
                     href={link.href}
                     target={link.href.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
-                    className="text-white/65 underline decoration-white/15 underline-offset-2 transition-colors hover:text-[#ffb45c] hover:decoration-[#ffb45c]/30"
+                    className="break-all text-white/65 underline decoration-white/15 underline-offset-2 transition-colors hover:text-[#ffb45c] hover:decoration-[#ffb45c]/30"
                   >
                     {link.value}
                   </a>

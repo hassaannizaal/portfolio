@@ -22,9 +22,9 @@ const odin = {
 
 function SectionTitle({ label }: { label: string }) {
   return (
-    <div className="mb-10 flex items-center gap-4 lg:mb-14">
+    <div className="mb-8 flex items-center gap-3 sm:mb-10 sm:gap-4 lg:mb-14">
       <span className="h-px flex-1 bg-line" />
-      <h2 className="font-mono text-[12px] uppercase tracking-[0.24em] text-fg/70 lg:text-[13px]">
+      <h2 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px]">
         {label}
       </h2>
       <span className="h-px flex-1 bg-line" />
@@ -36,13 +36,13 @@ export function ProjectsSection() {
   return (
     <section
       id="proj"
-      className="relative bg-bg px-6 py-16 text-fg lg:px-16 lg:py-20 xl:px-20"
+      className="relative bg-bg px-4 py-12 text-fg sm:px-6 sm:py-16 lg:px-16 lg:py-20 xl:px-20"
     >
       <div className="relative mx-auto max-w-5xl">
         <SectionTitle label="02 · Projects" />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <article className="group flex flex-col rounded-lg border border-line bg-fg/[0.015] p-5 transition-colors hover:border-fg/25">
+          <article className="group flex flex-col rounded-lg border border-line bg-fg/[0.015] p-4 transition-colors hover:border-fg/25 sm:p-5">
             <div className="mb-3 flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <span className="mb-2 inline-block font-mono text-[10px] uppercase tracking-[0.14em] text-accent/80">
@@ -98,10 +98,10 @@ export function ProjectsSection() {
               ))}
             </div>
 
-            <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
+            <div className="mt-5 flex items-center justify-between border-t border-line pt-3 sm:pt-4">
               <a
                 href={`/projects/${odin.slug}`}
-                className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg/70 transition-colors hover:text-accent"
+                className="inline-flex min-h-11 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg/70 transition-colors hover:text-accent"
                 aria-label={`View ${odin.title} details`}
               >
                 View details
@@ -116,10 +116,10 @@ export function ProjectsSection() {
           </article>
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-8 flex justify-center sm:mt-10">
           <a
             href="/projects"
-            className="inline-flex items-center gap-2 rounded-md border border-line bg-fg/[0.02] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 transition-colors hover:border-fg/25 hover:text-accent"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-line bg-fg/[0.02] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 transition-colors hover:border-fg/25 hover:text-accent sm:w-auto"
           >
             View all projects
             <span aria-hidden="true">→</span>

@@ -12,9 +12,9 @@ const courses = [
 
 function SectionTitle({ label }: { label: string }) {
   return (
-    <div className="mb-10 flex items-center gap-4 lg:mb-14">
+    <div className="mb-8 flex items-center gap-3 sm:mb-10 sm:gap-4 lg:mb-14">
       <span className="h-px flex-1 bg-line" />
-      <h2 className="font-mono text-[12px] uppercase tracking-[0.24em] text-fg/70 lg:text-[13px]">
+      <h2 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px]">
         {label}
       </h2>
       <span className="h-px flex-1 bg-line" />
@@ -28,7 +28,7 @@ export function CertsSection() {
   return (
     <section
       id="certs"
-      className="relative bg-bg px-6 py-16 text-fg lg:px-16 lg:py-20 xl:px-20"
+      className="relative bg-bg px-4 py-12 text-fg sm:px-6 sm:py-16 lg:px-16 lg:py-20 xl:px-20"
     >
       <div className="relative mx-auto max-w-5xl">
         <SectionTitle label="03 · Certifications" />
@@ -38,7 +38,7 @@ export function CertsSection() {
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            className="flex w-full items-center gap-4 border-b border-line py-4 text-left transition-colors hover:bg-fg/[0.02]"
+            className="flex min-h-16 w-full items-center gap-3 border-b border-line py-4 text-left transition-colors hover:bg-fg/[0.02] sm:gap-4"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -53,7 +53,7 @@ export function CertsSection() {
               <p className="text-[15px] font-medium leading-tight text-fg">
                 Google IT Support
               </p>
-              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-fg/45">
+              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.1em] text-fg/45 sm:tracking-[0.14em]">
                 Google · Coursera · March 2024
               </p>
             </div>
@@ -104,12 +104,12 @@ export function CertsSection() {
                   ))}
                 </ul>
 
-                <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+                <div className="mt-5 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:gap-x-5 sm:gap-y-2">
                   <a
                     href="https://www.coursera.org/account/accomplishments/specialization/WUWRV3476BR4"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg/55 transition-colors hover:text-accent"
+                    className="inline-flex min-h-11 items-center font-mono text-[10px] uppercase tracking-[0.14em] text-fg/55 transition-colors hover:text-accent"
                   >
                     Verify on Coursera →
                   </a>
@@ -117,7 +117,7 @@ export function CertsSection() {
                     href="https://www.credly.com/earner/earned/share/90b8f3e2-db4e-45f7-90ad-f9d624beaaab"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg/55 transition-colors hover:text-accent"
+                    className="inline-flex min-h-11 items-center font-mono text-[10px] uppercase tracking-[0.14em] text-fg/55 transition-colors hover:text-accent"
                   >
                     View on Credly →
                   </a>

@@ -228,13 +228,16 @@ export function BinaryMap() {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const digitCount = isMobile ? 1600 : DIGIT_COUNT;
+    const starCount = isMobile ? 500 : STAR_COUNT;
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.25 : 1.75));
     renderer.setClearAlpha(0);
     renderer.domElement.style.display = "block";
     renderer.domElement.style.width = "100%";
@@ -250,11 +253,11 @@ export function BinaryMap() {
     digitGeometry.index = quad.index;
     digitGeometry.attributes.position = quad.attributes.position;
     digitGeometry.attributes.uv = quad.attributes.uv;
-    digitGeometry.instanceCount = DIGIT_COUNT;
+    digitGeometry.instanceCount = digitCount;
 
-    const seeds = new Float32Array(DIGIT_COUNT);
-    const digits = new Float32Array(DIGIT_COUNT);
-    for (let i = 0; i < DIGIT_COUNT; i += 1) {
+    const seeds = new Float32Array(digitCount);
+    const digits = new Float32Array(digitCount);
+    for (let i = 0; i < digitCount; i += 1) {
       seeds[i] = Math.random();
       digits[i] = Math.random() > 0.5 ? 1 : 0;
     }
@@ -283,10 +286,10 @@ export function BinaryMap() {
     swirl.frustumCulled = false;
     scene.add(swirl);
 
-    const starPositions = new Float32Array(STAR_COUNT * 3);
-    const starSizes = new Float32Array(STAR_COUNT);
-    const starPhases = new Float32Array(STAR_COUNT);
-    for (let i = 0; i < STAR_COUNT; i += 1) {
+    const starPositions = new Float32Array(starCount * 3);
+    const starSizes = new Float32Array(starCount);
+    const starPhases = new Float32Array(starCount);
+    for (let i = 0; i < starCount; i += 1) {
       const radius = 20 + Math.random() * 24;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
@@ -471,7 +474,7 @@ export function BinaryMap() {
 
       <div
         ref={wrapRef}
-        className={`absolute inset-0 cursor-grab transition-opacity duration-1000 ease-out active:cursor-grabbing ${
+        className={`absolute inset-0 cursor-grab touch-none overscroll-none transition-opacity duration-1000 ease-out active:cursor-grabbing ${
           ready ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -485,10 +488,11 @@ export function BinaryMap() {
         }}
       />
 
-      <div className="pointer-events-none absolute inset-x-6 bottom-6 flex items-center font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 lg:inset-x-8 lg:bottom-8">
+      <div className="pointer-events-none absolute inset-x-4 bottom-3 flex items-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/45 sm:inset-x-6 sm:bottom-6 sm:text-[11px] lg:inset-x-8 lg:bottom-8">
         <span className="flex items-center gap-2">
           <span className="size-1 rounded-full bg-[#ffb45c]" />
-          Drag to orbit
+          <span className="sm:hidden">Swipe to orbit</span>
+          <span className="hidden sm:inline">Drag to orbit</span>
         </span>
       </div>
     </div>

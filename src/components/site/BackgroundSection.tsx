@@ -4,9 +4,9 @@ import { useState } from "react";
 
 function SectionTitle({ label }: { label: string }) {
   return (
-    <div className="mb-10 flex items-center gap-4 lg:mb-14">
+    <div className="mb-8 flex items-center gap-3 sm:mb-10 sm:gap-4 lg:mb-14">
       <span className="h-px flex-1 bg-line" />
-      <h2 className="font-mono text-[12px] uppercase tracking-[0.24em] text-fg/70 lg:text-[13px]">
+      <h2 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px]">
         {label}
       </h2>
       <span className="h-px flex-1 bg-line" />
@@ -87,7 +87,7 @@ function PreviewCard({
 }) {
   return (
     <div
-      className={`flex h-full flex-col rounded-lg border p-5 transition-colors ${
+      className={`flex h-full flex-col rounded-lg border p-4 transition-colors sm:p-5 ${
         active
           ? "border-fg/25 bg-fg/[0.025]"
           : "border-line bg-fg/[0.015] hover:border-fg/20"
@@ -106,7 +106,7 @@ function PreviewCard({
       <button
         type="button"
         onClick={onClick}
-        className={`mt-4 self-start font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
+        className={`mt-4 inline-flex min-h-11 items-center self-start font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
           active ? "text-accent" : "text-fg/55 hover:text-accent"
         }`}
       >
@@ -127,7 +127,7 @@ export function BackgroundSection() {
   return (
     <section
       id="bg"
-      className="relative bg-bg px-6 py-16 text-fg lg:px-16 lg:py-20 xl:px-20"
+      className="relative bg-bg px-4 py-12 text-fg sm:px-6 sm:py-16 lg:px-16 lg:py-20 xl:px-20"
     >
       <div className="relative mx-auto max-w-5xl">
         <SectionTitle label="04 · Background" />
@@ -196,7 +196,7 @@ export function BackgroundSection() {
                           </li>
                         ))}
                       </ul>
-                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-fg/45">
+                      <p className="mt-4 break-words font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-fg/45 sm:tracking-[0.14em]">
                         {job.skills.join(" · ")}
                       </p>
                     </div>

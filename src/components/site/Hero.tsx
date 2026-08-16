@@ -16,14 +16,14 @@ export function Hero() {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <section id="top" className="relative min-h-svh lg:h-svh">
+    <section id="top" className="relative lg:h-svh">
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-line lg:block"
       />
 
-      <div className="grid min-h-svh lg:h-full lg:grid-cols-12">
-        <div className="relative flex flex-col justify-center px-6 pb-14 pt-28 lg:col-span-6 lg:px-16 lg:pb-16 lg:pt-8 xl:px-20">
+      <div className="grid lg:h-full lg:grid-cols-12">
+        <div className="relative flex flex-col justify-center px-4 pb-8 pt-24 sm:px-6 sm:pb-12 sm:pt-28 lg:col-span-6 lg:px-16 lg:pb-16 lg:pt-8 xl:px-20">
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 hidden lg:block"
@@ -52,14 +52,14 @@ export function Hero() {
 
           <div className="relative">
             <p
-              className="rise mb-5 flex items-center gap-2 font-mono text-[13px] uppercase tracking-[0.14em] text-fg/60"
+              className="rise mb-4 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-fg/60 sm:mb-5 sm:text-[13px]"
               style={{ animationDelay: "60ms" }}
             >
               <span className="size-1.5 rounded-full bg-accent" />
               {portfolio.eyebrow}
             </p>
             <h1
-              className="rise mb-7 text-balance text-[40px] font-medium leading-[1.02] tracking-tight lg:text-[54px]"
+              className="rise mb-5 text-balance text-[32px] font-medium leading-[1.05] tracking-tight sm:mb-7 sm:text-[40px] lg:text-[54px]"
               style={{ animationDelay: "140ms" }}
             >
               {headline.map((line) => (
@@ -69,13 +69,13 @@ export function Hero() {
               ))}
             </h1>
             <p
-              className="rise mb-10 max-w-[30rem] text-[17px] leading-[1.6] text-fg/70 lg:text-[18px]"
+              className="rise mb-7 max-w-[30rem] text-[15px] leading-[1.6] text-fg/70 sm:mb-10 sm:text-[17px] lg:text-[18px]"
               style={{ animationDelay: "220ms" }}
             >
               {portfolio.bio}
             </p>
             <div
-              className="rise flex flex-wrap items-center gap-3 sm:gap-4"
+              className="rise flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
               style={{ animationDelay: "300ms" }}
             >
               <SplitCta
@@ -110,7 +110,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[62vh] min-h-[340px] overflow-hidden lg:col-span-6 lg:col-start-7 lg:h-full lg:min-h-0">
+        <div className="relative h-[38vh] min-h-[200px] max-h-[280px] overflow-hidden sm:h-[48vh] sm:max-h-none sm:min-h-[280px] lg:col-span-6 lg:col-start-7 lg:h-full lg:max-h-none lg:min-h-0">
           <BinaryMap />
         </div>
       </div>
