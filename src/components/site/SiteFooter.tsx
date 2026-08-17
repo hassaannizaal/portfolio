@@ -31,11 +31,11 @@ export function SiteFooter() {
   return (
     <footer
       id="contact"
-      className="border-t border-line bg-bg px-4 pt-12 pb-[max(2rem,env(safe-area-inset-bottom))] text-fg sm:px-6 sm:pt-16 sm:pb-8 lg:px-16 lg:pt-20 lg:pb-10 xl:px-20"
+      className="border-t border-white/12 bg-fg px-4 pt-12 pb-[max(2rem,env(safe-area-inset-bottom))] text-white sm:px-6 sm:pt-16 sm:pb-8 lg:px-16 lg:pt-20 lg:pb-10 xl:px-20"
     >
       <div className="grid gap-10 sm:gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-6">
-          <p className="mb-4 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-fg/60 sm:mb-6 sm:text-[13px]">
+          <p className="mb-4 flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.14em] text-white/60 sm:mb-6 sm:text-[13px]">
             <span className="size-1.5 rounded-full bg-accent" />
             End transmission
           </p>
@@ -46,17 +46,17 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-8 lg:col-span-6">
-          <ul className="flex flex-col divide-y divide-line border-y border-line">
+          <ul className="flex flex-col divide-y divide-white/12 border-y border-white/12">
             {links.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="group flex min-h-14 items-center justify-between gap-3 py-3 font-mono text-[12px] uppercase tracking-[0.1em] transition-colors hover:text-accent sm:grid sm:min-h-0 sm:grid-cols-[auto_1fr_auto] sm:items-baseline sm:gap-4 sm:py-4 sm:text-[13px] sm:tracking-[0.12em]"
+                  className="group flex min-h-14 items-center justify-between gap-3 py-3 font-mono text-[12px] uppercase tracking-[0.1em] transition-colors hover:text-accent-glow sm:grid sm:min-h-0 sm:grid-cols-[auto_1fr_auto] sm:items-baseline sm:gap-4 sm:py-4 sm:text-[13px] sm:tracking-[0.12em]"
                 >
-                  <span className="shrink-0 text-fg/40">{link.label}</span>
-                  <span className="min-w-0 truncate text-right text-fg/80 group-hover:text-accent sm:text-left">
+                  <span className="shrink-0 text-white/40">{link.label}</span>
+                  <span className="min-w-0 truncate text-right text-white/80 group-hover:text-accent-glow sm:text-left">
                     {link.value}
                   </span>
                   <span
@@ -72,7 +72,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mt-10 flex flex-col gap-2 border-t border-line pt-5 font-mono text-[10px] uppercase tracking-[0.14em] text-fg/45 sm:mt-16 sm:gap-3 sm:pt-6 sm:text-[11px] lg:flex-row lg:items-center lg:justify-between">
+      <div className="mt-10 flex flex-col gap-2 border-t border-white/12 pt-5 font-mono text-[10px] uppercase tracking-[0.14em] text-white/45 sm:mt-16 sm:gap-3 sm:pt-6 sm:text-[11px] lg:flex-row lg:items-center lg:justify-between">
         <span className="flex items-center gap-2">
           <span className="size-1 rounded-full bg-accent-glow" />
           © {year} — {portfolio.name}

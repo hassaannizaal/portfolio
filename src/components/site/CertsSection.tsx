@@ -13,11 +13,11 @@ const courses = [
 function SectionTitle({ label }: { label: string }) {
   return (
     <div className="mb-8 flex items-center gap-3 sm:mb-10 sm:gap-4 lg:mb-14">
-      <span className="h-px flex-1 bg-line" />
-      <h2 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px]">
+      <span className="h-px flex-1 bg-white/15" />
+      <h2 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-white/70 sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px]">
         {label}
       </h2>
-      <span className="h-px flex-1 bg-line" />
+      <span className="h-px flex-1 bg-white/15" />
     </div>
   );
 }
@@ -28,17 +28,17 @@ export function CertsSection() {
   return (
     <section
       id="certs"
-      className="relative bg-bg px-4 py-12 text-fg sm:px-6 sm:py-16 lg:px-16 lg:py-20 xl:px-20"
+      className="relative bg-fg px-4 py-12 text-white sm:px-6 sm:py-16 lg:px-16 lg:py-20 xl:px-20"
     >
       <div className="relative mx-auto max-w-5xl">
         <SectionTitle label="03 · Certifications" />
 
-        <div className="border-t border-line">
+        <div className="border-t border-white/12">
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            className="flex min-h-16 w-full items-center gap-3 border-b border-line py-4 text-left transition-colors hover:bg-fg/[0.02] sm:gap-4"
+            className="flex min-h-16 w-full items-center gap-3 border-b border-white/12 py-4 text-left transition-colors hover:bg-white/[0.04] sm:gap-4"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -50,17 +50,17 @@ export function CertsSection() {
             />
 
             <div className="min-w-0 flex-1">
-              <p className="text-[15px] font-medium leading-tight text-fg">
+              <p className="text-[15px] font-medium leading-tight text-white">
                 Google IT Support
               </p>
-              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.1em] text-fg/45 sm:tracking-[0.14em]">
+              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.1em] text-white/45 sm:tracking-[0.14em]">
                 Google · Coursera · March 2024
               </p>
             </div>
 
             <span
               aria-hidden="true"
-              className="shrink-0 text-fg/40 transition-transform duration-300"
+              className="shrink-0 text-white/40 transition-transform duration-300"
               style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
             >
               <svg
@@ -86,17 +86,17 @@ export function CertsSection() {
             }}
           >
             <div className="min-h-0">
-              <div className="border-b border-line px-1 py-5">
-                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
+              <div className="border-b border-white/12 px-1 py-5">
+                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
                   Courses · ~3 months at 10 hrs/week
                 </p>
                 <ul className="space-y-1.5">
                   {courses.map((c, i) => (
                     <li
                       key={i}
-                      className="flex items-baseline gap-3 text-[13px] text-fg/70"
+                      className="flex items-baseline gap-3 text-[13px] text-white/70"
                     >
-                      <span className="font-mono text-[10px] tracking-[0.12em] text-fg/35">
+                      <span className="font-mono text-[10px] tracking-[0.12em] text-white/35">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       {c}
@@ -109,7 +109,7 @@ export function CertsSection() {
                     href="https://www.coursera.org/account/accomplishments/specialization/WUWRV3476BR4"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-11 items-center font-mono text-[10px] uppercase tracking-[0.14em] text-fg/55 transition-colors hover:text-accent"
+                    className="inline-flex min-h-11 items-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/55 transition-colors hover:text-accent-glow"
                   >
                     Verify on Coursera →
                   </a>
@@ -117,7 +117,7 @@ export function CertsSection() {
                     href="https://www.credly.com/earner/earned/share/90b8f3e2-db4e-45f7-90ad-f9d624beaaab"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-11 items-center font-mono text-[10px] uppercase tracking-[0.14em] text-fg/55 transition-colors hover:text-accent"
+                    className="inline-flex min-h-11 items-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/55 transition-colors hover:text-accent-glow"
                   >
                     View on Credly →
                   </a>

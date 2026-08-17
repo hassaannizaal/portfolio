@@ -5,10 +5,10 @@ import { portfolio } from "@/data/portfolio";
 import { OdometerText } from "./OdometerText";
 
 const NAV = [
-  { href: "#proj", label: "Proj" },
-  { href: "#certs", label: "Certs" },
-  { href: "#bg", label: "BG" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#proj", label: "Proj" },
+  { href: "/#certs", label: "Certs" },
+  { href: "/#bg", label: "BG" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
@@ -27,7 +27,7 @@ export function SiteHeader() {
         <div className="pointer-events-auto rounded-lg bg-black p-1.5 shadow-lg ring-1 ring-black">
           <nav className="flex h-[48px] items-center overflow-hidden rounded bg-nav lg:h-[52px]">
             <a
-              href="#top"
+              href="/#top"
               className="flex aspect-square h-full items-center justify-center text-white"
               aria-label="Home"
             >
