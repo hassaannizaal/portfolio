@@ -1,35 +1,20 @@
 # Portfolio
 
-A professional portfolio website built with **Next.js**, featuring a **minimal dark interface** with a Claude Code-style split layout — browse via the sidebar or use the integrated terminal.
+A professional portfolio website showcasing ODIN — an AI-powered design & development platform. Built with **Next.js 16**, **React 19**, and **Tailwind CSS 4**, featuring a clean dark interface with an interactive 3D hero section.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8)
+![React](https://img.shields.io/badge/React-19-61dafb)
 
 ## Features
 
-- **Dual interface** — Browse sections normally *or* use the CLI terminal
-- **Claude Code-style layout** — Sidebar explorer, content panel, collapsible terminal
-- **Synced navigation** — CLI commands (`about`, `projects`, etc.) jump to the matching section
-- **Minimal dark theme** — Clean grey palette, Inter + monospace terminal
-- **Boot sequence** — Simple loading intro (skippable)
-- **Typewriter effects** — Animated terminal output
-- **Fully responsive** — Mobile tab nav + desktop sidebar
-
-## Commands
-
-| Command        | Description              |
-| -------------- | ------------------------ |
-| `help`         | List all commands        |
-| `about`        | About you                |
-| `skills`       | Technical skills         |
-| `projects`     | Portfolio projects       |
-| `experience`   | Work history             |
-| `contact`      | Contact information      |
-| `whoami`       | Quick intro              |
-| `ls`           | List directories         |
-| `clear`        | Clear terminal           |
-| `sudo hire-me` | Easter egg               |
+- **3D Hero Section** — Interactive WebGL binary map animation using Three.js
+- **Project Showcase** — Detailed project pages with architecture, stack, and outcomes
+- **Dark Theme** — Minimal, elegant dark interface with smooth animations
+- **Responsive Design** — Mobile-first approach with adaptive tap targets
+- **Modal Dialogs** — About and contact modals with keyboard support
+- **Accessibility** — ARIA labels, focus management, semantic HTML
 
 ## Getting Started
 
@@ -43,31 +28,65 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Project Structure
+
+```
+src/
+├── app/                      # Next.js App Router pages & layouts
+│   ├── layout.tsx           # Root layout with metadata
+│   ├── page.tsx             # Homepage
+│   ├── sitemap.ts           # SEO sitemap
+│   └── robots.ts            # SEO robots.txt
+├── components/
+│   └── site/                # Reusable UI components
+│       ├── Hero.tsx         # 3D hero section with BinaryMap
+│       ├── ProjectCard.tsx  # Project list item
+│       ├── ProjectDetail.tsx # Project detail page layout
+│       ├── AboutModal.tsx   # About dialog
+│       ├── ContactModal.tsx # Contact dialog
+│       └── ...other components
+├── data/
+│   └── portfolio.ts         # Portfolio content & metadata
+├── lib/
+│   └── types.ts             # TypeScript type definitions
+└── styles/
+    └── globals.css          # Global styles & CSS variables
+```
+
 ## Customization
 
-Edit your portfolio content in a single file:
+Edit your portfolio content in:
 
 ```
 src/data/portfolio.ts
 ```
 
-Update your name, bio, skills, projects, experience, and contact links there.
+Update your name, bio, projects, skills, social links, and contact info there.
 
-## Project Structure
+## Styling Approach
 
-```
-src/
-├── app/                  # Next.js App Router
-├── components/
-│   ├── layout/           # Shell, sidebar, top bar
-│   ├── sections/         # Website content panels
-│   └── terminal/         # CLI panel components
-├── data/
-│   └── portfolio.ts      # Your portfolio content
-└── lib/
-    ├── commands.ts       # Command handlers
-    ├── navigation.ts     # Section routing
-    └── types.ts          # TypeScript types
+- **Tailwind CSS 4** for utility-first styling
+- **CSS custom properties** for dynamic values (animations, gradients)
+- **Inline styles** sparingly for computed animations
+- **Responsive design** using Tailwind breakpoints
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org/) — React framework
+- [React 19](https://react.dev/) — UI library
+- [TypeScript](https://www.typescriptlang.org/) — Type safety
+- [Tailwind CSS 4](https://tailwindcss.com/) — Styling
+- [Three.js](https://threejs.org/) — 3D graphics (hero section)
+
+## Scripts
+
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run start      # Start production server
+npm run lint       # Run ESLint
+npm run typecheck  # Run TypeScript type checking
+npm run format     # Format code with Prettier
 ```
 
 ## Deploy
@@ -79,14 +98,6 @@ npm run build
 ```
 
 Or connect your GitHub repo to Vercel for automatic deployments on push.
-
-## Tech Stack
-
-- [Next.js 16](https://nextjs.org/) — React framework
-- [TypeScript](https://www.typescriptlang.org/) — Type safety
-- [Tailwind CSS 4](https://tailwindcss.com/) — Styling
-- [Framer Motion](https://www.framer.com/motion/) — Animations
-- [JetBrains Mono](https://www.jetbrains.com/lp/mono/) — Terminal font
 
 ## License
 

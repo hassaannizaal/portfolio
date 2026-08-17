@@ -26,6 +26,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://hassaannizaal.dev"),
   title: "Hassaan Nizaal — Software Engineer",
   description: "Software engineer. Full-stack web, TypeScript, shipped work.",
   keywords: ["portfolio", "software engineer", "Hassaan Nizaal"],
@@ -34,6 +35,11 @@ export const metadata: Metadata = {
     title: "Hassaan Nizaal — Software Engineer",
     description: "Software engineer. Full-stack web, TypeScript, shipped work.",
     type: "website",
+    url: "https://hassaannizaal.dev",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

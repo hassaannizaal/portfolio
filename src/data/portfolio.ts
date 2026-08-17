@@ -12,3 +12,27 @@ export const portfolio: PortfolioData = {
   instagram: "https://instagram.com/hassaannizaal",
   phone: "+92 333 040 1603",
 };
+
+export const contactLinks = [
+  { label: "Email", value: portfolio.email, href: `mailto:${portfolio.email}` },
+  {
+    label: "GitHub",
+    value: portfolio.github.replace(/^https?:\/\//, ""),
+    href: portfolio.github,
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/muhammad-hassaan-nizaal",
+    href: portfolio.linkedin,
+  },
+  {
+    label: "Instagram",
+    value: "@hassaannizaal",
+    href: portfolio.instagram,
+  },
+  {
+    label: "Phone",
+    value: portfolio.phone,
+    href: `tel:${portfolio.phone.replace(/\s/g, "")}`,
+  },
+];

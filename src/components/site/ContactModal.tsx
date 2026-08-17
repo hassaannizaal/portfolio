@@ -1,36 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { portfolio } from "@/data/portfolio";
+import { contactLinks } from "@/data/portfolio";
 
 interface ContactModalProps {
   open: boolean;
   onClose: () => void;
 }
-
-const links = [
-  { label: "Email", value: portfolio.email, href: `mailto:${portfolio.email}` },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/in/muhammad-hassaan-nizaal",
-    href: portfolio.linkedin,
-  },
-  {
-    label: "Github",
-    value: "github.com/hassaannizaal",
-    href: portfolio.github,
-  },
-  {
-    label: "Instagram",
-    value: "@hassaannizaal",
-    href: portfolio.instagram,
-  },
-  {
-    label: "Phone",
-    value: portfolio.phone,
-    href: `tel:${portfolio.phone.replace(/\s/g, "")}`,
-  },
-];
 
 export function ContactModal({ open, onClose }: ContactModalProps) {
   const [visible, setVisible] = useState(false);
@@ -103,7 +79,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
               <span className="text-white/30">→ </span>cat contact.txt
             </p>
             <div className="space-y-3">
-              {links.map((link) => (
+              {contactLinks.map((link) => (
                 <div key={link.label} className="flex min-h-12 flex-col justify-center gap-0.5 sm:min-h-0 sm:flex-row sm:items-baseline sm:gap-0">
                   <span className="w-28 shrink-0 text-[12px] uppercase tracking-[0.14em] text-white/35">
                     {link.label}

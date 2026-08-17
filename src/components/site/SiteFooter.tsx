@@ -1,28 +1,4 @@
-import { portfolio } from "@/data/portfolio";
-
-const links = [
-  { label: "Email", value: portfolio.email, href: `mailto:${portfolio.email}` },
-  {
-    label: "GitHub",
-    value: portfolio.github.replace(/^https?:\/\//, ""),
-    href: portfolio.github,
-  },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/in/muhammad-hassaan-nizaal",
-    href: portfolio.linkedin,
-  },
-  {
-    label: "Instagram",
-    value: "@hassaannizaal",
-    href: portfolio.instagram,
-  },
-  {
-    label: "Phone",
-    value: portfolio.phone,
-    href: `tel:${portfolio.phone.replace(/\s/g, "")}`,
-  },
-];
+import { portfolio, contactLinks } from "@/data/portfolio";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -47,7 +23,7 @@ export function SiteFooter() {
 
         <div className="flex flex-col gap-8 lg:col-span-6">
           <ul className="flex flex-col divide-y divide-white/12 border-y border-white/12">
-            {links.map((link) => (
+            {contactLinks.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}

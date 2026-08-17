@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import { SectionTitle } from "./SectionTitle";
 
 const courses = [
   "Technical Support Fundamentals",
@@ -9,18 +11,6 @@ const courses = [
   "System Administration and IT Infrastructure Services",
   "IT Security: Defense against the digital dark arts",
 ];
-
-function SectionTitle({ label }: { label: string }) {
-  return (
-    <div className="mb-8 flex items-center gap-3 sm:mb-10 sm:gap-4 lg:mb-14">
-      <span className="h-px flex-1 bg-white/15" />
-      <h2 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-white/70 sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px]">
-        {label}
-      </h2>
-      <span className="h-px flex-1 bg-white/15" />
-    </div>
-  );
-}
 
 export function CertsSection() {
   const [open, setOpen] = useState(false);
@@ -31,7 +21,7 @@ export function CertsSection() {
       className="relative bg-fg px-4 py-12 text-white sm:px-6 sm:py-16 lg:px-16 lg:py-20 xl:px-20"
     >
       <div className="relative mx-auto max-w-5xl">
-        <SectionTitle label="03 · Certifications" />
+        <SectionTitle label="03 · Certifications" variant="light" />
 
         <div className="border-t border-white/12">
           <button
@@ -40,8 +30,7 @@ export function CertsSection() {
             aria-expanded={open}
             className="flex min-h-16 w-full items-center gap-3 border-b border-white/12 py-4 text-left transition-colors hover:bg-white/[0.04] sm:gap-4"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="https://images.credly.com/size/340x340/images/ae2f5bae-b110-4ea1-8e26-77cf5f76c81e/GCC_badge_IT_Support_1000x1000.png"
               alt="Google IT Support badge"
               width={44}

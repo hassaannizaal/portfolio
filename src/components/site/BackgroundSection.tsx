@@ -1,18 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-function SectionTitle({ label }: { label: string }) {
-  return (
-    <div className="mb-8 flex items-center gap-3 sm:mb-10 sm:gap-4 lg:mb-14">
-      <span className="h-px flex-1 bg-line" />
-      <h2 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px]">
-        {label}
-      </h2>
-      <span className="h-px flex-1 bg-line" />
-    </div>
-  );
-}
+import { SectionTitle } from "./SectionTitle";
 
 const experience = [
   {

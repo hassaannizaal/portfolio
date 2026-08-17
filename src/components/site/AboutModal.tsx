@@ -9,8 +9,7 @@ interface AboutModalProps {
   onClose: () => void;
 }
 
-const PORTRAIT_SRC =
-  "/imgs/Gemini_Generated_Image_5jfklt5jfklt5jfk-removebg-preview.png";
+const PORTRAIT_SRC = "/imgs/portrait.png";
 
 export function AboutModal({ open, onClose }: AboutModalProps) {
   const [visible, setVisible] = useState(false);
