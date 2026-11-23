@@ -65,7 +65,7 @@ export function CodexHeroDiagram() {
         <span>SCALE 1:1</span>
       </div>
 
-      {/* Blended Renaissance Ink Sketch + Precision SVG Leader Overlay */}
+      {/* Blended Renaissance Ink Sketch (Light) + Transparent Ivory & Brass Engraving (Dark) */}
       <div className="relative aspect-square w-full">
         <Image
           src="/imgs/hero-sketch.jpg"
@@ -73,7 +73,15 @@ export function CodexHeroDiagram() {
           fill
           priority
           sizes="(max-width: 1024px) 92vw, 520px"
-          className="ink-blend object-contain"
+          className="theme-light-only ink-blend object-contain"
+        />
+        <Image
+          src="/imgs/hero-sketch-dark.png"
+          alt="Luminous ivory and brass scientific engraving of an armillary sphere, precision gears, and drafting compass"
+          fill
+          priority
+          sizes="(max-width: 1024px) 92vw, 520px"
+          className="theme-dark-only object-contain"
         />
 
         {/* SVG Precision Leader Lines & Target Pins */}

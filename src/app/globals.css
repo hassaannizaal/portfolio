@@ -212,15 +212,22 @@ html[data-theme="dark"] .etching-portrait {
   filter: grayscale(0.18) sepia(0.18) brightness(0.95) contrast(1.06);
 }
 
-/* Seamless ink-on-paper blend: sepia ink on parchment (light) -> luminous gold-ivory engraving on obsidian (dark) */
+/* Seamless ink-on-paper blend for light mode illustration */
 .ink-blend {
   mix-blend-mode: multiply;
-  transition: filter 260ms ease;
 }
 
-html[data-theme="dark"] .ink-blend {
-  mix-blend-mode: screen;
-  filter: invert(1) sepia(0.32) hue-rotate(348deg) brightness(0.92) contrast(1.08);
+/* Instant zero-flicker theme asset switching */
+.theme-dark-only {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-light-only {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-dark-only {
+  display: block;
 }
 
 ::selection {
