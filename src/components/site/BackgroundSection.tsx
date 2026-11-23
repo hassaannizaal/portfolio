@@ -9,6 +9,7 @@ const experience = [
     company: "wAI Industries",
     detail: "ISSM Labelling Solution",
     period: "Aug 2025 — Present",
+    current: true,
     points: [
       "Built full-stack MERN applications with a focus on responsive UI/UX and frontend-to-backend efficiency.",
       "Developed and scaled Node.js microservices, optimizing MongoDB schemas and aggregation queries for performance.",
@@ -29,6 +30,7 @@ const experience = [
     company: "UNLOOP",
     detail: null,
     period: "2024 — 2025",
+    current: false,
     points: [
       "Built and cross-compiled mobile apps using React Native and Flutter across iOS and Android.",
       "Developed full-stack features using the MERN stack, bridging Node.js backends with web and mobile interfaces.",
@@ -108,49 +110,67 @@ export function BackgroundSection() {
         </div>
 
         {tab === "experience" ? (
-          <ul className="divide-y divide-hairline border-b border-hairline">
-            {experience.map((job) => (
-              <li
-                key={job.company}
-                className="grid gap-6 py-9 first:pt-2 lg:grid-cols-12 lg:gap-10"
-              >
-                <div className="lg:col-span-4">
-                  <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-muted">
-                    {job.period}
-                  </p>
-                  <h3 className="mt-2 font-display text-[30px] font-normal leading-tight text-ink">
-                    {job.role}
-                  </h3>
-                  <p className="mt-1 font-sans text-[14px] text-ink-secondary">
-                    {job.company}
-                    {job.detail && (
-                      <span className="text-ink-muted"> — {job.detail}</span>
-                    )}
-                  </p>
-                </div>
+          <div className="relative border-b border-hairline">
+            {/* Subtle vertical meridian line on desktop */}
+            <div
+              aria-hidden="true"
+              className="absolute bottom-8 left-[5px] top-4 hidden w-px bg-hairline lg:block"
+            />
 
-                <div className="lg:col-span-8">
-                  <ul className="space-y-2.5">
-                    {job.points.map((point, idx) => (
-                      <li
-                        key={point}
-                        className="flex items-baseline gap-3 font-sans text-[14.5px] font-light leading-[1.7] text-ink-secondary"
-                      >
-                        <span className="font-mono text-[10px] text-accent">
-                          0{idx + 1}
-                        </span>
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
+            <ul className="divide-y divide-hairline">
+              {experience.map((job) => (
+                <li
+                  key={job.company}
+                  className="relative grid gap-6 py-9 first:pt-2 lg:grid-cols-12 lg:gap-10 lg:pl-8"
+                >
+                  {/* Meridian compass node */}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute left-0 top-10 hidden size-[11px] rounded-full border lg:block ${
+                      job.current
+                        ? "border-accent bg-accent"
+                        : "border-hairline-strong bg-paper"
+                    }`}
+                  />
 
-                  <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
-                    {job.skills.join(" · ")}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
+                  <div className="lg:col-span-4">
+                    <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-muted">
+                      {job.period}
+                    </p>
+                    <h3 className="mt-2 font-display text-[32px] font-normal leading-tight text-ink">
+                      {job.role}
+                    </h3>
+                    <p className="mt-1 font-sans text-[14px] text-ink-secondary">
+                      {job.company}
+                      {job.detail && (
+                        <span className="text-ink-muted"> — {job.detail}</span>
+                      )}
+                    </p>
+                  </div>
+
+                  <div className="lg:col-span-8">
+                    <ul className="space-y-2.5">
+                      {job.points.map((point, idx) => (
+                        <li
+                          key={point}
+                          className="flex items-baseline gap-3 font-sans text-[14.5px] font-light leading-[1.72] text-ink-secondary"
+                        >
+                          <span className="font-mono text-[10px] text-accent">
+                            0{idx + 1}
+                          </span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
+                      {job.skills.join(" · ")}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : (
           <div className="grid gap-8 border-b border-hairline pb-10 pt-2 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-4">

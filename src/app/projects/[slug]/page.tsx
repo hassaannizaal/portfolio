@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { CodexBackdrop } from "@/components/site/CodexBackdrop";
 import { ProjectDetail } from "@/components/site/ProjectDetail";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -35,7 +36,8 @@ export default async function ProjectPage({
   const others = projects.filter((p) => p.slug !== project.slug);
 
   return (
-    <div className="min-h-screen text-ink">
+    <div className="relative min-h-screen text-ink">
+      <CodexBackdrop />
       <SiteHeader />
       <main>
         <ProjectDetail project={project} others={others} />

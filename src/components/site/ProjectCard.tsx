@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { stackList } from "@/data/projects";
 import type { Project } from "@/lib/types";
@@ -9,16 +12,17 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
   const stack = stackList(project);
+  const [activeLayer, setActiveLayer] = useState<number | null>(null);
 
   return (
     <article className="py-10 sm:py-14">
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-0">
         {/* Left Metadata Column */}
         <div className="lg:col-span-3 lg:border-r lg:border-hairline lg:pr-8">
-          <span className="font-display text-[44px] font-normal leading-none text-ink/25">
+          <span className="font-display text-[48px] font-normal leading-none text-ink/22">
             {index}
           </span>
-          <dl className="mt-5 space-y-3 font-mono text-[10.5px] uppercase tracking-[0.14em]">
+          <dl className="mt-5 space-y-3.5 font-mono text-[10.5px] uppercase tracking-[0.14em]">
             <div>
               <dt className="text-ink-muted">Category</dt>
               <dd className="mt-0.5 text-ink">{project.tag}</dd>
@@ -29,7 +33,7 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
             </div>
             <div>
               <dt className="text-ink-muted">Stack</dt>
-              <dd className="mt-1 flex flex-wrap gap-x-2.5 gap-y-1 text-[10px] leading-relaxed text-ink-secondary">
+              <dd className="mt-1.5 flex flex-wrap gap-x-2.5 gap-y-1 text-[10px] leading-relaxed text-ink-secondary">
                 {stack.slice(0, 10).map((tech) => (
                   <span key={tech}>{tech}</span>
                 ))}
@@ -40,7 +44,7 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
 
         {/* Center Editorial Column */}
         <div className="lg:col-span-5 lg:border-r lg:border-hairline lg:px-8">
-          <h3 className="font-display text-[42px] font-normal leading-none tracking-[-0.02em] text-ink sm:text-[50px]">
+          <h3 className="font-display text-[44px] font-normal leading-none tracking-[-0.02em] text-ink sm:text-[52px]">
             <Link
               href={`/projects/${project.slug}`}
               className="transition-colors hover:text-accent"
@@ -49,11 +53,11 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
             </Link>
           </h3>
 
-          <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.12em] text-ink-muted">
+          <p className="mt-2.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-ink-muted">
             {project.role}
           </p>
 
-          <p className="mt-5 font-sans text-[15px] font-light leading-[1.75] text-ink-secondary">
+          <p className="mt-5 font-sans text-[15px] font-light leading-[1.78] text-ink-secondary">
             {project.summary}
           </p>
 
@@ -81,12 +85,12 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
           </div>
         </div>
 
-        {/* Right Borderless Ink Schematic Column */}
+        {/* Right Interactive Ink Schematic Column */}
         <div className="flex flex-col justify-between lg:col-span-4 lg:pl-8">
           <div>
             <div className="mb-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
               <span className="text-accent">[FIG. 02]</span>
-              <span>SYSTEM LAYERS</span>
+              <span>HOVER TO INSPECT</span>
             </div>
 
             <svg
@@ -105,18 +109,17 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                   markerHeight="5"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 1 2 L 8.5 5 L 1 8 z" fill="#8c3b2b" />
+                  <path d="M 1 2 L 8.5 5 L 1 8 z" fill="#8f3928" />
                 </marker>
               </defs>
 
-              {/* Subtle geometric compass arc */}
               <circle
                 cx="150"
                 cy="105"
                 r="86"
                 fill="none"
-                stroke="#1e1b18"
-                strokeOpacity="0.08"
+                stroke="#1c1916"
+                strokeOpacity="0.09"
                 strokeDasharray="3 4"
               />
               <line
@@ -124,17 +127,16 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                 y1="6"
                 x2="150"
                 y2="204"
-                stroke="#1e1b18"
-                strokeOpacity="0.07"
+                stroke="#1c1916"
+                strokeOpacity="0.08"
               />
 
-              {/* Connectors */}
               <line
                 x1="150"
                 y1="52"
                 x2="150"
                 y2="82"
-                stroke="#8c3b2b"
+                stroke="#8f3928"
                 strokeWidth="1"
                 markerEnd="url(#thinArrow)"
               />
@@ -143,108 +145,142 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                 y1="126"
                 x2="150"
                 y2="156"
-                stroke="#8c3b2b"
+                stroke="#8f3928"
                 strokeWidth="1"
                 markerEnd="url(#thinArrow)"
               />
 
-              {/* Layer 1 */}
-              <rect
-                x="44"
-                y="16"
-                width="212"
-                height="36"
-                fill="#f6f3ec"
-                stroke="#1e1b18"
-                strokeOpacity="0.35"
-                strokeWidth="0.9"
-              />
-              <text
-                x="150"
-                y="30"
-                textAnchor="middle"
-                className="fill-ink-muted font-mono text-[7.5px] uppercase tracking-[0.16em]"
+              {/* Layer 2 in data = Dashboard (top) */}
+              <g
+                onMouseEnter={() => setActiveLayer(2)}
+                onMouseLeave={() => setActiveLayer(null)}
+                className="cursor-pointer"
               >
-                01 · DASHBOARD
-              </text>
-              <text
-                x="150"
-                y="44"
-                textAnchor="middle"
-                className="fill-ink font-display text-[14px] font-medium"
-              >
-                Next.js Operator Portal
-              </text>
+                <rect
+                  x="44"
+                  y="16"
+                  width="212"
+                  height="36"
+                  fill={activeLayer === 2 ? "#ece4d2" : "#f5f0e4"}
+                  stroke={activeLayer === 2 ? "#8f3928" : "#1c1916"}
+                  strokeOpacity={activeLayer === 2 ? 1 : 0.35}
+                  strokeWidth={activeLayer === 2 ? 1.2 : 0.9}
+                />
+                <text
+                  x="150"
+                  y="30"
+                  textAnchor="middle"
+                  className="fill-ink-muted font-mono text-[7.5px] uppercase tracking-[0.16em]"
+                >
+                  01 · DASHBOARD
+                </text>
+                <text
+                  x="150"
+                  y="44"
+                  textAnchor="middle"
+                  className="fill-ink font-display text-[14px] font-medium"
+                >
+                  Next.js Operator Portal
+                </text>
+              </g>
 
-              {/* Layer 2 */}
-              <rect
-                x="28"
-                y="84"
-                width="244"
-                height="42"
-                fill="#f6f3ec"
-                stroke="#8c3b2b"
-                strokeOpacity="0.7"
-                strokeWidth="1"
-              />
-              <text
-                x="150"
-                y="99"
-                textAnchor="middle"
-                className="fill-accent font-mono text-[7.5px] uppercase tracking-[0.16em]"
+              {/* Layer 1 in data = APIs (middle) */}
+              <g
+                onMouseEnter={() => setActiveLayer(1)}
+                onMouseLeave={() => setActiveLayer(null)}
+                className="cursor-pointer"
               >
-                02 · OMNICHANNEL CORE
-              </text>
-              <text
-                x="150"
-                y="114"
-                textAnchor="middle"
-                className="fill-ink font-display text-[14px] font-medium"
-              >
-                REST · Socket.IO · BullMQ · FastAPI
-              </text>
+                <rect
+                  x="28"
+                  y="84"
+                  width="244"
+                  height="42"
+                  fill={activeLayer === 1 ? "#ece4d2" : "#f5f0e4"}
+                  stroke="#8f3928"
+                  strokeOpacity={activeLayer === 1 ? 1 : 0.65}
+                  strokeWidth={activeLayer === 1 ? 1.35 : 1}
+                />
+                <text
+                  x="150"
+                  y="99"
+                  textAnchor="middle"
+                  className="fill-accent font-mono text-[7.5px] uppercase tracking-[0.16em]"
+                >
+                  02 · OMNICHANNEL CORE
+                </text>
+                <text
+                  x="150"
+                  y="114"
+                  textAnchor="middle"
+                  className="fill-ink font-display text-[14px] font-medium"
+                >
+                  REST · Socket.IO · BullMQ · FastAPI
+                </text>
+              </g>
 
-              {/* Layer 3 */}
-              <rect
-                x="40"
-                y="158"
-                width="220"
-                height="36"
-                fill="#f6f3ec"
-                stroke="#1e1b18"
-                strokeOpacity="0.35"
-                strokeWidth="0.9"
-              />
-              <text
-                x="150"
-                y="172"
-                textAnchor="middle"
-                className="fill-ink-muted font-mono text-[7.5px] uppercase tracking-[0.16em]"
+              {/* Layer 0 in data = Control plane & Data (bottom) */}
+              <g
+                onMouseEnter={() => setActiveLayer(0)}
+                onMouseLeave={() => setActiveLayer(null)}
+                className="cursor-pointer"
               >
-                03 · DATA &amp; CONTROL PLANE
-              </text>
-              <text
-                x="150"
-                y="186"
-                textAnchor="middle"
-                className="fill-ink font-mono text-[9px] tracking-[0.08em]"
-              >
-                MONGO · REDIS · KAFKA · MINIO
-              </text>
+                <rect
+                  x="40"
+                  y="158"
+                  width="220"
+                  height="36"
+                  fill={activeLayer === 0 ? "#ece4d2" : "#f5f0e4"}
+                  stroke={activeLayer === 0 ? "#8f3928" : "#1c1916"}
+                  strokeOpacity={activeLayer === 0 ? 1 : 0.35}
+                  strokeWidth={activeLayer === 0 ? 1.2 : 0.9}
+                />
+                <text
+                  x="150"
+                  y="172"
+                  textAnchor="middle"
+                  className="fill-ink-muted font-mono text-[7.5px] uppercase tracking-[0.16em]"
+                >
+                  03 · DATA &amp; CONTROL PLANE
+                </text>
+                <text
+                  x="150"
+                  y="186"
+                  textAnchor="middle"
+                  className="fill-ink font-mono text-[9px] tracking-[0.08em]"
+                >
+                  MONGO · REDIS · KAFKA · MINIO
+                </text>
+              </g>
             </svg>
           </div>
 
           <div className="mt-6 space-y-3 border-t border-hairline pt-4">
-            {project.architecture.map((part) => (
-              <div key={part.title}>
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink">
-                  {part.title}
-                </p>
-                <p className="mt-0.5 font-sans text-[12.5px] font-light leading-relaxed text-ink-muted">
-                  {part.desc}
-                </p>
-              </div>
-            ))}
+            {project.architecture.map((part, idx) => {
+              const highlighted = activeLayer === idx;
+              return (
+                <div
+                  key={part.title}
+                  onMouseEnter={() => setActiveLayer(idx)}
+                  onMouseLeave={() => setActiveLayer(null)}
+                  className={`border-l pl-3 transition-colors ${
+                    highlighted
+                      ? "border-accent"
+                      : "border-transparent"
+                  }`}
+                >
+                  <p
+                    className={`font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
+                      highlighted ? "text-accent" : "text-ink"
+                    }`}
+                  >
+                    {part.title}
+                  </p>
+                  <p className="mt-0.5 font-sans text-[12.5px] font-light leading-relaxed text-ink-muted">
+                    {part.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

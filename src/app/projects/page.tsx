@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CodexBackdrop } from "@/components/site/CodexBackdrop";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { SectionTitle } from "@/components/site/SectionTitle";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -13,7 +14,8 @@ export const metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen text-ink">
+    <div className="relative min-h-screen text-ink">
+      <CodexBackdrop />
       <SiteHeader />
       <main className="px-5 pb-24 pt-12 sm:px-8 sm:pt-16 lg:px-12">
         <div className="mx-auto max-w-6xl">

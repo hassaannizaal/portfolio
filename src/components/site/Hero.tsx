@@ -17,29 +17,39 @@ export function Hero() {
     <>
       <section
         id="top"
-        className="relative flex min-h-[calc(100svh-4rem)] items-center px-5 py-12 sm:px-8 sm:py-16 lg:px-12"
+        className="relative flex min-h-[calc(100svh-4rem)] flex-col justify-center px-5 py-12 sm:px-8 sm:py-16 lg:px-12"
       >
         <div className="mx-auto w-full max-w-6xl">
           <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
-            {/* Left Column: Airy Editorial Typography */}
+            {/* Left Column: Sculptural Editorial Typography */}
             <div className="fade-up lg:col-span-6">
-              <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-accent">
-                {portfolio.title}
-              </p>
+              <div className="flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.2em] text-accent">
+                <span>{portfolio.title}</span>
+                <span aria-hidden="true" className="h-px w-8 bg-accent/45" />
+                <span className="text-ink-muted">FULL-STACK &amp; CLOUD</span>
+              </div>
 
-              <h1 className="mt-4 font-display text-[56px] font-normal leading-[0.94] tracking-[-0.025em] text-ink sm:text-[72px] lg:text-[84px]">
+              <h1 className="mt-5 font-display text-[58px] font-normal leading-[0.92] tracking-[-0.028em] text-ink sm:text-[76px] lg:text-[88px]">
                 {firstName}{" "}
                 <span className="italic font-normal text-ink/90">
                   {lastName}
                 </span>
               </h1>
 
-              <p className="mt-7 max-w-md font-sans text-[15.5px] font-light leading-[1.75] text-ink-secondary sm:text-[16.5px]">
-                {portfolio.bio}. Focused on full-stack development, reliable
-                backend systems, and cloud infrastructure.
+              {/* Subtle drafting scale rule */}
+              <div className="mt-7 flex items-center gap-3">
+                <div className="scale-rule w-28" aria-hidden="true" />
+                <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-ink-muted">
+                  PORTFOLIO
+                </span>
+              </div>
+
+              <p className="mt-6 max-w-md font-sans text-[15.5px] font-light leading-[1.78] text-ink-secondary sm:text-[16.5px]">
+                {portfolio.bio}. Focused on scalable web applications,
+                dependable backend systems, and cloud infrastructure.
               </p>
 
-              {/* Quiet Editorial Links — no bulky buttons */}
+              {/* Editorial Links */}
               <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <button
                   type="button"
@@ -66,8 +76,8 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Right Column: Borderless Ink Sketch with Minimal Callouts */}
-            <div className="fade-up lg:col-span-6">
+            {/* Right Column: Blended Ink Sketch with Precision Leader Callouts */}
+            <div className="fade-up-delay lg:col-span-6">
               <CodexHeroDiagram />
             </div>
           </div>
