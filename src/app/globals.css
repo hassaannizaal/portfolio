@@ -1,24 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f5f0e4;
-  --paper-soft: #ece4d2;
-  --paper-pure: #faf7ef;
+  --paper: #f6f1e6;
+  --paper-soft: #ede5d4;
+  --paper-elevated: rgba(252, 249, 242, 0.78);
+  --paper-pure: #fbf8f0;
 
-  --ink: #1c1916;
-  --ink-secondary: #4e473e;
-  --ink-muted: #7f7568;
-  --hairline: rgba(28, 25, 22, 0.13);
-  --hairline-strong: rgba(28, 25, 22, 0.28);
+  --ink: #191613;
+  --ink-secondary: #4a433b;
+  --ink-muted: #7d7366;
+  --hairline: rgba(25, 22, 19, 0.12);
+  --hairline-strong: rgba(25, 22, 19, 0.28);
 
-  --accent: #8f3928;
-  --accent-slate: #334e57;
-  --accent-ochre: #9f7c3f;
+  --accent: #963622;
+  --accent-soft: rgba(150, 54, 34, 0.08);
+  --accent-slate: #2c4f52;
+  --accent-ochre: #9c7738;
 
-  --grid-line: rgba(28, 25, 22, 0.028);
-  --grid-line-dense: rgba(28, 25, 22, 0.045);
-  --scale-tick: rgba(28, 25, 22, 0.22);
-  --selection-bg: rgba(143, 57, 40, 0.16);
+  --grid-line: rgba(25, 22, 19, 0.032);
+  --grid-line-dense: rgba(25, 22, 19, 0.048);
+  --scale-tick: rgba(25, 22, 19, 0.24);
+  --selection-bg: rgba(150, 54, 34, 0.16);
 
   /* Compatibility aliases */
   --bg: var(--paper);
@@ -27,24 +29,26 @@
 }
 
 html[data-theme="dark"] {
-  --paper: #12100e;
-  --paper-soft: #1b1815;
-  --paper-pure: #171411;
+  --paper: #0f0d0b;
+  --paper-soft: #171411;
+  --paper-elevated: rgba(24, 20, 17, 0.78);
+  --paper-pure: #14110e;
 
-  --ink: #efe9dc;
+  --ink: #f1ebe0;
   --ink-secondary: #c5bbaa;
-  --ink-muted: #8c8274;
-  --hairline: rgba(239, 233, 220, 0.13);
-  --hairline-strong: rgba(239, 233, 220, 0.28);
+  --ink-muted: #8a8071;
+  --hairline: rgba(241, 235, 224, 0.12);
+  --hairline-strong: rgba(241, 235, 224, 0.28);
 
-  --accent: #d47a57;
-  --accent-slate: #84a9b3;
-  --accent-ochre: #cca866;
+  --accent: #dc805a;
+  --accent-soft: rgba(220, 128, 90, 0.11);
+  --accent-slate: #7ea8b2;
+  --accent-ochre: #d1aa64;
 
-  --grid-line: rgba(239, 233, 220, 0.032);
-  --grid-line-dense: rgba(239, 233, 220, 0.052);
-  --scale-tick: rgba(239, 233, 220, 0.24);
-  --selection-bg: rgba(212, 122, 87, 0.25);
+  --grid-line: rgba(241, 235, 224, 0.03);
+  --grid-line-dense: rgba(241, 235, 224, 0.048);
+  --scale-tick: rgba(241, 235, 224, 0.24);
+  --selection-bg: rgba(220, 128, 90, 0.24);
 
   color-scheme: dark;
 }
@@ -52,6 +56,7 @@ html[data-theme="dark"] {
 @theme inline {
   --color-paper: var(--paper);
   --color-paper-soft: var(--paper-soft);
+  --color-paper-elevated: var(--paper-elevated);
   --color-paper-pure: var(--paper-pure);
 
   --color-ink: var(--ink);
@@ -61,6 +66,7 @@ html[data-theme="dark"] {
   --color-hairline-strong: var(--hairline-strong);
 
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --color-accent-slate: var(--accent-slate);
   --color-accent-ochre: var(--accent-ochre);
 
@@ -71,6 +77,7 @@ html[data-theme="dark"] {
   --font-display: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-script: "Caveat", cursive;
 }
 
 * {
@@ -94,66 +101,66 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   transition:
-    background-color 260ms ease,
-    color 260ms ease;
+    background-color 300ms ease,
+    color 300ms ease;
 }
 
-/* Multi-layered archival rag paper (Light) */
+/* Tactile museum rag-paper drafting surface (Light) */
 .archival-paper {
   background-color: var(--paper);
   background-image:
     radial-gradient(
-      ellipse 78% 58% at 50% 18%,
-      rgba(255, 252, 244, 0.78),
+      ellipse 72% 52% at 52% 14%,
+      rgba(255, 253, 247, 0.85),
       transparent 72%
     ),
     radial-gradient(
-      ellipse 65% 55% at 96% 88%,
-      rgba(159, 124, 63, 0.11),
-      transparent 65%
+      ellipse 58% 48% at 94% 84%,
+      rgba(156, 119, 56, 0.11),
+      transparent 64%
     ),
     radial-gradient(
-      ellipse 60% 50% at 4% 92%,
-      rgba(143, 57, 40, 0.055),
+      ellipse 52% 45% at 6% 90%,
+      rgba(150, 54, 34, 0.055),
       transparent 60%
     ),
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.042'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.044'/%3E%3C/svg%3E");
   background-size:
     100% 100%,
     100% 100%,
     100% 100%,
-    64px 64px,
-    64px 64px,
+    72px 72px,
+    72px 72px,
     240px 240px;
   background-attachment: fixed, fixed, fixed, scroll, scroll, fixed;
 }
 
-/* Nocturnal observatory drafting paper (Dark) */
+/* Nocturnal observatory drafting surface (Dark) */
 html[data-theme="dark"] .archival-paper {
   background-image:
     radial-gradient(
-      ellipse 78% 58% at 50% 16%,
-      rgba(204, 168, 102, 0.07),
-      transparent 70%
+      ellipse 72% 50% at 52% 12%,
+      rgba(209, 170, 100, 0.085),
+      transparent 68%
     ),
     radial-gradient(
-      ellipse 65% 55% at 96% 88%,
-      rgba(212, 122, 87, 0.065),
-      transparent 65%
+      ellipse 58% 48% at 94% 84%,
+      rgba(220, 128, 90, 0.075),
+      transparent 64%
     ),
     radial-gradient(
-      ellipse 60% 50% at 4% 92%,
-      rgba(132, 169, 179, 0.055),
+      ellipse 54% 46% at 6% 90%,
+      rgba(126, 168, 178, 0.06),
       transparent 60%
     ),
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
 }
 
-/* Denser architectural hairline grid for schematic diagram plates */
+/* Denser architectural hairline grid for schematic plates */
 .drafting-grid {
   background-image:
     linear-gradient(to right, var(--grid-line-dense) 1px, transparent 1px),
@@ -161,12 +168,47 @@ html[data-theme="dark"] .archival-paper {
   background-size: 32px 32px;
 }
 
-/* Editorial underline reveal on links */
+/* Museum-grade ink-sweep primary button */
+.ink-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--hairline-strong);
+  background: var(--paper-elevated);
+  color: var(--ink);
+  transition:
+    color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 320ms ease;
+}
+
+.ink-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ink-button:hover,
+.ink-button:focus-visible {
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.ink-button:hover::before,
+.ink-button:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* Editorial sliding hairline underline link */
 .editorial-link {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .editorial-link::after {
@@ -177,9 +219,9 @@ html[data-theme="dark"] .archival-paper {
   bottom: -3px;
   height: 1px;
   background-color: currentColor;
-  transform: scaleX(0.32);
+  transform: scaleX(0.3);
   transform-origin: left;
-  opacity: 0.42;
+  opacity: 0.4;
   transition:
     transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 320ms ease;
@@ -191,16 +233,28 @@ html[data-theme="dark"] .archival-paper {
   opacity: 1;
 }
 
-/* Subtle drafting scale ruler divider */
+/* Architectural scale ruler divider */
 .scale-rule {
   background-image: repeating-linear-gradient(
     to right,
     var(--scale-tick) 0px,
     var(--scale-tick) 1px,
     transparent 1px,
-    transparent 12px
+    transparent 10px
   );
   height: 5px;
+}
+
+/* Specimen glass-vellum surface */
+.specimen-surface {
+  background-color: var(--paper-elevated);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--hairline);
+  transition: border-color 260ms ease;
+}
+
+.specimen-surface:hover {
+  border-color: var(--hairline-strong);
 }
 
 /* Warm etching filter & theme-compatible backdrop for transparent portrait */
@@ -215,19 +269,14 @@ html[data-theme="dark"] .archival-paper {
 html[data-theme="dark"] .portrait-frame {
   background: radial-gradient(
     circle at 50% 40%,
-    rgba(239, 233, 220, 0.22) 0%,
-    rgba(204, 168, 102, 0.1) 48%,
-    rgba(23, 20, 17, 0.96) 100%
+    rgba(241, 235, 224, 0.24) 0%,
+    rgba(209, 170, 100, 0.1) 48%,
+    rgba(20, 17, 14, 0.96) 100%
   );
 }
 
 html[data-theme="dark"] .etching-portrait {
   filter: grayscale(0.15) sepia(0.16) brightness(1.06) contrast(1.05);
-}
-
-/* Seamless ink-on-paper blend for light mode illustration */
-.ink-blend {
-  mix-blend-mode: multiply;
 }
 
 /* Instant zero-flicker theme asset switching */
@@ -254,18 +303,23 @@ a {
   touch-action: manipulation;
 }
 
+/* Scroll & Entrance Motion */
 .fade-up {
-  animation: fade-up 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fade-up 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .fade-up-delay {
-  animation: fade-up 720ms 120ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fade-up 820ms 140ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fade-up-delay-2 {
+  animation: fade-up 840ms 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -273,10 +327,72 @@ a {
   }
 }
 
+/* Hypnotic slow astronomical degree reticle rotation */
+.reticle-spin {
+  animation: reticle-rotate 150s linear infinite;
+  transform-origin: center;
+}
+
+.reticle-spin-reverse {
+  animation: reticle-rotate 115s linear infinite reverse;
+  transform-origin: center;
+}
+
+@keyframes reticle-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Subtle pulsing availability beacon */
+.beacon-pulse {
+  animation: beacon 2.6s ease-in-out infinite;
+}
+
+@keyframes beacon {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+/* ScrollReveal classes */
+.reveal-base {
+  transition:
+    opacity 760ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade-up,
-  .fade-up-delay {
+  .fade-up-delay,
+  .fade-up-delay-2,
+  .reticle-spin,
+  .reticle-spin-reverse,
+  .beacon-pulse {
     animation: none;
+  }
+
+  .reveal-base,
+  .reveal-hidden {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   html {

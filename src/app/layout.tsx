@@ -6,8 +6,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f0e4" },
-    { media: "(prefers-color-scheme: dark)", color: "#12100e" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f1e6" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0d0b" },
   ],
 };
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://hassaannizaal.dev"),
   title: "Hassaan Nizaal — Software Engineer",
   description:
-    "Portfolio of Hassaan Nizaal — full-stack software engineer building scalable web applications, backend systems, and cloud infrastructure.",
+    "Portfolio of Hassaan Nizaal — full-stack software engineer building scalable web applications, realtime backend systems, and cloud infrastructure.",
   keywords: [
     "portfolio",
     "software engineer",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Hassaan Nizaal — Software Engineer",
     description:
-      "Full-stack software engineer building scalable web applications, backend systems, and cloud infrastructure.",
+      "Full-stack software engineer building scalable web applications, realtime backend systems, and cloud infrastructure.",
     type: "website",
     url: "https://hassaannizaal.dev",
   },
@@ -55,7 +55,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap"
           rel="stylesheet"
         />
       </head>

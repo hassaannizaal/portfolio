@@ -6,14 +6,15 @@ import { portfolio } from "@/data/portfolio";
 import { ThemeToggle } from "./ThemeToggle";
 
 const NAV = [
-  { href: "/#proj", label: "Projects" },
-  { href: "/#certs", label: "Certifications" },
-  { href: "/#bg", label: "Background" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/#proj", num: "01", label: "Projects" },
+  { href: "/#certs", num: "02", label: "Certifications" },
+  { href: "/#bg", num: "03", label: "Background" },
+  { href: "/#contact", num: "04", label: "Contact" },
 ];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrollPct, setScrollPct] = useState(0);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -22,31 +23,59 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+      setScrollPct(Math.min(100, (window.scrollY / max) * 100));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-hairline bg-paper/88 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-hairline bg-paper/85 backdrop-blur-md">
+        {/* Live 1.5px terracotta drafting progress hair-bar */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 left-0 h-[1.5px] bg-accent/80 transition-[width] duration-150 ease-out"
+          style={{ width: `${scrollPct}%` }}
+        />
+
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8 lg:px-12">
           <Link
             href="/#top"
-            className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink transition-colors hover:text-accent"
+            className="group flex items-baseline gap-2.5 focus:outline-none"
             aria-label={`${portfolio.name} — Home`}
           >
-            {portfolio.name}
+            <span className="font-display text-[23px] font-medium tracking-[-0.015em] text-ink transition-colors group-hover:text-accent">
+              {portfolio.name}
+            </span>
+            <span className="hidden font-mono text-[9.5px] uppercase tracking-[0.16em] text-ink-muted sm:inline">
+              · {portfolio.title}
+            </span>
           </Link>
 
           {/* Desktop Navigation + Theme Toggle */}
-          <div className="hidden items-center gap-8 md:flex">
-            <nav aria-label="Primary navigation" className="flex items-center gap-8">
+          <div className="hidden items-center gap-7 md:flex">
+            <nav
+              aria-label="Primary navigation"
+              className="flex items-center gap-7"
+            >
               {NAV.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="editorial-link font-mono text-[11px] uppercase tracking-[0.14em] text-ink-secondary transition-colors hover:text-ink"
+                  className="editorial-link font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-secondary transition-colors hover:text-ink"
                 >
-                  {item.label}
+                  <span className="text-[9px] text-accent/80">{item.num}</span>
+                  <span>{item.label}</span>
                 </a>
               ))}
             </nav>
+            <span aria-hidden="true" className="h-4 w-px bg-hairline" />
             <ThemeToggle />
           </div>
 
@@ -80,17 +109,17 @@ export function SiteHeader() {
       {open && (
         <div className="archival-paper fixed inset-0 z-40 flex flex-col justify-between px-6 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-24 md:hidden">
           <nav className="flex flex-col divide-y divide-hairline border-y border-hairline">
-            {NAV.map((item, idx) => (
+            {NAV.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className="flex items-baseline gap-4 py-5 text-ink transition-colors hover:text-accent"
               >
-                <span className="font-mono text-[11px] text-ink-muted">
-                  0{idx + 1}
+                <span className="font-mono text-[11px] text-accent">
+                  {item.num}
                 </span>
-                <span className="font-display text-[36px] font-normal leading-none">
+                <span className="font-display text-[36px] font-light leading-none">
                   {item.label}
                 </span>
               </a>

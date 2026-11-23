@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { portfolio } from "@/data/portfolio";
 import type { Project } from "@/lib/types";
@@ -70,28 +71,55 @@ export function ProjectDetail({ project, others }: ProjectDetailProps) {
           </span>
         </div>
 
-        {/* Editorial Title Header */}
+        {/* Editorial Title Header with Bespoke Mechanical Sketch */}
         <header className="mb-16 border-b border-hairline pb-12">
-          <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-accent">
-            Case Study · {project.year}
-          </p>
-          <h1 className="mt-3 font-display text-[54px] font-normal leading-[0.96] tracking-[-0.025em] text-ink sm:text-[72px]">
-            {project.title}
-          </h1>
-          <p className="mt-5 max-w-2xl font-sans text-[17px] font-light leading-[1.7] text-ink-secondary">
-            {project.summary}
-          </p>
+          <div className="grid items-center gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-accent">
+                Case Study · {project.year}
+              </p>
+              <h1 className="mt-3 font-display text-[56px] font-light leading-[0.94] tracking-[-0.025em] text-ink sm:text-[74px]">
+                {project.title}
+              </h1>
+              <p className="mt-5 max-w-xl font-sans text-[16.5px] font-light leading-[1.75] text-ink-secondary">
+                {project.summary}
+              </p>
 
-          <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-3 font-mono text-[10.5px] uppercase tracking-[0.14em]">
-            <div>
-              <dt className="text-ink-muted">Role</dt>
-              <dd className="mt-0.5 text-ink">{project.role}</dd>
+              <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-3 font-mono text-[10.5px] uppercase tracking-[0.14em]">
+                <div>
+                  <dt className="text-ink-muted">Role</dt>
+                  <dd className="mt-0.5 text-ink">{project.role}</dd>
+                </div>
+                <div>
+                  <dt className="text-ink-muted">Timeline</dt>
+                  <dd className="mt-0.5 text-ink">{project.period}</dd>
+                </div>
+              </dl>
             </div>
-            <div>
-              <dt className="text-ink-muted">Timeline</dt>
-              <dd className="mt-0.5 text-ink">{project.period}</dd>
+
+            <div className="lg:col-span-5">
+              <div className="relative mx-auto aspect-square w-full max-w-[340px] select-none">
+                <Image
+                  src="/imgs/odin-sketch-light.png"
+                  alt={`${project.title} mechanical architecture etching`}
+                  fill
+                  priority
+                  unoptimized
+                  sizes="(max-width: 1024px) 80vw, 340px"
+                  className="theme-light-only object-contain"
+                />
+                <Image
+                  src="/imgs/odin-sketch-dark.png"
+                  alt={`${project.title} dark-mode mechanical architecture etching`}
+                  fill
+                  priority
+                  unoptimized
+                  sizes="(max-width: 1024px) 80vw, 340px"
+                  className="theme-dark-only object-contain"
+                />
+              </div>
             </div>
-          </dl>
+          </div>
         </header>
 
         {/* Two-Column Body */}

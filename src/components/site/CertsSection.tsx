@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { ScrollReveal } from "./ScrollReveal";
 import { SectionTitle } from "./SectionTitle";
 
 const courses = [
@@ -13,110 +13,118 @@ const courses = [
 ];
 
 export function CertsSection() {
-  const [open, setOpen] = useState(false);
-
   return (
     <section
       id="certs"
-      className="relative px-5 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-28"
+      className="relative px-5 py-20 sm:px-8 sm:py-28 lg:px-12 lg:py-32"
     >
       <div className="mx-auto max-w-6xl">
-        <SectionTitle
-          index="02 / CERTIFICATIONS"
-          label="Certifications"
-          subtitle="Verified credentials in networking, systems, and security."
-        />
+        <ScrollReveal>
+          <SectionTitle
+            index="02 / CERTIFICATIONS"
+            label="Verified"
+            italicWord="Credentials"
+            subtitle="Foundational certification across networking, operating systems, infrastructure, and security."
+          />
+        </ScrollReveal>
 
-        <div className="border-y border-hairline">
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            className="grid w-full items-center gap-4 py-7 text-left transition-colors hover:bg-paper-soft/40 lg:grid-cols-12"
-          >
-            <div className="flex items-center gap-4 lg:col-span-3">
-              <Image
-                src="https://images.credly.com/size/340x340/images/ae2f5bae-b110-4ea1-8e26-77cf5f76c81e/GCC_badge_IT_Support_1000x1000.png"
-                alt="Google IT Support badge"
-                width={42}
-                height={42}
-                className="size-[42px] shrink-0"
-              />
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-muted">
-                March 2024
-              </span>
-            </div>
+        <ScrollReveal delayMs={80}>
+          <div className="specimen-surface relative p-6 sm:p-9">
+            {/* Corner drafting ticks */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -left-1.5 -top-1.5 font-mono text-[11px] leading-none text-ink-muted"
+            >
+              +
+            </span>
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-1.5 -top-1.5 font-mono text-[11px] leading-none text-ink-muted"
+            >
+              +
+            </span>
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-1.5 -left-1.5 font-mono text-[11px] leading-none text-ink-muted"
+            >
+              +
+            </span>
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-1.5 -right-1.5 font-mono text-[11px] leading-none text-ink-muted"
+            >
+              +
+            </span>
 
-            <div className="lg:col-span-6">
-              <h3 className="font-display text-[30px] font-normal leading-tight text-ink">
-                Google IT Support
-              </h3>
-              <p className="mt-1 font-sans text-[13.5px] font-light text-ink-muted">
-                Google · Coursera · 5-course specialization (~3 months at 10
-                hrs/week)
-              </p>
-            </div>
-
-            <div className="flex items-center lg:col-span-3 lg:justify-end">
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink-secondary">
-                {open ? "Hide Courses −" : "View Courses +"}
-              </span>
-            </div>
-          </button>
-
-          <div
-            className="grid overflow-hidden transition-all duration-400 ease-out"
-            style={{
-              gridTemplateRows: open ? "1fr" : "0fr",
-              opacity: open ? 1 : 0,
-            }}
-          >
-            <div className="min-h-0">
-              <div className="grid gap-6 border-t border-hairline py-7 lg:grid-cols-12">
-                <div className="lg:col-span-3">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
-                    Curriculum
+            {/* Header Row */}
+            <div className="flex flex-col justify-between gap-6 border-b border-hairline pb-7 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-5">
+                <div className="shrink-0 border border-hairline bg-paper p-2">
+                  <Image
+                    src="https://images.credly.com/size/340x340/images/ae2f5bae-b110-4ea1-8e26-77cf5f76c81e/GCC_badge_IT_Support_1000x1000.png"
+                    alt="Google IT Support badge"
+                    width={52}
+                    height={52}
+                    className="size-[52px] shrink-0"
+                  />
+                </div>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+                    Google · Coursera · March 2024
+                  </p>
+                  <h3 className="mt-1 font-display text-[34px] font-normal leading-tight text-ink sm:text-[38px]">
+                    Google IT Support
+                  </h3>
+                  <p className="mt-0.5 font-sans text-[13.5px] font-light text-ink-muted">
+                    5-course professional specialization · ~3 months at 10
+                    hrs/week
                   </p>
                 </div>
+              </div>
 
-                <div className="lg:col-span-9">
-                  <ol className="grid gap-y-2.5 sm:grid-cols-2 sm:gap-x-8">
-                    {courses.map((course, idx) => (
-                      <li
-                        key={course}
-                        className="flex items-baseline gap-3 font-sans text-[14px] font-light text-ink-secondary"
-                      >
-                        <span className="font-mono text-[10px] text-accent">
-                          0{idx + 1}
-                        </span>
-                        <span>{course}</span>
-                      </li>
-                    ))}
-                  </ol>
-
-                  <div className="mt-6 flex flex-wrap gap-6 border-t border-hairline pt-5">
-                    <a
-                      href="https://www.coursera.org/account/accomplishments/specialization/WUWRV3476BR4"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="editorial-link font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink hover:text-accent"
-                    >
-                      Verify on Coursera ↗
-                    </a>
-                    <a
-                      href="https://www.credly.com/earner/earned/share/90b8f3e2-db4e-45f7-90ad-f9d624beaaab"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="editorial-link font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink hover:text-accent"
-                    >
-                      View on Credly ↗
-                    </a>
-                  </div>
-                </div>
+              <div className="flex flex-wrap items-center gap-5">
+                <a
+                  href="https://www.coursera.org/account/accomplishments/specialization/WUWRV3476BR4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="editorial-link font-mono text-[10.5px] uppercase tracking-[0.15em] text-ink hover:text-accent"
+                >
+                  Verify on Coursera ↗
+                </a>
+                <a
+                  href="https://www.credly.com/earner/earned/share/90b8f3e2-db4e-45f7-90ad-f9d624beaaab"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="editorial-link font-mono text-[10.5px] uppercase tracking-[0.15em] text-ink hover:text-accent"
+                >
+                  View on Credly ↗
+                </a>
               </div>
             </div>
+
+            {/* Five-Module Syllabus Grid */}
+            <div className="mt-7">
+              <p className="mb-4 font-mono text-[9.5px] uppercase tracking-[0.18em] text-ink-muted">
+                Completed Modules
+              </p>
+              <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                {courses.map((course, idx) => (
+                  <li
+                    key={course}
+                    className="group border border-hairline bg-paper/65 p-3.5 transition-colors hover:border-hairline-strong"
+                  >
+                    <span className="block font-mono text-[10px] text-accent">
+                      0{idx + 1}
+                    </span>
+                    <p className="mt-2 font-sans text-[13px] font-light leading-snug text-ink-secondary transition-colors group-hover:text-ink">
+                      {course}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
