@@ -1,22 +1,33 @@
 interface SectionTitleProps {
+  index?: string;
   label: string;
-  variant?: "default" | "light";
+  subtitle?: string;
 }
 
-export function SectionTitle({ label, variant = "default" }: SectionTitleProps) {
-  const borderColor = variant === "light" ? "bg-white/15" : "bg-white/12";
-  const textColor =
-    variant === "light" ? "text-white/70" : "text-white/60";
-
+export function SectionTitle({ index, label, subtitle }: SectionTitleProps) {
   return (
-    <div className="mb-8 flex items-center gap-3 sm:mb-10 sm:gap-4 lg:mb-14">
-      <span className={`h-px flex-1 ${borderColor}`} />
-      <h2
-        className={`shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] sm:text-[12px] sm:tracking-[0.24em] lg:text-[13px] ${textColor}`}
-      >
-        {label}
-      </h2>
-      <span className={`h-px flex-1 ${borderColor}`} />
+    <div className="mb-12 border-t border-hairline pt-6 sm:mb-16">
+      <div className="grid gap-4 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-3">
+          {index && (
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-accent">
+              {index}
+            </span>
+          )}
+        </div>
+        <div className="lg:col-span-5">
+          <h2 className="font-display text-[38px] font-normal leading-[1.04] tracking-[-0.02em] text-ink sm:text-[46px]">
+            {label}
+          </h2>
+        </div>
+        <div className="lg:col-span-4 lg:text-right">
+          {subtitle && (
+            <p className="font-sans text-[13.5px] leading-relaxed text-ink-muted">
+              {subtitle}
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

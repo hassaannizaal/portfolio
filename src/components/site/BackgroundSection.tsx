@@ -59,179 +59,133 @@ const coursework = [
   "Data Science",
 ];
 
-function PreviewCard({
-  label,
-  title,
-  meta,
-  desc,
-  active,
-  onClick,
-}: {
-  label: string;
-  title: string;
-  meta: string;
-  desc: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <div
-      className={`flex h-full flex-col rounded-lg border p-4 transition-colors sm:p-5 ${
-        active
-          ? "border-fg/25 bg-fg/[0.025]"
-          : "border-line bg-fg/[0.015] hover:border-fg/20"
-      }`}
-    >
-      <span className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-accent/80">
-        {label}
-      </span>
-      <h3 className="text-[15px] font-medium leading-snug tracking-tight text-fg">
-        {title}
-      </h3>
-      <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-fg/40">
-        {meta}
-      </p>
-      <p className="mt-3 flex-1 text-[13px] leading-[1.6] text-fg/60">{desc}</p>
-      <button
-        type="button"
-        onClick={onClick}
-        className={`mt-4 inline-flex min-h-11 items-center self-start font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
-          active ? "text-accent" : "text-fg/55 hover:text-accent"
-        }`}
-      >
-        {active ? "Hide details ↑" : "See full →"}
-      </button>
-    </div>
-  );
-}
-
 export function BackgroundSection() {
-  const [tab, setTab] = useState<"experience" | "education" | null>(null);
-
-  const openTab = (t: "experience" | "education") =>
-    setTab((v) => (v === t ? null : t));
-
-  const latest = experience[0];
+  const [tab, setTab] = useState<"experience" | "education">("experience");
 
   return (
     <section
       id="bg"
-      className="relative bg-bg px-4 py-12 text-fg sm:px-6 sm:py-16 lg:px-16 lg:py-20 xl:px-20"
+      className="relative px-5 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-28"
     >
-      <div className="relative mx-auto max-w-5xl">
-        <SectionTitle label="04 · Background" />
+      <div className="mx-auto max-w-6xl">
+        <SectionTitle
+          index="03 / BACKGROUND"
+          label="Experience & Education"
+          subtitle="Work history and computer science foundation."
+        />
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <PreviewCard
-            label="Experience"
-            title={`${latest.role} @ ${latest.company}`}
-            meta={latest.period}
-            desc="Full-stack MERN work, Node.js microservices, Azure CI/CD and AI-driven features integrated end-to-end."
-            active={tab === "experience"}
-            onClick={() => openTab("experience")}
-          />
-          <PreviewCard
-            label="Education"
-            title="BS Computer Science"
-            meta="Air University · 2021 — 2025"
-            desc="CGPA 3.41 / 4.0. Coursework across systems, security, AI, and distributed computing."
-            active={tab === "education"}
-            onClick={() => openTab("education")}
-          />
+        {/* Quiet Hairline Tab Switcher */}
+        <div className="mb-10 flex items-center gap-8 border-b border-hairline">
+          <button
+            type="button"
+            onClick={() => setTab("experience")}
+            className={`relative pb-3.5 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors ${
+              tab === "experience"
+                ? "text-ink"
+                : "text-ink-muted hover:text-ink"
+            }`}
+          >
+            Experience
+            {tab === "experience" && (
+              <span className="absolute inset-x-0 -bottom-px h-[1.5px] bg-accent" />
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setTab("education")}
+            className={`relative pb-3.5 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors ${
+              tab === "education"
+                ? "text-ink"
+                : "text-ink-muted hover:text-ink"
+            }`}
+          >
+            Education
+            {tab === "education" && (
+              <span className="absolute inset-x-0 -bottom-px h-[1.5px] bg-accent" />
+            )}
+          </button>
         </div>
 
-        <div
-          className="grid overflow-hidden transition-all duration-500 ease-out"
-          style={{
-            gridTemplateRows: tab ? "1fr" : "0fr",
-            opacity: tab ? 1 : 0,
-            marginTop: tab ? "1.5rem" : "0",
-          }}
-        >
-          <div className="min-h-0">
-            {tab === "experience" && (
-              <ul className="border-t border-line">
-                {experience.map((job, i) => (
+        {tab === "experience" ? (
+          <ul className="divide-y divide-hairline border-b border-hairline">
+            {experience.map((job) => (
+              <li
+                key={job.company}
+                className="grid gap-6 py-9 first:pt-2 lg:grid-cols-12 lg:gap-10"
+              >
+                <div className="lg:col-span-4">
+                  <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-muted">
+                    {job.period}
+                  </p>
+                  <h3 className="mt-2 font-display text-[30px] font-normal leading-tight text-ink">
+                    {job.role}
+                  </h3>
+                  <p className="mt-1 font-sans text-[14px] text-ink-secondary">
+                    {job.company}
+                    {job.detail && (
+                      <span className="text-ink-muted"> — {job.detail}</span>
+                    )}
+                  </p>
+                </div>
+
+                <div className="lg:col-span-8">
+                  <ul className="space-y-2.5">
+                    {job.points.map((point, idx) => (
+                      <li
+                        key={point}
+                        className="flex items-baseline gap-3 font-sans text-[14.5px] font-light leading-[1.7] text-ink-secondary"
+                      >
+                        <span className="font-mono text-[10px] text-accent">
+                          0{idx + 1}
+                        </span>
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-muted">
+                    {job.skills.join(" · ")}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="grid gap-8 border-b border-hairline pb-10 pt-2 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-4">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-muted">
+                Oct 2021 — Jul 2025
+              </p>
+              <h3 className="mt-2 font-display text-[32px] font-normal leading-tight text-ink">
+                BS Computer Science
+              </h3>
+              <p className="mt-1 font-sans text-[14px] text-ink-secondary">
+                Air University
+                <span className="text-ink-muted"> — CGPA 3.41 / 4.0</span>
+              </p>
+            </div>
+
+            <div className="lg:col-span-8">
+              <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+                Relevant Coursework
+              </p>
+              <ol className="grid grid-cols-1 gap-y-2.5 sm:grid-cols-2 sm:gap-x-8">
+                {coursework.map((course, idx) => (
                   <li
-                    key={i}
-                    className="grid gap-4 border-b border-line py-6 lg:grid-cols-12 lg:gap-8 lg:py-8"
+                    key={course}
+                    className="flex items-baseline gap-3 font-sans text-[14px] font-light text-ink-secondary"
                   >
-                    <div className="lg:col-span-4">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg/40">
-                        {job.period}
-                      </p>
-                      <h3 className="mt-2 text-[16px] font-medium leading-tight tracking-tight text-fg">
-                        {job.role}
-                      </h3>
-                      <p className="mt-1 text-[13px] text-fg/60">
-                        {job.company}
-                        {job.detail && (
-                          <span className="text-fg/40"> — {job.detail}</span>
-                        )}
-                      </p>
-                    </div>
-                    <div className="lg:col-span-8">
-                      <ul className="space-y-2">
-                        {job.points.map((point, j) => (
-                          <li
-                            key={j}
-                            className="flex items-baseline gap-3 text-[13px] leading-[1.6] text-fg/70"
-                          >
-                            <span
-                              aria-hidden="true"
-                              className="mt-1.5 size-1 shrink-0 rounded-full bg-fg/30"
-                            />
-                            {point}
-                          </li>
-                        ))}
-                      </ul>
-                      <p className="mt-4 break-words font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-fg/45 sm:tracking-[0.14em]">
-                        {job.skills.join(" · ")}
-                      </p>
-                    </div>
+                    <span className="font-mono text-[10px] text-accent">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span>{course}</span>
                   </li>
                 ))}
-              </ul>
-            )}
-
-            {tab === "education" && (
-              <div className="border-t border-line">
-                <div className="grid gap-4 border-b border-line py-6 lg:grid-cols-12 lg:gap-8 lg:py-8">
-                  <div className="lg:col-span-4">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg/40">
-                      Oct 2021 — Jul 2025
-                    </p>
-                    <h3 className="mt-2 text-[16px] font-medium leading-tight tracking-tight text-fg">
-                      BS Computer Science
-                    </h3>
-                    <p className="mt-1 text-[13px] text-fg/60">
-                      Air University
-                      <span className="text-fg/40"> — CGPA 3.41 / 4.0</span>
-                    </p>
-                  </div>
-                  <div className="lg:col-span-8">
-                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                      Relevant coursework
-                    </p>
-                    <ul className="grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2">
-                      {coursework.map((c, i) => (
-                        <li
-                          key={c}
-                          className="flex items-baseline gap-3 text-[13px] text-fg/70"
-                        >
-                          <span className="font-mono text-[10px] tracking-[0.12em] text-fg/35">
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
-                          {c}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            )}
+              </ol>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

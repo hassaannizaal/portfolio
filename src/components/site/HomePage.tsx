@@ -7,7 +7,7 @@ import { SiteHeader } from "./SiteHeader";
 
 export function HomePage() {
   return (
-    <div className="bg-bg text-fg">
+    <div className="min-h-screen text-ink">
       <SiteHeader />
       <main>
         <Hero />

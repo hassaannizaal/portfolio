@@ -1,30 +1,45 @@
+import Link from "next/link";
 import { ProjectCard } from "@/components/site/ProjectCard";
+import { SectionTitle } from "@/components/site/SectionTitle";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { projects } from "@/data/projects";
 
 export const metadata = {
   title: "Projects · Hassaan Nizaal",
-  description: "Selected work. ODIN and more.",
+  description:
+    "Selected engineering work and architecture case studies by Hassaan Nizaal.",
 };
 
 export default function ProjectsPage() {
   return (
-    <div className="bg-bg text-fg">
+    <div className="min-h-screen text-ink">
       <SiteHeader />
-      <main className="px-4 pb-20 pt-28 sm:px-6 sm:pt-32 lg:px-16 xl:px-20">
-        <div className="mx-auto max-w-5xl">
-          <div className="mb-10 flex items-center gap-3 sm:mb-14 sm:gap-4">
-            <span className="h-px flex-1 bg-line" />
-            <h1 className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-fg/70 sm:text-[12px] sm:tracking-[0.24em]">
-              Projects
-            </h1>
-            <span className="h-px flex-1 bg-line" />
+      <main className="px-5 pb-24 pt-12 sm:px-8 sm:pt-16 lg:px-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
+            <Link
+              href="/"
+              className="text-ink-secondary transition-colors hover:text-accent"
+            >
+              ← Back to Home
+            </Link>
+            <span>{projects.length} PROJECT</span>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+          <SectionTitle
+            index="ARCHIVE"
+            label="Selected Work"
+            subtitle="Detailed case studies, system diagrams, and architectural decisions."
+          />
+
+          <div className="divide-y divide-hairline border-y border-hairline">
+            {projects.map((project, idx) => (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                index={String(idx + 1).padStart(2, "0")}
+              />
             ))}
           </div>
         </div>

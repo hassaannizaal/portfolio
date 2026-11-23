@@ -1,80 +1,252 @@
-import type { Project } from "@/lib/types";
+import Link from "next/link";
 import { stackList } from "@/data/projects";
+import type { Project } from "@/lib/types";
 
-export function ProjectCard({ project }: { project: Project }) {
-  const chips = stackList(project);
+interface ProjectCardProps {
+  project: Project;
+  index?: string;
+}
+
+export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
+  const stack = stackList(project);
 
   return (
-    <article className="group flex flex-col rounded-lg border border-line bg-fg/[0.015] p-4 transition-colors hover:border-fg/25 sm:p-5">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <span className="mb-2 inline-block font-mono text-[10px] uppercase tracking-[0.14em] text-accent/80">
-            {project.tag}
+    <article className="py-10 sm:py-14">
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-0">
+        {/* Left Metadata Column */}
+        <div className="lg:col-span-3 lg:border-r lg:border-hairline lg:pr-8">
+          <span className="font-display text-[44px] font-normal leading-none text-ink/25">
+            {index}
           </span>
-          <h3 className="text-[15px] font-medium leading-snug tracking-tight text-fg">
-            {project.title}
+          <dl className="mt-5 space-y-3 font-mono text-[10.5px] uppercase tracking-[0.14em]">
+            <div>
+              <dt className="text-ink-muted">Category</dt>
+              <dd className="mt-0.5 text-ink">{project.tag}</dd>
+            </div>
+            <div>
+              <dt className="text-ink-muted">Timeline</dt>
+              <dd className="mt-0.5 text-ink">{project.period}</dd>
+            </div>
+            <div>
+              <dt className="text-ink-muted">Stack</dt>
+              <dd className="mt-1 flex flex-wrap gap-x-2.5 gap-y-1 text-[10px] leading-relaxed text-ink-secondary">
+                {stack.slice(0, 10).map((tech) => (
+                  <span key={tech}>{tech}</span>
+                ))}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        {/* Center Editorial Column */}
+        <div className="lg:col-span-5 lg:border-r lg:border-hairline lg:px-8">
+          <h3 className="font-display text-[42px] font-normal leading-none tracking-[-0.02em] text-ink sm:text-[50px]">
+            <Link
+              href={`/projects/${project.slug}`}
+              className="transition-colors hover:text-accent"
+            >
+              {project.title}
+            </Link>
           </h3>
-          <p className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-fg/40">
-            {project.period}
+
+          <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.12em] text-ink-muted">
+            {project.role}
           </p>
-        </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          {project.links?.github && (
-            <a
-              href={project.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.title} source`}
-              className="flex size-7 items-center justify-center rounded-md border border-line text-fg/45 transition-colors hover:border-fg/30 hover:text-accent"
+
+          <p className="mt-5 font-sans text-[15px] font-light leading-[1.75] text-ink-secondary">
+            {project.summary}
+          </p>
+
+          <ul className="mt-6 space-y-2 border-t border-hairline pt-5">
+            {project.features.map((feat, i) => (
+              <li
+                key={feat}
+                className="flex items-baseline gap-3 font-sans text-[13.5px] font-light leading-relaxed text-ink-secondary"
+              >
+                <span className="font-mono text-[10px] text-accent">
+                  0{i + 1}
+                </span>
+                <span>{feat}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-8">
+            <Link
+              href={`/projects/${project.slug}`}
+              className="editorial-link font-mono text-[11px] uppercase tracking-[0.16em] text-ink transition-colors hover:text-accent"
             >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
-              </svg>
-            </a>
-          )}
-          {project.links?.live && (
-            <a
-              href={project.links.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.title} live`}
-              className="flex size-7 items-center justify-center rounded-md border border-line text-fg/45 transition-colors hover:border-fg/30 hover:text-accent"
-            >
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4.5 1.5H2a.5.5 0 00-.5.5v8a.5.5 0 00.5.5h8a.5.5 0 00.5-.5V7.5M7.5 1.5h3v3M5.5 6.5l5-5" />
-              </svg>
-            </a>
-          )}
+              Read Case Study &amp; Diagrams <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
-      </div>
 
-      <p className="text-[13px] leading-[1.6] text-fg/60">{project.summary}</p>
+        {/* Right Borderless Ink Schematic Column */}
+        <div className="flex flex-col justify-between lg:col-span-4 lg:pl-8">
+          <div>
+            <div className="mb-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+              <span className="text-accent">[FIG. 02]</span>
+              <span>SYSTEM LAYERS</span>
+            </div>
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        {chips.map((s) => (
-          <span
-            key={s}
-            className="rounded border border-line bg-fg/[0.02] px-1.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] text-fg/50"
-          >
-            {s}
-          </span>
-        ))}
-      </div>
+            <svg
+              viewBox="0 0 300 210"
+              className="h-auto w-full select-none"
+              role="img"
+              aria-label={`${project.title} architecture schematic`}
+            >
+              <defs>
+                <marker
+                  id="thinArrow"
+                  viewBox="0 0 10 10"
+                  refX="8"
+                  refY="5"
+                  markerWidth="5"
+                  markerHeight="5"
+                  orient="auto-start-reverse"
+                >
+                  <path d="M 1 2 L 8.5 5 L 1 8 z" fill="#8c3b2b" />
+                </marker>
+              </defs>
 
-      <div className="mt-5 flex items-center justify-between border-t border-line pt-3 sm:pt-4">
-        <a
-          href={`/projects/${project.slug}`}
-          className="inline-flex min-h-11 items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg/70 transition-colors hover:text-accent"
-          aria-label={`View ${project.title} details`}
-        >
-          View details
-          <span
-            aria-hidden="true"
-            className="transition-transform duration-200 group-hover:translate-x-0.5"
-          >
-            →
-          </span>
-        </a>
+              {/* Subtle geometric compass arc */}
+              <circle
+                cx="150"
+                cy="105"
+                r="86"
+                fill="none"
+                stroke="#1e1b18"
+                strokeOpacity="0.08"
+                strokeDasharray="3 4"
+              />
+              <line
+                x1="150"
+                y1="6"
+                x2="150"
+                y2="204"
+                stroke="#1e1b18"
+                strokeOpacity="0.07"
+              />
+
+              {/* Connectors */}
+              <line
+                x1="150"
+                y1="52"
+                x2="150"
+                y2="82"
+                stroke="#8c3b2b"
+                strokeWidth="1"
+                markerEnd="url(#thinArrow)"
+              />
+              <line
+                x1="150"
+                y1="126"
+                x2="150"
+                y2="156"
+                stroke="#8c3b2b"
+                strokeWidth="1"
+                markerEnd="url(#thinArrow)"
+              />
+
+              {/* Layer 1 */}
+              <rect
+                x="44"
+                y="16"
+                width="212"
+                height="36"
+                fill="#f6f3ec"
+                stroke="#1e1b18"
+                strokeOpacity="0.35"
+                strokeWidth="0.9"
+              />
+              <text
+                x="150"
+                y="30"
+                textAnchor="middle"
+                className="fill-ink-muted font-mono text-[7.5px] uppercase tracking-[0.16em]"
+              >
+                01 · DASHBOARD
+              </text>
+              <text
+                x="150"
+                y="44"
+                textAnchor="middle"
+                className="fill-ink font-display text-[14px] font-medium"
+              >
+                Next.js Operator Portal
+              </text>
+
+              {/* Layer 2 */}
+              <rect
+                x="28"
+                y="84"
+                width="244"
+                height="42"
+                fill="#f6f3ec"
+                stroke="#8c3b2b"
+                strokeOpacity="0.7"
+                strokeWidth="1"
+              />
+              <text
+                x="150"
+                y="99"
+                textAnchor="middle"
+                className="fill-accent font-mono text-[7.5px] uppercase tracking-[0.16em]"
+              >
+                02 · OMNICHANNEL CORE
+              </text>
+              <text
+                x="150"
+                y="114"
+                textAnchor="middle"
+                className="fill-ink font-display text-[14px] font-medium"
+              >
+                REST · Socket.IO · BullMQ · FastAPI
+              </text>
+
+              {/* Layer 3 */}
+              <rect
+                x="40"
+                y="158"
+                width="220"
+                height="36"
+                fill="#f6f3ec"
+                stroke="#1e1b18"
+                strokeOpacity="0.35"
+                strokeWidth="0.9"
+              />
+              <text
+                x="150"
+                y="172"
+                textAnchor="middle"
+                className="fill-ink-muted font-mono text-[7.5px] uppercase tracking-[0.16em]"
+              >
+                03 · DATA &amp; CONTROL PLANE
+              </text>
+              <text
+                x="150"
+                y="186"
+                textAnchor="middle"
+                className="fill-ink font-mono text-[9px] tracking-[0.08em]"
+              >
+                MONGO · REDIS · KAFKA · MINIO
+              </text>
+            </svg>
+          </div>
+
+          <div className="mt-6 space-y-3 border-t border-hairline pt-4">
+            {project.architecture.map((part) => (
+              <div key={part.title}>
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink">
+                  {part.title}
+                </p>
+                <p className="mt-0.5 font-sans text-[12.5px] font-light leading-relaxed text-ink-muted">
+                  {part.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </article>
   );

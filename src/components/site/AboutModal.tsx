@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import { portfolio } from "@/data/portfolio";
 
@@ -11,28 +11,27 @@ interface AboutModalProps {
 
 const PORTRAIT_SRC = "/imgs/portrait.png";
 
+const INTERESTS = [
+  "Music",
+  "Films",
+  "Books",
+  "Travel",
+  "Open-Source",
+  "Gaming",
+];
+
 export function AboutModal({ open, onClose }: AboutModalProps) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-      requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
-    } else {
-      setVisible(false);
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   useEffect(() => {
     if (!open) return;
+    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
   }, [open, onClose]);
 
   if (!open) return null;
@@ -45,71 +44,52 @@ export function AboutModal({ open, onClose }: AboutModalProps) {
       className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6"
     >
       <button
+        type="button"
         aria-label="Close"
         onClick={onClose}
-        className="absolute inset-0 cursor-default bg-black/60 backdrop-blur-md transition-opacity duration-400"
-        style={{ opacity: visible ? 1 : 0 }}
+        className="absolute inset-0 cursor-default bg-ink/45 backdrop-blur-xs"
       />
 
-      <div
-        className="terminal-scroll relative z-10 flex h-[92dvh] w-full max-w-[640px] flex-col overflow-hidden rounded-t-2xl border border-white/[0.08] bg-[#0a0b0f] font-mono text-[13px] leading-[1.7] text-white/75 transition-all duration-400 ease-out sm:h-auto sm:max-h-[88vh] sm:rounded-xl sm:text-[13.5px]"
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? "translateY(0)" : "translateY(8px)",
-        }}
-      >
-        {/* title bar */}
-        <div className="flex shrink-0 items-center justify-between border-b border-white/[0.06] px-4 py-3 sm:px-5">
-          <span className="text-[11px] uppercase tracking-[0.2em] text-white/30">
-            hassaan@dev ~
+      <div className="archival-paper fade-up relative z-10 flex h-[90dvh] w-full max-w-[600px] flex-col overflow-hidden border border-hairline-strong bg-paper text-ink sm:h-auto sm:max-h-[88vh]">
+        <div className="flex shrink-0 items-center justify-between border-b border-hairline px-6 py-4">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+            About
           </span>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="flex size-11 items-center justify-center rounded text-white/40 transition-colors hover:bg-white/10 hover:text-white sm:size-6"
+            className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted transition-colors hover:text-ink"
           >
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M1 1l8 8M9 1L1 9" />
-            </svg>
+            Close [ESC]
           </button>
         </div>
 
-        {/* scrollable body */}
-        <div className="flex-1 overflow-y-auto px-4 py-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-6">
-          {/* whoami */}
-          <div className="mb-8">
-            <p className="mb-4 text-[#ffb45c]">
-              <span className="text-white/30">→ </span>whoami
-            </p>
-            <div className="flex items-center gap-5">
-              <div className="relative size-16 shrink-0 overflow-hidden rounded-lg border border-white/[0.08]">
-                <Image
-                  src={PORTRAIT_SRC}
-                  alt={portfolio.name}
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              <div>
-                <p className="text-[16px] font-medium text-white/90">
-                  {portfolio.name}
-                </p>
-                <p className="mt-0.5 text-[12px] text-white/40">
-                  {portfolio.title}
-                </p>
-              </div>
+        <div className="flex-1 overflow-y-auto px-6 py-7 pb-[max(1.75rem,env(safe-area-inset-bottom))] sm:px-8">
+          <div className="mb-7 flex items-center gap-5 border-b border-hairline pb-6">
+            <div className="relative size-20 shrink-0 overflow-hidden border border-hairline bg-paper-soft">
+              <Image
+                src={PORTRAIT_SRC}
+                alt={portfolio.name}
+                fill
+                sizes="80px"
+                className="etching-portrait object-cover"
+                priority
+              />
+            </div>
+
+            <div>
+              <h2 className="font-display text-[34px] font-normal leading-none text-ink">
+                {portfolio.name}
+              </h2>
+              <p className="mt-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-muted">
+                {portfolio.title}
+              </p>
             </div>
           </div>
 
-          {/* about */}
-          <div className="mb-7">
-            <p className="mb-3 text-[#ffb45c]">
-              <span className="text-white/30">→ </span>cat about.txt
-            </p>
-            <p className="mb-3">
+          <div className="mb-8 space-y-4 font-sans text-[14.5px] font-light leading-[1.78] text-ink-secondary">
+            <p>
               I&rsquo;m a software developer, enthusiastic about leveraging
               technology to provide digital solutions for the greater good of
               humanity. I am passionate about cloud technologies.
@@ -123,23 +103,14 @@ export function AboutModal({ open, onClose }: AboutModalProps) {
             </p>
           </div>
 
-          {/* interests */}
-          <div className="mb-7">
-            <p className="mb-3 text-[#ffb45c]">
-              <span className="text-white/30">→ </span>ls interests/
+          <div className="border-t border-hairline pt-5">
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
+              Interests
             </p>
-            <p><span className="text-white/30">  drwx  </span>music</p>
-            <p><span className="text-white/30">  drwx  </span>films</p>
-            <p><span className="text-white/30">  drwx  </span>books</p>
-            <p><span className="text-white/30">  drwx  </span>travel</p>
-            <p><span className="text-white/30">  drwx  </span>open-source</p>
-            <p><span className="text-white/30">  drwx  </span>gaming</p>
+            <p className="font-mono text-[11.5px] uppercase tracking-[0.14em] leading-loose text-ink-secondary">
+              {INTERESTS.join(" · ")}
+            </p>
           </div>
-
-          {/* cursor blink */}
-          <p className="mt-6 text-white/30">
-            → <span className="inline-block h-[1em] w-[7px] animate-pulse bg-[#ffb45c]/70" />
-          </p>
         </div>
       </div>
     </div>

@@ -1,32 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f1eee7;
-  --fg: #232323;
-  --muted: color-mix(in srgb, var(--fg) 55%, transparent);
-  --faint: color-mix(in srgb, var(--fg) 40%, transparent);
-  --line: color-mix(in srgb, var(--fg) 12%, transparent);
-  --black: #000000;
-  --nav: #232323;
-  --white: #ffffff;
-  --accent: #c76a1a;
-  --accent-glow: #ffb45c;
+  --paper: #f6f3ec;
+  --paper-soft: #efeae0;
+  --paper-pure: #faf8f3;
+
+  --ink: #1e1b18;
+  --ink-secondary: #534c44;
+  --ink-muted: #847b70;
+  --hairline: rgba(30, 27, 24, 0.13);
+  --hairline-strong: rgba(30, 27, 24, 0.28);
+
+  --accent: #8c3b2b;
+  --accent-slate: #364e56;
+  --accent-ochre: #9c7a42;
+
+  /* Compatibility aliases */
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --line: var(--hairline);
 }
 
 @theme inline {
+  --color-paper: var(--paper);
+  --color-paper-soft: var(--paper-soft);
+  --color-paper-pure: var(--paper-pure);
+
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-muted: var(--ink-muted);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-slate: var(--accent-slate);
+  --color-accent-ochre: var(--accent-ochre);
+
   --color-bg: var(--bg);
   --color-fg: var(--fg);
-  --color-muted: var(--muted);
-  --color-faint: var(--faint);
   --color-line: var(--line);
-  --color-black: var(--black);
-  --color-nav: var(--nav);
-  --color-white: var(--white);
-  --color-accent: var(--accent);
-  --color-accent-glow: var(--accent-glow);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-pixel: var(--font-pixelify);
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 * {
@@ -44,16 +60,70 @@ body {
   min-height: 100%;
   min-height: 100dvh;
   overflow-x: clip;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
+/* Quiet museum-grade archival rag paper texture */
+.archival-paper {
+  background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+}
+
+/* Subtle architectural hairline drafting grid for schematic plates */
+.drafting-grid {
+  background-image:
+    linear-gradient(to right, rgba(30, 27, 24, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 27, 24, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Editorial underline reveal on links */
+.editorial-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.editorial-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0.35);
+  transform-origin: left;
+  opacity: 0.4;
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 300ms ease;
+}
+
+.editorial-link:hover::after,
+.editorial-link:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Warm etching filter for portrait */
+.etching-portrait {
+  filter: grayscale(0.25) sepia(0.28) contrast(1.06);
+}
+
+/* Seamless ink-on-paper blend for illustrations */
+.ink-blend {
+  mix-blend-mode: multiply;
+}
+
 ::selection {
-  background: var(--fg);
-  color: var(--bg);
+  background: rgba(140, 59, 43, 0.16);
+  color: var(--ink);
 }
 
 button,
@@ -62,25 +132,14 @@ a {
   touch-action: manipulation;
 }
 
-.odometer {
-  --odometer-progress: 0;
+.fade-up {
+  animation: fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .odometer:hover,
-  .odometer:focus-visible {
-    --odometer-progress: 1;
-  }
-}
-
-.rise {
-  animation: rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes rise {
+@keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -88,32 +147,8 @@ a {
   }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.terminal-scroll ::-webkit-scrollbar {
-  width: 6px;
-}
-.terminal-scroll ::-webkit-scrollbar-track {
-  background: transparent;
-}
-.terminal-scroll ::-webkit-scrollbar-thumb {
-  background: rgba(255, 180, 92, 0.18);
-  border-radius: 3px;
-}
-.terminal-scroll ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 180, 92, 0.35);
-}
-.terminal-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 180, 92, 0.18) transparent;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .rise {
+  .fade-up {
     animation: none;
   }
 

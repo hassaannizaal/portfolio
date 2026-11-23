@@ -1,360 +1,421 @@
-import type { ReactNode } from "react";
-import type { Project, ProjectDetailStack } from "@/lib/types";
+import Link from "next/link";
 import { portfolio } from "@/data/portfolio";
+import type { Project } from "@/lib/types";
 import { ArchDiagram } from "./ArchDiagram";
-import { ProjectNav } from "./ProjectNav";
+import { ProjectCard } from "./ProjectCard";
+import { ProjectNav, type NavItem } from "./ProjectNav";
 
-const CARD_STACK: { key: keyof Project["stack"]; label: string }[] = [
-  { key: "lang", label: "Languages" },
-  { key: "backend", label: "Backend" },
-  { key: "data", label: "Data" },
-  { key: "infra", label: "Infra" },
-];
-
-const DETAIL_STACK: { key: keyof ProjectDetailStack; label: string }[] = [
-  { key: "lang", label: "Languages" },
-  { key: "frontend", label: "Frontend" },
-  { key: "backend", label: "Backend" },
-  { key: "data", label: "Data" },
-  { key: "infra", label: "Infra" },
-  { key: "auth", label: "Auth" },
-];
-
-function Section({
-  id,
-  label,
-  children,
-}: {
-  id: string;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <section
-      id={id}
-      className="scroll-mt-28 border-t border-line py-10 lg:scroll-mt-32 lg:py-12"
-    >
-      <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-fg/40">
-        {label}
-      </p>
-      {children}
-    </section>
-  );
-}
-
-function Chip({ children }: { children: ReactNode }) {
-  return (
-    <span className="rounded border border-line bg-fg/[0.02] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-fg/60">
-      {children}
-    </span>
-  );
-}
-
-export function ProjectDetail({
-  project,
-  others,
-}: {
+interface ProjectDetailProps {
   project: Project;
   others: Project[];
+}
+
+function SubHeading({
+  index,
+  title,
+  id,
+}: {
+  index: string;
+  title: string;
+  id: string;
 }) {
+  return (
+    <div id={id} className="scroll-mt-24 border-b border-hairline pb-3">
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+        {index}
+      </p>
+      <h2 className="mt-1 font-display text-[32px] font-normal leading-tight text-ink sm:text-[38px]">
+        {title}
+      </h2>
+    </div>
+  );
+}
+
+export function ProjectDetail({ project, others }: ProjectDetailProps) {
   const detail = project.detail;
-  const overview = detail?.overview ?? project.summary;
-  const role = detail?.role ?? project.role;
-  const layers = detail?.layers ?? project.architecture;
-  const outcome = detail?.outcome ?? project.outcome;
-  const demoMailto = `mailto:${portfolio.email}?subject=${encodeURIComponent(`${project.title} walkthrough`)}`;
+
+  const navItems: NavItem[] = detail
+    ? [
+        { id: "overview", index: "01", label: "Overview & Problem" },
+        { id: "decisions", index: "02", label: "Key Decisions" },
+        { id: "diagrams", index: "03", label: "Architecture Diagrams" },
+        { id: "stack", index: "04", label: "Tech Stack & Layers" },
+        { id: "features", index: "05", label: "System Breakdown" },
+        { id: "outcome", index: "06", label: "Outcomes & Next" },
+      ]
+    : [{ id: "overview", index: "01", label: "Overview" }];
 
   return (
-    <div className="bg-bg px-4 pb-20 pt-24 text-fg sm:px-6 sm:pt-28 lg:px-16 lg:pt-32 xl:px-20">
-      <div className="mx-auto flex max-w-6xl gap-10 lg:gap-14">
-        <ProjectNav project={project} others={others} />
+    <div className="px-5 pb-24 pt-10 sm:px-8 sm:pt-14 lg:px-12">
+      <div className="mx-auto max-w-6xl">
+        {/* Breadcrumb */}
+        <div className="mb-10 flex flex-wrap items-center justify-between gap-2 border-b border-hairline pb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/#proj"
+              className="text-ink-secondary transition-colors hover:text-accent"
+            >
+              ← Portfolio
+            </Link>
+            <span>/</span>
+            <Link
+              href="/projects"
+              className="text-ink-secondary transition-colors hover:text-accent"
+            >
+              Projects
+            </Link>
+          </div>
+          <span>
+            {project.tag} · {project.period}
+          </span>
+        </div>
 
-        <article className="min-w-0 flex-1">
-          <Section id="overview" label="Overview">
-            <span className="mb-3 inline-block font-mono text-[10px] uppercase tracking-[0.14em] text-accent/80">
-              {project.tag}
-            </span>
-            <h1 className="text-[28px] font-medium leading-tight tracking-tight sm:text-[36px]">
-              {project.title}
-            </h1>
-            <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-fg/40">
-              {project.period}
-            </p>
-            <p className="mt-5 max-w-[42rem] text-[15px] leading-[1.65] text-fg/70">
-              {overview}
-            </p>
+        {/* Editorial Title Header */}
+        <header className="mb-16 border-b border-hairline pb-12">
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-accent">
+            Case Study · {project.year}
+          </p>
+          <h1 className="mt-3 font-display text-[54px] font-normal leading-[0.96] tracking-[-0.025em] text-ink sm:text-[72px]">
+            {project.title}
+          </h1>
+          <p className="mt-5 max-w-2xl font-sans text-[17px] font-light leading-[1.7] text-ink-secondary">
+            {project.summary}
+          </p>
 
-            <div className="mt-8 grid gap-6 border-t border-line pt-6 sm:grid-cols-2">
-              {detail?.problem && (
-                <div>
-                  <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                    Problem
-                  </p>
-                  <p className="text-[14px] leading-[1.65] text-fg/65">
-                    {detail.problem}
-                  </p>
-                </div>
-              )}
-              <div>
-                <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                  Role
-                </p>
-                <p className="text-[14px] leading-[1.65] text-fg/65">{role}</p>
-              </div>
+          <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-3 font-mono text-[10.5px] uppercase tracking-[0.14em]">
+            <div>
+              <dt className="text-ink-muted">Role</dt>
+              <dd className="mt-0.5 text-ink">{project.role}</dd>
             </div>
+            <div>
+              <dt className="text-ink-muted">Timeline</dt>
+              <dd className="mt-0.5 text-ink">{project.period}</dd>
+            </div>
+          </dl>
+        </header>
 
-            {detail && (detail.owned.length > 0 || detail.shared.length > 0) && (
-              <div className="mt-8 grid gap-6 sm:grid-cols-2">
-                <div>
-                  <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                    I owned
-                  </p>
-                  <ul className="space-y-2">
-                    {detail.owned.map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-baseline gap-3 text-[13px] leading-[1.55] text-fg/70"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="mt-1.5 size-1 shrink-0 rounded-full bg-accent/70"
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                    Shared
-                  </p>
-                  <ul className="space-y-2">
-                    {detail.shared.map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-baseline gap-3 text-[13px] leading-[1.55] text-fg/70"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="mt-1.5 size-1 shrink-0 rounded-full bg-fg/25"
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
+        {/* Two-Column Body */}
+        <div className="grid items-start gap-12 lg:grid-cols-12">
+          <aside className="hidden lg:sticky lg:top-24 lg:col-span-3 lg:block">
+            <ProjectNav items={navItems} />
+          </aside>
 
-            {detail?.decisions && detail.decisions.length > 0 && (
-              <ul className="mt-8 space-y-4 border-t border-line pt-6">
-                {detail.decisions.map((d) => (
-                  <li key={d.title} className="grid gap-1 sm:grid-cols-12 sm:gap-4">
-                    <p className="text-[14px] font-medium text-fg sm:col-span-4">
-                      {d.title}
-                    </p>
-                    <p className="text-[13px] leading-[1.65] text-fg/65 sm:col-span-8">
-                      {d.why}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Section>
-
-          <Section id="stack" label="Stack">
+          <div className="space-y-16 lg:col-span-9">
             {detail ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {DETAIL_STACK.map((group) => (
-                  <div key={group.key}>
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                      {group.label}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {detail.stack[group.key].map((item) => (
-                        <Chip key={item}>{item}</Chip>
-                      ))}
+              <>
+                {/* 01. Overview & Problem */}
+                <section className="space-y-8">
+                  <SubHeading
+                    id="overview"
+                    index="01 / OVERVIEW"
+                    title="Overview & Problem"
+                  />
+
+                  <div className="grid gap-8 md:grid-cols-2">
+                    <div>
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+                        What It Is
+                      </p>
+                      <p className="font-sans text-[14.5px] font-light leading-[1.78] text-ink-secondary">
+                        {detail.overview}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+                        The Problem
+                      </p>
+                      <p className="font-sans text-[14.5px] font-light leading-[1.78] text-ink-secondary">
+                        {detail.problem}
+                      </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="grid gap-6 sm:grid-cols-2">
-                {CARD_STACK.map((group) => (
-                  <div key={group.key}>
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                      {group.label}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.stack[group.key].map((item) => (
-                        <Chip key={item}>{item}</Chip>
-                      ))}
+
+                  <div className="grid gap-8 border-y border-hairline py-6 sm:grid-cols-2">
+                    <div>
+                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-ink">
+                        Directly Owned
+                      </p>
+                      <ul className="space-y-2">
+                        {detail.owned.map((item, i) => (
+                          <li
+                            key={item}
+                            className="flex items-baseline gap-3 font-sans text-[14px] font-light text-ink-secondary"
+                          >
+                            <span className="font-mono text-[10px] text-accent">
+                              0{i + 1}
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="border-t border-hairline pt-6 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0">
+                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+                        Shared With Team
+                      </p>
+                      <ul className="space-y-2">
+                        {detail.shared.map((item, i) => (
+                          <li
+                            key={item}
+                            className="flex items-baseline gap-3 font-sans text-[14px] font-light text-ink-secondary"
+                          >
+                            <span className="font-mono text-[10px] text-ink-muted">
+                              0{i + 1}
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </Section>
+                </section>
 
-          <Section id="architecture" label="Architecture">
-            <div className="mb-8 hidden grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-2 sm:grid">
-              {layers.map((part, i) => (
-                <div key={part.title} className="contents">
-                  <div className="rounded-lg border border-line bg-fg/[0.02] px-3 py-4 text-center">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent/80">
-                      {part.title}
-                    </p>
+                {/* 02. Key Decisions */}
+                <section className="space-y-8">
+                  <SubHeading
+                    id="decisions"
+                    index="02 / DECISIONS"
+                    title="Engineering Decisions"
+                  />
+
+                  <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+                    {detail.decisions.map((decision, idx) => (
+                      <div
+                        key={decision.title}
+                        className="border-t border-hairline pt-4"
+                      >
+                        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+                          0{idx + 1}
+                        </p>
+                        <h3 className="mt-1.5 font-display text-[24px] font-normal leading-snug text-ink">
+                          {decision.title}
+                        </h3>
+                        <p className="mt-2 font-sans text-[14px] font-light leading-[1.72] text-ink-secondary">
+                          {decision.why}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                  {i < layers.length - 1 && (
-                    <span aria-hidden="true" className="text-fg/25">
-                      →
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-            <ul className="space-y-5">
-              {layers.map((part) => (
-                <li key={part.title}>
-                  <p className="text-[15px] font-medium text-fg">{part.title}</p>
-                  <p className="mt-1 text-[14px] leading-[1.65] text-fg/65">
-                    {part.desc}
-                  </p>
-                </li>
-              ))}
-            </ul>
+                </section>
 
-            {detail && (
-              <div className="mt-10 space-y-5">
-                {detail.diagrams.map((spec) => (
-                  <ArchDiagram key={spec.id} spec={spec} />
-                ))}
-              </div>
-            )}
-          </Section>
+                {/* 03. Architecture Diagrams */}
+                <section className="space-y-8">
+                  <SubHeading
+                    id="diagrams"
+                    index="03 / DIAGRAMS"
+                    title="Architecture Diagrams"
+                  />
 
-          <Section id="features" label="Features">
-            {detail ? (
-              <div className="space-y-12">
-                {detail.featureGroups.map((group, gi) => (
-                  <div key={group.id}>
-                    <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-accent/80">
-                      {String(gi + 1).padStart(2, "0")}
-                    </p>
-                    <h2 className="text-[18px] font-medium tracking-tight text-fg">
-                      {group.title}
-                    </h2>
-                    <p className="mt-2 max-w-[40rem] text-[13px] leading-[1.6] text-fg/55">
-                      {group.blurb}
-                    </p>
-                    <ul className="mt-5 space-y-4 border-t border-line">
-                      {group.items.map((item) => (
-                        <li
-                          key={item.name}
-                          className="grid gap-1 border-b border-line/80 py-3 sm:grid-cols-12 sm:gap-4"
-                        >
-                          <p className="text-[14px] font-medium text-fg sm:col-span-4">
-                            {item.name}
-                          </p>
-                          <p className="text-[13px] leading-[1.65] text-fg/65 sm:col-span-8">
-                            {item.how}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="space-y-10">
+                    {detail.diagrams.map((spec, idx) => (
+                      <ArchDiagram
+                        key={spec.id}
+                        spec={spec}
+                        figureLabel={`FIG. 0${idx + 1}`}
+                      />
+                    ))}
                   </div>
-                ))}
-                {detail.alsoShipped.length > 0 && (
+                </section>
+
+                {/* 04. Tech Stack & Layers */}
+                <section className="space-y-8">
+                  <SubHeading
+                    id="stack"
+                    index="04 / STACK"
+                    title="Tech Stack & Layers"
+                  />
+
+                  <div className="grid gap-8 sm:grid-cols-3">
+                    {detail.layers.map((layer, idx) => (
+                      <div
+                        key={layer.title}
+                        className="border-t border-hairline pt-4"
+                      >
+                        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+                          Layer 0{idx + 1}
+                        </p>
+                        <h3 className="mt-1.5 font-display text-[24px] font-normal text-ink">
+                          {layer.title}
+                        </h3>
+                        <p className="mt-2 font-sans text-[13.5px] font-light leading-[1.7] text-ink-secondary">
+                          {layer.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <dl className="grid gap-6 border-y border-hairline py-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {(
+                      [
+                        ["Languages", detail.stack.lang],
+                        ["Frontend", detail.stack.frontend],
+                        ["Backend", detail.stack.backend],
+                        ["Data & Queues", detail.stack.data],
+                        ["Infrastructure", detail.stack.infra],
+                        ["Auth", detail.stack.auth],
+                      ] as const
+                    ).map(([label, items]) => (
+                      <div key={label}>
+                        <dt className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-muted">
+                          {label}
+                        </dt>
+                        <dd className="mt-1.5 font-mono text-[11px] leading-relaxed text-ink">
+                          {items.join(" · ")}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+
+                {/* 05. System Breakdown */}
+                <section className="space-y-8">
+                  <SubHeading
+                    id="features"
+                    index="05 / MODULES"
+                    title="System Breakdown"
+                  />
+
+                  <div className="divide-y divide-hairline border-b border-hairline">
+                    {detail.featureGroups.map((group, idx) => (
+                      <div key={group.id} className="py-8 first:pt-2">
+                        <div className="mb-5">
+                          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+                            Module 0{idx + 1}
+                          </p>
+                          <h3 className="mt-1 font-display text-[28px] font-normal text-ink">
+                            {group.title}
+                          </h3>
+                          <p className="mt-1 font-sans text-[13.5px] font-light text-ink-muted">
+                            {group.blurb}
+                          </p>
+                        </div>
+
+                        <div className="grid gap-6 sm:grid-cols-2">
+                          {group.items.map((item) => (
+                            <div key={item.name}>
+                              <h4 className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink">
+                                {item.name}
+                              </h4>
+                              <p className="mt-1.5 font-sans text-[14px] font-light leading-[1.7] text-ink-secondary">
+                                {item.how}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
                   <div>
-                    <h2 className="text-[18px] font-medium tracking-tight text-fg">
-                      Also in the product
-                    </h2>
-                    <p className="mt-2 max-w-[40rem] text-[13px] leading-[1.6] text-fg/55">
-                      I touched these. They are not the story. Assignment, sockets, and the ticket loop are.
+                    <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+                      Also Shipped
                     </p>
-                    <ul className="mt-4 space-y-1.5">
-                      {detail.alsoShipped.map((item) => (
+                    <ul className="grid gap-y-2 sm:grid-cols-2 sm:gap-x-8">
+                      {detail.alsoShipped.map((item, idx) => (
                         <li
                           key={item}
-                          className="text-[13px] leading-[1.6] text-fg/65"
+                          className="flex items-baseline gap-3 font-sans text-[14px] font-light text-ink-secondary"
                         >
-                          {item}
+                          <span className="font-mono text-[10px] text-accent">
+                            0{idx + 1}
+                          </span>
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                )}
-              </div>
-            ) : (
-              <ol className="space-y-3">
-                {project.features.map((feature, i) => (
-                  <li
-                    key={feature}
-                    className="flex items-baseline gap-4 text-[14px] leading-[1.65] text-fg/70"
-                  >
-                    <span className="font-mono text-[10px] tracking-[0.12em] text-fg/35">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {feature}
-                  </li>
-                ))}
-              </ol>
-            )}
-          </Section>
+                </section>
 
-          <Section id="demo" label="Demo">
-            <div className="rounded-lg border border-line bg-fg/[0.02] px-5 py-8 sm:px-6">
-              <p className="max-w-[36rem] text-[14px] leading-[1.65] text-fg/65">
-                {detail?.demo ??
-                  "No live tenant here. Client product, private data. Email me for a walkthrough."}
-              </p>
-              <a
-                href={demoMailto}
-                className="mt-5 inline-flex min-h-11 items-center font-mono text-[11px] uppercase tracking-[0.14em] text-accent transition-colors hover:text-fg"
-              >
-                Email me for a walkthrough →
-              </a>
-            </div>
-          </Section>
-
-          <Section id="outcome" label="Outcome">
-            <ul className="space-y-3">
-              {outcome.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-baseline gap-3 text-[14px] leading-[1.65] text-fg/70"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="mt-2 size-1 shrink-0 rounded-full bg-fg/30"
+                {/* 06. Outcomes & Next */}
+                <section className="space-y-8">
+                  <SubHeading
+                    id="outcome"
+                    index="06 / OUTCOMES"
+                    title="Outcomes & What’s Next"
                   />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            {detail?.next && detail.next.length > 0 && (
-              <div className="mt-10">
-                <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.16em] text-fg/40">
-                  If I had another month
-                </p>
-                <ul className="space-y-3">
-                  {detail.next.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-baseline gap-3 text-[14px] leading-[1.65] text-fg/65"
+
+                  <div className="grid gap-8 sm:grid-cols-2">
+                    <div>
+                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-accent-slate">
+                        Production Outcomes
+                      </p>
+                      <ul className="space-y-2.5">
+                        {detail.outcome.map((item, i) => (
+                          <li
+                            key={item}
+                            className="flex items-baseline gap-3 font-sans text-[14px] font-light leading-relaxed text-ink-secondary"
+                          >
+                            <span className="font-mono text-[10px] text-accent-slate">
+                              0{i + 1}
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
+                        Planned Improvements
+                      </p>
+                      <ul className="space-y-2.5">
+                        {detail.next.map((item, i) => (
+                          <li
+                            key={item}
+                            className="flex items-baseline gap-3 font-sans text-[14px] font-light leading-relaxed text-ink-secondary"
+                          >
+                            <span className="font-mono text-[10px] text-accent">
+                              0{i + 1}
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="border-y border-hairline py-6">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+                      Demo &amp; Walkthrough
+                    </p>
+                    <p className="mt-2 max-w-2xl font-sans text-[14.5px] font-light leading-relaxed text-ink-secondary">
+                      {detail.demo}
+                    </p>
+                    <a
+                      href={`mailto:${portfolio.email}?subject=ODIN%20Walkthrough`}
+                      className="editorial-link mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-ink hover:text-accent"
                     >
-                      <span
-                        aria-hidden="true"
-                        className="mt-2 size-1 shrink-0 rounded-full bg-accent/50"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      Request a Walkthrough →
+                    </a>
+                  </div>
+                </section>
+              </>
+            ) : (
+              <section id="overview">
+                <p className="font-sans text-[15px] font-light leading-[1.75] text-ink-secondary">
+                  {project.summary}
+                </p>
+              </section>
             )}
-          </Section>
-        </article>
+
+            {others.length > 0 && (
+              <section className="border-t border-hairline pt-12">
+                <h2 className="mb-6 font-display text-[32px] font-normal text-ink">
+                  More Projects
+                </h2>
+                <div className="divide-y divide-hairline border-y border-hairline">
+                  {others.map((other, idx) => (
+                    <ProjectCard
+                      key={other.slug}
+                      project={other}
+                      index={String(idx + 2).padStart(2, "0")}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

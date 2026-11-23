@@ -1,39 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Pixelify_Sans } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const pixelify = Pixelify_Sans({
-  variable: "--font-pixelify",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#f1eee7",
+  themeColor: "#f6f3ec",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hassaannizaal.dev"),
   title: "Hassaan Nizaal — Software Engineer",
-  description: "Software engineer. Full-stack web, TypeScript, shipped work.",
-  keywords: ["portfolio", "software engineer", "Hassaan Nizaal"],
+  description:
+    "Portfolio of Hassaan Nizaal — full-stack software engineer building scalable web applications, backend systems, and cloud infrastructure.",
+  keywords: [
+    "portfolio",
+    "software engineer",
+    "Hassaan Nizaal",
+    "full stack",
+    "TypeScript",
+  ],
   authors: [{ name: "Hassaan Nizaal" }],
   openGraph: {
     title: "Hassaan Nizaal — Software Engineer",
-    description: "Software engineer. Full-stack web, TypeScript, shipped work.",
+    description:
+      "Full-stack software engineer building scalable web applications, backend systems, and cloud infrastructure.",
     type: "website",
     url: "https://hassaannizaal.dev",
   },
@@ -49,11 +40,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${pixelify.variable} h-full`}
-    >
-      <body className="min-h-full font-sans antialiased">{children}</body>
+    <html lang="en" className="h-full">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="archival-paper min-h-full font-sans antialiased">
+        {children}
+      </body>
     </html>
   );
 }

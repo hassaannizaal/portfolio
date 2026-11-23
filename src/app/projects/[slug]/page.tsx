@@ -35,7 +35,7 @@ export default async function ProjectPage({
   const others = projects.filter((p) => p.slug !== project.slug);
 
   return (
-    <div className="bg-bg text-fg">
+    <div className="min-h-screen text-ink">
       <SiteHeader />
       <main>
         <ProjectDetail project={project} others={others} />
