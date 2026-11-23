@@ -15,10 +15,38 @@
   --accent-slate: #334e57;
   --accent-ochre: #9f7c3f;
 
+  --grid-line: rgba(28, 25, 22, 0.028);
+  --grid-line-dense: rgba(28, 25, 22, 0.045);
+  --scale-tick: rgba(28, 25, 22, 0.22);
+  --selection-bg: rgba(143, 57, 40, 0.16);
+
   /* Compatibility aliases */
   --bg: var(--paper);
   --fg: var(--ink);
   --line: var(--hairline);
+}
+
+html[data-theme="dark"] {
+  --paper: #12100e;
+  --paper-soft: #1b1815;
+  --paper-pure: #171411;
+
+  --ink: #efe9dc;
+  --ink-secondary: #c5bbaa;
+  --ink-muted: #8c8274;
+  --hairline: rgba(239, 233, 220, 0.13);
+  --hairline-strong: rgba(239, 233, 220, 0.28);
+
+  --accent: #d47a57;
+  --accent-slate: #84a9b3;
+  --accent-ochre: #cca866;
+
+  --grid-line: rgba(239, 233, 220, 0.032);
+  --grid-line-dense: rgba(239, 233, 220, 0.052);
+  --scale-tick: rgba(239, 233, 220, 0.24);
+  --selection-bg: rgba(212, 122, 87, 0.25);
+
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -65,9 +93,12 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition:
+    background-color 260ms ease,
+    color 260ms ease;
 }
 
-/* Rich multi-layered archival rag paper: warm studio light, subtle aged edge patina, fine drafting grid & cotton fiber grain */
+/* Multi-layered archival rag paper (Light) */
 .archival-paper {
   background-color: var(--paper);
   background-image:
@@ -86,8 +117,8 @@ body {
       rgba(143, 57, 40, 0.055),
       transparent 60%
     ),
-    linear-gradient(to right, rgba(28, 25, 22, 0.028) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 25, 22, 0.028) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.042'/%3E%3C/svg%3E");
   background-size:
     100% 100%,
@@ -99,11 +130,34 @@ body {
   background-attachment: fixed, fixed, fixed, scroll, scroll, fixed;
 }
 
+/* Nocturnal observatory drafting paper (Dark) */
+html[data-theme="dark"] .archival-paper {
+  background-image:
+    radial-gradient(
+      ellipse 78% 58% at 50% 16%,
+      rgba(204, 168, 102, 0.07),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 65% 55% at 96% 88%,
+      rgba(212, 122, 87, 0.065),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 4% 92%,
+      rgba(132, 169, 179, 0.055),
+      transparent 60%
+    ),
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
 /* Denser architectural hairline grid for schematic diagram plates */
 .drafting-grid {
   background-image:
-    linear-gradient(to right, rgba(28, 25, 22, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 25, 22, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line-dense) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-dense) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -141,8 +195,8 @@ body {
 .scale-rule {
   background-image: repeating-linear-gradient(
     to right,
-    rgba(28, 25, 22, 0.22) 0px,
-    rgba(28, 25, 22, 0.22) 1px,
+    var(--scale-tick) 0px,
+    var(--scale-tick) 1px,
     transparent 1px,
     transparent 12px
   );
@@ -154,13 +208,23 @@ body {
   filter: grayscale(0.22) sepia(0.26) contrast(1.06);
 }
 
-/* Seamless ink-on-paper blend for illustrations */
+html[data-theme="dark"] .etching-portrait {
+  filter: grayscale(0.18) sepia(0.18) brightness(0.95) contrast(1.06);
+}
+
+/* Seamless ink-on-paper blend: sepia ink on parchment (light) -> luminous gold-ivory engraving on obsidian (dark) */
 .ink-blend {
   mix-blend-mode: multiply;
+  transition: filter 260ms ease;
+}
+
+html[data-theme="dark"] .ink-blend {
+  mix-blend-mode: screen;
+  filter: invert(1) sepia(0.32) hue-rotate(348deg) brightness(0.92) contrast(1.08);
 }
 
 ::selection {
-  background: rgba(143, 57, 40, 0.16);
+  background: var(--selection-bg);
   color: var(--ink);
 }
 

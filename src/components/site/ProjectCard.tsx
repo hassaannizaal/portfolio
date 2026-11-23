@@ -109,7 +109,7 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                   markerHeight="5"
                   orient="auto-start-reverse"
                 >
-                  <path d="M 1 2 L 8.5 5 L 1 8 z" fill="#8f3928" />
+                  <path d="M 1 2 L 8.5 5 L 1 8 z" fill="var(--accent)" />
                 </marker>
               </defs>
 
@@ -118,8 +118,8 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                 cy="105"
                 r="86"
                 fill="none"
-                stroke="#1c1916"
-                strokeOpacity="0.09"
+                stroke="var(--ink)"
+                strokeOpacity="0.1"
                 strokeDasharray="3 4"
               />
               <line
@@ -127,8 +127,8 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                 y1="6"
                 x2="150"
                 y2="204"
-                stroke="#1c1916"
-                strokeOpacity="0.08"
+                stroke="var(--ink)"
+                strokeOpacity="0.09"
               />
 
               <line
@@ -136,7 +136,7 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                 y1="52"
                 x2="150"
                 y2="82"
-                stroke="#8f3928"
+                stroke="var(--accent)"
                 strokeWidth="1"
                 markerEnd="url(#thinArrow)"
               />
@@ -145,7 +145,7 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                 y1="126"
                 x2="150"
                 y2="156"
-                stroke="#8f3928"
+                stroke="var(--accent)"
                 strokeWidth="1"
                 markerEnd="url(#thinArrow)"
               />
@@ -161,8 +161,8 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                   y="16"
                   width="212"
                   height="36"
-                  fill={activeLayer === 2 ? "#ece4d2" : "#f5f0e4"}
-                  stroke={activeLayer === 2 ? "#8f3928" : "#1c1916"}
+                  fill={activeLayer === 2 ? "var(--paper-soft)" : "var(--paper)"}
+                  stroke={activeLayer === 2 ? "var(--accent)" : "var(--ink)"}
                   strokeOpacity={activeLayer === 2 ? 1 : 0.35}
                   strokeWidth={activeLayer === 2 ? 1.2 : 0.9}
                 />
@@ -195,8 +195,8 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                   y="84"
                   width="244"
                   height="42"
-                  fill={activeLayer === 1 ? "#ece4d2" : "#f5f0e4"}
-                  stroke="#8f3928"
+                  fill={activeLayer === 1 ? "var(--paper-soft)" : "var(--paper)"}
+                  stroke="var(--accent)"
                   strokeOpacity={activeLayer === 1 ? 1 : 0.65}
                   strokeWidth={activeLayer === 1 ? 1.35 : 1}
                 />
@@ -229,8 +229,8 @@ export function ProjectCard({ project, index = "01" }: ProjectCardProps) {
                   y="158"
                   width="220"
                   height="36"
-                  fill={activeLayer === 0 ? "#ece4d2" : "#f5f0e4"}
-                  stroke={activeLayer === 0 ? "#8f3928" : "#1c1916"}
+                  fill={activeLayer === 0 ? "var(--paper-soft)" : "var(--paper)"}
+                  stroke={activeLayer === 0 ? "var(--accent)" : "var(--ink)"}
                   strokeOpacity={activeLayer === 0 ? 1 : 0.35}
                   strokeWidth={activeLayer === 0 ? 1.2 : 0.9}
                 />

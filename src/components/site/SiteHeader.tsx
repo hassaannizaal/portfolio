@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { portfolio } from "@/data/portfolio";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NAV = [
   { href: "/#proj", label: "Projects" },
@@ -23,9 +24,8 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-hairline bg-paper/90 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-hairline bg-paper/88 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8 lg:px-12">
-          {/* Clean Editorial Logotype — no box, no seal */}
           <Link
             href="/#top"
             className="font-display text-[22px] font-medium tracking-[-0.01em] text-ink transition-colors hover:text-accent"
@@ -34,42 +34,45 @@ export function SiteHeader() {
             {portfolio.name}
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav
-            aria-label="Primary navigation"
-            className="hidden items-center gap-8 md:flex"
-          >
-            {NAV.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="editorial-link font-mono text-[11px] uppercase tracking-[0.14em] text-ink-secondary transition-colors hover:text-ink"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+          {/* Desktop Navigation + Theme Toggle */}
+          <div className="hidden items-center gap-8 md:flex">
+            <nav aria-label="Primary navigation" className="flex items-center gap-8">
+              {NAV.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="editorial-link font-mono text-[11px] uppercase tracking-[0.14em] text-ink-secondary transition-colors hover:text-ink"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+            <ThemeToggle />
+          </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="flex size-10 items-center justify-end text-ink md:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            <span className="flex w-5 flex-col gap-[5px]">
-              <span
-                className={`h-px w-full bg-current transition-transform ${open ? "translate-y-[6px] rotate-45" : ""}`}
-              />
-              <span
-                className={`h-px w-full bg-current transition-opacity ${open ? "opacity-0" : ""}`}
-              />
-              <span
-                className={`h-px w-full bg-current transition-transform ${open ? "-translate-y-[6px] -rotate-45" : ""}`}
-              />
-            </span>
-          </button>
+          {/* Mobile Controls */}
+          <div className="flex items-center gap-3 md:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="flex size-10 items-center justify-end text-ink"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+            >
+              <span className="flex w-5 flex-col gap-[5px]">
+                <span
+                  className={`h-px w-full bg-current transition-transform ${open ? "translate-y-[6px] rotate-45" : ""}`}
+                />
+                <span
+                  className={`h-px w-full bg-current transition-opacity ${open ? "opacity-0" : ""}`}
+                />
+                <span
+                  className={`h-px w-full bg-current transition-transform ${open ? "-translate-y-[6px] -rotate-45" : ""}`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 

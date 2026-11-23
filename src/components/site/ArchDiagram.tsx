@@ -143,7 +143,7 @@ export function ArchDiagram({
               markerHeight="5.5"
               orient="auto-start-reverse"
             >
-              <path d="M 1 1.5 L 8.5 5 L 1 8.5 z" fill="#534c44" />
+              <path d="M 1 1.5 L 8.5 5 L 1 8.5 z" fill="var(--ink-secondary)" />
             </marker>
             <marker
               id={`arrow-accent-${spec.id}`}
@@ -154,7 +154,7 @@ export function ArchDiagram({
               markerHeight="5.5"
               orient="auto-start-reverse"
             >
-              <path d="M 1 1.5 L 8.5 5 L 1 8.5 z" fill="#8c3b2b" />
+              <path d="M 1 1.5 L 8.5 5 L 1 8.5 z" fill="var(--accent)" />
             </marker>
           </defs>
 
@@ -191,7 +191,7 @@ export function ArchDiagram({
                 key={key}
                 d={d}
                 fill="none"
-                stroke={active ? "#8c3b2b" : "#534c44"}
+                stroke={active ? "var(--accent)" : "var(--ink-secondary)"}
                 strokeOpacity={dimmed ? 0.14 : active ? 0.95 : 0.45}
                 strokeWidth={active ? 1.5 : 0.95}
                 strokeDasharray={active ? undefined : "3 3"}
@@ -226,8 +226,8 @@ export function ArchDiagram({
                   y={node.y}
                   width={node.w}
                   height={node.h}
-                  fill={isActive ? "#efeae0" : "#f6f3ec"}
-                  stroke={isActive ? "#8c3b2b" : "#1e1b18"}
+                  fill={isActive ? "var(--paper-soft)" : "var(--paper)"}
+                  stroke={isActive ? "var(--accent)" : "var(--ink)"}
                   strokeOpacity={isActive ? 1 : 0.32}
                   strokeWidth={isActive ? 1.2 : 0.9}
                 />

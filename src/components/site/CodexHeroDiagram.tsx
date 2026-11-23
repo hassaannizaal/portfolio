@@ -96,7 +96,7 @@ export function CodexHeroDiagram() {
                 <polyline
                   points={`${item.pin.x},${item.pin.y} ${item.elbow.x},${item.elbow.y} ${item.end.x},${item.end.y}`}
                   fill="none"
-                  stroke={isOn ? "#8f3928" : "#4e473e"}
+                  stroke={isOn ? "var(--accent)" : "var(--ink-secondary)"}
                   strokeOpacity={isOn ? 0.95 : 0.45}
                   strokeWidth={isOn ? 1.25 : 0.85}
                   strokeDasharray={isOn ? undefined : "2.5 2.5"}
@@ -107,8 +107,8 @@ export function CodexHeroDiagram() {
                   cy={item.pin.y}
                   r={isOn ? 6.5 : 4.5}
                   fill="none"
-                  stroke={isOn ? "#8f3928" : "#1c1916"}
-                  strokeOpacity={isOn ? 0.85 : 0.4}
+                  stroke={isOn ? "var(--accent)" : "var(--ink)"}
+                  strokeOpacity={isOn ? 0.85 : 0.45}
                   strokeWidth="0.9"
                 />
                 {/* Inner target dot */}
@@ -116,7 +116,7 @@ export function CodexHeroDiagram() {
                   cx={item.pin.x}
                   cy={item.pin.y}
                   r="2"
-                  fill={isOn ? "#8f3928" : "#1c1916"}
+                  fill={isOn ? "var(--accent)" : "var(--ink)"}
                 />
               </g>
             );

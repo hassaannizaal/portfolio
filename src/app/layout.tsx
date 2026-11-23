@@ -5,7 +5,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#f6f3ec",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f0e4" },
+    { media: "(prefers-color-scheme: dark)", color: "#12100e" },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -34,14 +37,17 @@ export const metadata: Metadata = {
   },
 };
 
+const THEME_INIT_SCRIPT = `(function(){try{var s=localStorage.getItem("theme");var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.dataset.theme=d?"dark":"light";}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
