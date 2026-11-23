@@ -203,13 +203,26 @@ html[data-theme="dark"] .archival-paper {
   height: 5px;
 }
 
-/* Warm etching filter for portrait */
+/* Warm etching filter & theme-compatible backdrop for transparent portrait */
 .etching-portrait {
   filter: grayscale(0.22) sepia(0.26) contrast(1.06);
 }
 
+.portrait-frame {
+  background-color: var(--paper-soft);
+}
+
+html[data-theme="dark"] .portrait-frame {
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(239, 233, 220, 0.22) 0%,
+    rgba(204, 168, 102, 0.1) 48%,
+    rgba(23, 20, 17, 0.96) 100%
+  );
+}
+
 html[data-theme="dark"] .etching-portrait {
-  filter: grayscale(0.18) sepia(0.18) brightness(0.95) contrast(1.06);
+  filter: grayscale(0.15) sepia(0.16) brightness(1.06) contrast(1.05);
 }
 
 /* Seamless ink-on-paper blend for light mode illustration */

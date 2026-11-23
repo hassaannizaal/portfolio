@@ -67,13 +67,13 @@ export function AboutModal({ open, onClose }: AboutModalProps) {
 
         <div className="flex-1 overflow-y-auto px-6 py-7 pb-[max(1.75rem,env(safe-area-inset-bottom))] sm:px-8">
           <div className="mb-7 flex items-center gap-5 border-b border-hairline pb-6">
-            <div className="relative size-20 shrink-0 overflow-hidden border border-hairline bg-paper-soft">
+            <div className="portrait-frame relative size-22 shrink-0 overflow-hidden border border-hairline">
               <Image
                 src={PORTRAIT_SRC}
                 alt={portfolio.name}
                 fill
-                sizes="80px"
-                className="etching-portrait object-cover"
+                sizes="88px"
+                className="etching-portrait object-cover object-[50%_22%]"
                 priority
               />
             </div>

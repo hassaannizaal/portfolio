@@ -80,8 +80,9 @@ export function CodexHeroDiagram() {
           alt="Luminous ivory and brass scientific engraving of an armillary sphere, precision gears, and drafting compass"
           fill
           priority
+          unoptimized
           sizes="(max-width: 1024px) 92vw, 520px"
-          className="theme-dark-only object-contain"
+          className="theme-dark-only object-contain opacity-90"
         />
 
         {/* SVG Precision Leader Lines & Target Pins */}
